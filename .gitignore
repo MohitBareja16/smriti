@@ -1,7 +1,7 @@
 # Personal data: never commit
-data/
-vault/
-uploads/
+/data/
+/vault/
+/uploads/
 *.key
 .env
 .env.*
@@ -22,3 +22,11 @@ node_modules/
 .vscode/
 .idea/
 .DS_Store
+
+# Tooling / generated
+.chainlit/
+.files/
+.ruff_cache/
+*.egg-info/
+evals/results/
+/data-demo/
