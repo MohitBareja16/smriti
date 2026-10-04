@@ -1,0 +1,24 @@
+# Personal data: never commit
+data/
+vault/
+uploads/
+*.key
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+
+# Node
+node_modules/
+.next/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
