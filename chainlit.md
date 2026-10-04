@@ -1,4 +1,4 @@
-# Personal Agentic RAG
+# Smriti स्मृति
 
 A private assistant for **your** notes, books and documents, with fast and slow thinking:
 

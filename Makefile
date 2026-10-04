@@ -10,10 +10,10 @@ lint:
 	.venv/bin/ruff check src tests
 
 demo:
-	PARAG_DATA_DIR=./data-demo PARAG_PASSPHRASE=demo .venv/bin/parag demo
+	SMRITI_DATA_DIR=./data-demo SMRITI_PASSPHRASE=demo .venv/bin/smriti demo
 
 eval:
-	.venv/bin/parag eval
+	.venv/bin/smriti eval
 
 ui:
-	PARAG_DATA_DIR=./data-demo PARAG_PASSPHRASE=demo .venv/bin/chainlit run src/parag/ui/chainlit_app.py
+	SMRITI_DATA_DIR=./data-demo SMRITI_PASSPHRASE=demo .venv/bin/chainlit run src/smriti/ui/chainlit_app.py

@@ -1,7 +1,7 @@
 import pytest
 
-from parag.decision import RulesEngine, match_fact
-from parag.types import Fact
+from smriti.decision import RulesEngine, match_fact
+from smriti.types import Fact
 
 engine = RulesEngine()
 

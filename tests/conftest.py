@@ -2,9 +2,9 @@ from pathlib import Path
 
 import pytest
 
-from parag.app import build_app
-from parag.config import Settings
-from parag.demo import load_manifest
+from smriti.app import build_app
+from smriti.config import Settings
+from smriti.demo import load_manifest
 
 DATA = Path(__file__).resolve().parent.parent / "evals" / "data"
 

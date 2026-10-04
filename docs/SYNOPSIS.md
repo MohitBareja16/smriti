@@ -1,8 +1,8 @@
-# Project Synopsis (v0.2): Personal Agentic RAG
+# Project Synopsis (v0.2): Smriti (स्मृति), Personal Agentic RAG
 
-**Title:** Personal Agentic RAG: Fast and Slow Thinking (System 1 + System 2) for a Private, Grounded Student Assistant
+**Title:** Smriti: Fast and Slow Thinking (System 1 + System 2) for a Private, Grounded Student Assistant
 **Students:** Mohit & Kunal · **Professor:** Dr. Neetu Verma · **Institute:** DCRUST, Murthal
-**Repository:** https://github.com/MohitBareja16/personal-agentic-rag
+**Repository:** https://github.com/MohitBareja16/smriti
 **Core principle:** *Handle your documents safely and securely.*
 
 ## 1. Abstract

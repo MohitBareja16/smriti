@@ -24,7 +24,8 @@ node_modules/
 .DS_Store
 
 # Tooling / generated
-.chainlit/
+.chainlit/*
+!.chainlit/config.toml
 .files/
 .ruff_cache/
 *.egg-info/

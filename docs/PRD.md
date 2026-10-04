@@ -1,4 +1,4 @@
-# PRD: Personal Agentic RAG with System 1 + System 2 Thinking
+# PRD: Smriti (स्मृति), Personal Agentic RAG with System 1 + System 2 Thinking
 
 | | |
 |---|---|
@@ -6,7 +6,7 @@
 | Date | 2026-10-05 |
 | Team | Mohit & Kunal · Professor: Dr. Neetu Verma · DCRUST, Murthal |
 | Deliverable | One semester: working demo + project report + viva |
-| Repo | https://github.com/MohitBareja16/personal-agentic-rag |
+| Repo | https://github.com/MohitBareja16/smriti |
 | License | Open source (AGPL-3.0 vs Apache-2.0: to decide) |
 
 ---

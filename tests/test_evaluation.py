@@ -1,4 +1,4 @@
-from parag.evaluation import run_eval, to_markdown
+from smriti.evaluation import run_eval, to_markdown
 from tests.conftest import DATA
 
 

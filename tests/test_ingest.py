@@ -1,7 +1,7 @@
-from parag.ingest.chunker import chunk_pages
-from parag.ingest.classify import classify_document
-from parag.ingest.facts import extract_facts
-from parag.ingest.parsers import parse_text
+from smriti.ingest.chunker import chunk_pages
+from smriti.ingest.classify import classify_document
+from smriti.ingest.facts import extract_facts
+from smriti.ingest.parsers import parse_text
 
 
 def test_page_markers_split_pages():
@@ -43,7 +43,7 @@ def test_demo_ingest_encrypts_and_redacts_personal_docs(demo_app):
 
 
 def test_duplicate_ingest_is_detected(demo_app):
-    from parag.ingest import ingest_file
+    from smriti.ingest import ingest_file
     from tests.conftest import DATA
 
     r = ingest_file(DATA / "alex_demo" / "library" / "os_notes.md", demo_app.db, demo_app.vault)

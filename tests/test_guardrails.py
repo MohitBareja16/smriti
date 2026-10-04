@@ -1,7 +1,7 @@
-from parag.decision import RulesEngine
-from parag.guardrails import IDK, check_grounding, check_pii, filter_chunks
-from parag.guardrails.pii import find_pii, redact
-from parag.types import Chunk
+from smriti.decision import RulesEngine
+from smriti.guardrails import IDK, check_grounding, check_pii, filter_chunks
+from smriti.guardrails.pii import find_pii, redact
+from smriti.types import Chunk
 
 engine = RulesEngine()
 

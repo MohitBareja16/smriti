@@ -1,6 +1,6 @@
 import pytest
 
-from parag.vault import Vault, VaultLockedError, WrongPassphraseError
+from smriti.vault import Vault, VaultLockedError, WrongPassphraseError
 
 
 def test_roundtrip(tmp_path):

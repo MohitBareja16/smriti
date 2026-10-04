@@ -20,7 +20,7 @@ jobs:
       - run: ruff check src tests
       - run: pytest -q
       - name: Offline eval (extractive reasoner, no model needed)
-        run: PARAG_LLM=extractive parag eval --out evals/results
+        run: SMRITI_LLM=extractive smriti eval --out evals/results
       - uses: actions/upload-artifact@v4
         with:
           name: eval-results-${{ matrix.python-version }}

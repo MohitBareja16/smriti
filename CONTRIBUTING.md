@@ -7,13 +7,13 @@ Thanks for helping! The project is split into small modules with clear interface
 uv venv && uv pip install -e ".[dev]"
 make test lint
 ```
-Tests run offline (`PARAG_LLM=extractive`), so you don't need a GPU or a model.
+Tests run offline (`SMRITI_LLM=extractive`), so you don't need a GPU or a model.
 
 ## Rules
 1. **Never commit real personal documents or data.** Use `evals/data/alex_demo` (fictional) or add new fictional files.
 2. Every change needs a test. `make test` and `make lint` must pass.
 3. Keep modules independent: talk to other modules only through their public interface (listed below).
-4. If you change behaviour, run `parag eval` and paste the before/after table in your PR.
+4. If you change behaviour, run `smriti eval` and paste the before/after table in your PR.
 
 ## Modules and owners
 

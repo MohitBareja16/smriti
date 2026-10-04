@@ -71,14 +71,14 @@ def convert(html):
 
 
 slides = "\n".join(
-    re.sub(r"Personal Agentic RAG · \d+", f"Personal Agentic RAG · {n}", convert((HERE / "slides" / f"{s}.html").read_text()))
+    re.sub(r"Smriti · \d+", f"Smriti · {n}", convert((HERE / "slides" / f"{s}.html").read_text()))
     for n, s in enumerate(ORDER, 1))
 
 page = f"""<!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Personal Agentic RAG – Synopsis</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400..700&family=IBM+Plex+Sans:wght@400;600&family=JetBrains+Mono&display=swap">
+<title>Smriti – Synopsis</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400..700&family=IBM+Plex+Sans:wght@400;600&family=JetBrains+Mono&family=Noto+Sans+Devanagari:wght@600&display=swap">
 <style>
   html, body {{ margin:0; height:100%; background:#0B141D; overflow:hidden; }}
   #stage {{ position:absolute; left:50%; top:50%; width:1920px; height:1080px; transform-origin:center; }}
