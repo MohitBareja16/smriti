@@ -80,7 +80,7 @@ Most agentic RAG systems run the expensive agent on every question. Smriti escal
 ## 🧩 How it works
 
 ```mermaid
-flowchart LR
+flowchart TD
     Q([Question]) --> G1{{"⚡ G1 input guard"}}
     G1 -- injection --> B([🛡 Blocked])
     G1 -- safe --> R{{"⚡ S1 router<br/>intent + confidence p"}}
@@ -152,7 +152,9 @@ Trace:
 ```bash
 smriti ingest ~/notes/os --course OS          # study material (folders work too)
 smriti ingest marksheet.pdf --kind personal   # encrypted, PII-redacted in the index
-smriti docs | smriti facts | smriti audit
+smriti docs     # list documents (🔒 = encrypted)
+smriti facts    # facts used by the System 1 fast path
+smriti audit    # audit log
 ```
 
 Configuration is through environment variables; see [`.env.example`](.env.example). The main ones are `SMRITI_LLM`, `SMRITI_LLM_MODEL`, `SMRITI_TAU_FAST` and `SMRITI_TRACING`.
