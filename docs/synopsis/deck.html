@@ -190,7 +190,7 @@
 </ul>
 </div>
 </div>
-<p style="font-size:28px;color:#4A5560">Scans and phone photos become searchable with <b style="color:#12202E">OCR</b>. Private data is detected automatically with <b style="color:#12202E">Presidio</b>.</p>
+<p style="font-size:28px;color:#4A5560">Built today: PDF, Markdown, TXT and DOCX with page numbers, plus automatic <b style="color:#12202E">PII redaction</b>. Next: <b style="color:#12202E">OCR</b> for scans and phone photos.</p>
 <p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">Smriti · 6</p>
 <aside>Two kinds of data. The study library holds academic material with page-level citations. The personal vault holds sensitive documents, encrypted at rest; facts like exam dates and CGPA are extracted into a table that powers the System-1 fast path.</aside>
 </section>
@@ -231,26 +231,63 @@
 <p style="font-size:24px;color:#2F6FB0;font-weight:600;letter-spacing:3px;text-transform:uppercase">Observability</p>
 <h2 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:72px;font-weight:700;line-height:1.1">Every decision is traced</h2>
 </div>
-<div style="display:flex;gap:40px;align-items:start">
-<div style="flex:1;display:flex;flex-direction:column;gap:10px;background:#12202E;border-radius:20px;padding:36px 40px">
-<p style="font-size:24px;color:#8FA1B3">Example trace (illustrative)</p>
-<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#F6F4EE">▾ question</p>
-<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#E9A23B">   ├ s1.guard.input   → safe</p>
-<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#E9A23B">   ├ s1.router        → compare (low p)</p>
-<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#8DB6E0">   ├ s2.agent.plan</p>
-<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#8DB6E0">   │  ├ tool.library_search</p>
-<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#8DB6E0">   │  └ tool.library_search</p>
-<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#E9A23B">   ├ s1.guard.grounding → pass</p>
-<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#E9A23B">   └ s1.guard.pii     → pass</p>
-</div>
-<div style="width:560px;display:flex;flex-direction:column;gap:24px">
-<div style="display:flex;flex-direction:column;gap:8px"><h3 style="font-size:32px;font-weight:600">Arize Phoenix</h3><p style="font-size:24px;color:#4A5560;line-height:1.4">Open-source tracing that runs on the laptop, built on OpenTelemetry</p></div>
-<div style="display:flex;flex-direction:column;gap:8px"><h3 style="font-size:32px;font-weight:600">Linked from the chat</h3><p style="font-size:24px;color:#4A5560;line-height:1.4">Each answer shows its trace, path (S1/S2) and confidence</p></div>
-<div style="display:flex;flex-direction:column;gap:8px"><h3 style="font-size:32px;font-weight:600">Private by default</h3><p style="font-size:24px;color:#4A5560;line-height:1.4">PII is redacted from trace data</p></div>
+<div style="display:flex;gap:48px;align-items:start">
+<img src="../assets/screenshots/ui-agent.png" alt="Real trace of a System 2 answer in the Smriti chat UI" style="width:900px;height:620px;object-fit:cover;object-position:top;border-radius:16px;border:1px solid #DDD8CC">
+<div style="flex:1;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;flex-direction:column;gap:8px"><h3 style="font-size:32px;font-weight:600">Built into every answer</h3><p style="font-size:24px;color:#4A5560;line-height:1.4">Each step with its decision, confidence and time, in the chat UI and the CLI (--trace)</p></div>
+<div style="display:flex;flex-direction:column;gap:8px"><h3 style="font-size:32px;font-weight:600">Real run, shown left</h3><p style="font-size:24px;color:#4A5560;line-height:1.4">Router escalates, the injected chunk is stripped, and grounding passes 2/2</p></div>
+<div style="display:flex;flex-direction:column;gap:8px"><h3 style="font-size:32px;font-weight:600">OpenTelemetry ready</h3><p style="font-size:24px;color:#4A5560;line-height:1.4">Optional export to Arize Phoenix; dashboards next</p></div>
 </div>
 </div>
 <p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">Smriti · 8</p>
-<aside>Each request becomes a tree of spans: System-1 guards and router decisions, System-2 agent steps and tool calls, then the final checks. This makes the system debuggable and gives the raw data for the evaluation.</aside>
+<aside>This is a real screenshot of the Chainlit UI running phi3 locally on the fictional demo student. Every request becomes a list of steps: System-1 guards and router decisions, System-2 search and answer, then the final checks.</aside>
+</section>
+
+<section id="status" data-transition="fade" style="background:#12202E;color:#F6F4EE;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:16px">
+<p style="font-size:24px;color:#E9A23B;font-weight:600;letter-spacing:3px;text-transform:uppercase">Built so far · v0.1.0</p>
+<h2 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:72px;font-weight:700;line-height:1.1">A working prototype, already open source</h2>
+</div>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="flex:1;display:flex;flex-direction:column;gap:14px">
+<p style="font-size:26px;line-height:1.35"><span style="color:#E9A23B">✓</span> System 1 rules engine: router, injection guard, grounding</p>
+<p style="font-size:26px;line-height:1.35"><span style="color:#E9A23B">✓</span> Fast answers from a facts table, with no LLM</p>
+<p style="font-size:26px;line-height:1.35"><span style="color:#E9A23B">✓</span> System 2 agent on a local LLM (Ollama)</p>
+<p style="font-size:26px;line-height:1.35"><span style="color:#E9A23B">✓</span> AES-256 vault, PII redaction, audit log</p>
+<p style="font-size:26px;line-height:1.35"><span style="color:#E9A23B">✓</span> Page-cited search over notes and books</p>
+<p style="font-size:26px;line-height:1.35"><span style="color:#E9A23B">✓</span> Chat UI, CLI, eval harness</p>
+<p style="font-size:26px;line-height:1.35"><span style="color:#E9A23B">✓</span> 41 tests and CI on GitHub</p>
+</div>
+<img src="../assets/screenshots/ui-fast.png" alt="System 1 answering an exam-date question with no LLM call" style="width:760px;height:528px;object-fit:cover;object-position:top;border-radius:16px;border:1px solid #2C4560">
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8FA1B3">Smriti · 9</p>
+<aside>This is what already works in the repository. The screenshot is real: System 1 answers "When is my DBMS exam?" from the facts table with zero LLM calls and cites the timetable.</aside>
+</section>
+
+<section id="results" data-transition="fade" style="background:#F6F4EE;color:#12202E;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:36px">
+<div style="display:flex;flex-direction:column;gap:16px">
+<p style="font-size:24px;color:#2F6FB0;font-weight:600;letter-spacing:3px;text-transform:uppercase">First results</p>
+<h2 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:72px;font-weight:700;line-height:1.1">The harness works end to end</h2>
+</div>
+<table style="font-size:26px;color:#12202E">
+<tr><th style="width:34%">System</th><th style="width:14%">Accuracy</th><th style="width:14%">S1 share</th><th style="width:19%">Attacks passed ↓</th><th style="width:19%">False refusals ↓</th></tr>
+<tr><td>Plain RAG</td><td>80%</td><td>0%</td><td>100%</td><td>0%</td></tr>
+<tr><td>System 2 only</td><td>80%</td><td>0%</td><td>0%</td><td>0%</td></tr>
+<tr style="background:#FBE7C6"><td><b>System 1 + System 2 (ours)</b></td><td>80%</td><td><b>30%</b></td><td><b>0%</b></td><td><b>0%</b></td></tr>
+<tr><td>Ours without guardrails</td><td>80%</td><td>30%</td><td>100%</td><td>0%</td></tr>
+</table>
+<div style="display:flex;gap:24px">
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#12202E;border-radius:16px;padding:24px 32px">
+<p style="font-size:24px;color:#E9A23B;font-weight:600">LATENCY ON A CPU-ONLY LAPTOP</p>
+<p style="font-size:26px;color:#F6F4EE">System 1: under 1 ms · System 2 (phi3): about 13–100 s</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#FDFCF9;border:1px solid #DDD8CC;border-radius:16px;padding:24px 32px">
+<p style="font-size:24px;color:#2F6FB0;font-weight:600">CAVEAT</p>
+<p style="font-size:24px;color:#4A5560">Offline reasoner, small dataset: a working harness, not final results</p>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">Smriti · 10</p>
+<aside>These numbers come from smriti eval with the offline extractive reasoner on 23 QA and 11 red-team items. They show the pipeline works: System 1 handles about a third of questions alone, guardrails block every direct attack with no false refusals, and no PII leaks. The latency gap between the System 1 fast path and the local System 2 model is the motivation for escalation. LLM-based results on a larger held-out set come next.</aside>
 </section>
 
 <section id="research" data-transition="fade" style="background:#F6F4EE;color:#12202E;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:40px">
@@ -266,7 +303,7 @@
 <tr><td><b>RQ4</b></td><td>What do the guardrails catch, and what do they wrongly block?</td><td>Attack success, PII leaks, false refusals</td></tr>
 <tr><td><b>RQ5</b></td><td>Which System-1 engine is better: jeff or our trained classifier?</td><td>Accuracy, calibration, speed</td></tr>
 </table>
-<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">Smriti · 9</p>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">Smriti · 11</p>
 <aside>These five questions turn the project from a demo into a study with measurable results. jeff is an open-source, self-hosted implementation of the Jev System-1 API; our alternative is a small SetFit classifier trained on synthetic data.</aside>
 </section>
 
@@ -280,9 +317,9 @@
 <h3 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:32px;font-weight:700;color:#2F6FB0">Datasets</h3>
 <ul style="font-size:24px;color:#4A5560;line-height:1.55">
 <li>“Alex Demo”: a fictional student’s documents</li>
-<li>Open textbooks (OpenStax)</li>
-<li>~200 Q&amp;A with gold pages</li>
-<li>~100 red-team attacks</li>
+<li>Open textbooks (planned)</li>
+<li>23 Q&amp;A with gold sources today (target ~200)</li>
+<li>11 red-team cases today (target ~100)</li>
 </ul>
 </div>
 <div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FDFCF9;border:1px solid #DDD8CC;border-radius:20px;padding:36px">
@@ -306,8 +343,8 @@
 </ul>
 </div>
 </div>
-<p style="font-size:28px;color:#4A5560">One command (<b style="color:#12202E">make eval</b>) reproduces every table and plot. No real personal data is used.</p>
-<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">Smriti · 10</p>
+<p style="font-size:28px;color:#4A5560">One command (<b style="color:#12202E">smriti eval</b>) reproduces every table, and it already runs in CI. No real personal data is used.</p>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">Smriti · 12</p>
 <aside>Because the datasets are synthetic or openly licensed, anyone can rerun our evaluation. The test split is never used for tuning thresholds or prompts.</aside>
 </section>
 
@@ -317,23 +354,23 @@
 <h2 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:72px;font-weight:700;line-height:1.1">Open source, runs on an 8 GB laptop</h2>
 </div>
 <div style="display:flex;gap:64px;align-items:center">
-<div style="width:420px;display:flex;flex-direction:column;gap:8px">
+<div style="width:380px;display:flex;flex-direction:column;gap:8px">
 <p style="font-family:'Space Grotesk', Arial, sans-serif;font-size:200px;font-weight:700;line-height:1;color:#2F6FB0">0</p>
-<p style="font-size:32px;color:#4A5560;line-height:1.35">cost. No GPU, no paid APIs. An optional free cloud API can be used for non-sensitive data.</p>
+<p style="font-size:30px;color:#4A5560;line-height:1.35">cost. No GPU and no paid APIs. Apache-2.0 licensed.</p>
 </div>
 <table style="flex:1;font-size:26px;color:#12202E">
-<tr><th style="width:38%">Part</th><th style="width:62%">Open-source tool</th></tr>
-<tr><td>Chat UI</td><td>Chainlit</td></tr>
-<tr><td>System 2 agent</td><td>LangGraph + Ollama (local LLM)</td></tr>
-<tr><td>System 1</td><td>jeff · SetFit</td></tr>
-<tr><td>Documents + OCR</td><td>Docling · Presidio</td></tr>
-<tr><td>Storage</td><td>SQLite + LanceDB</td></tr>
-<tr><td>Tracing</td><td>Arize Phoenix</td></tr>
-<tr><td>Evals</td><td>Ragas + our harness</td></tr>
+<tr><th style="width:28%">Part</th><th style="width:38%">Built (v0.1.0)</th><th style="width:34%">Next</th></tr>
+<tr><td>System 1</td><td>Rules engine</td><td>SetFit · jeff</td></tr>
+<tr><td>System 2</td><td>Agent + Ollama</td><td>LangGraph</td></tr>
+<tr><td>Search</td><td>SQLite FTS5 (BM25)</td><td>+ LanceDB vectors</td></tr>
+<tr><td>Documents</td><td>pypdf · regex PII</td><td>Docling OCR · Presidio</td></tr>
+<tr><td>Security</td><td>AES-256-GCM vault</td><td>SQLCipher index</td></tr>
+<tr><td>Tracing</td><td>Built-in trace</td><td>Phoenix dashboards</td></tr>
+<tr><td>UI · Evals</td><td>Chainlit · own harness</td><td>Ragas metrics</td></tr>
 </table>
 </div>
-<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">Smriti · 11</p>
-<aside>Everything is open source and lightweight. There is no database server: SQLite and LanceDB are embedded, so the project installs with one command on a normal student laptop.</aside>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">Smriti · 13</p>
+<aside>Everything is open source and lightweight. The current version uses only embedded storage (SQLite), so it installs with one pip command. The "Next" column is the plan for the rest of the semester.</aside>
 </section>
 
 <section id="plan" data-transition="fade" style="background:#F6F4EE;color:#12202E;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:40px">
@@ -358,7 +395,7 @@
 <div style="display:flex;flex-direction:column;gap:8px;border-top:6px solid #2F6FB0;padding-top:16px"><p style="font-size:24px;color:#2F6FB0;font-weight:600">Week 12</p><p style="font-size:24px">Full results + report draft</p></div>
 <div style="display:flex;flex-direction:column;gap:8px;border-top:6px solid #E9A23B;padding-top:16px"><p style="font-size:24px;color:#9A5B00;font-weight:600">Week 14</p><p style="font-size:24px">Final demo + viva</p></div>
 </div>
-<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">Smriti · 12</p>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">Smriti · 14</p>
 <aside>The split is by layer, so each person owns modules that can be tested independently. Both meet at a shared Answer object: text, citations, path (S1 or S2), confidence, guard verdicts and trace ID.</aside>
 </section>
 
@@ -384,13 +421,15 @@
 <p style="font-size:24px;color:#4A5560;line-height:1.45">Private cloud hosting with passkey login, and a mobile app</p>
 </div>
 </div>
-<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">Smriti · 13</p>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">Smriti · 15</p>
 <aside>These were deliberately moved out of this semester's scope so the core contribution, System 1 + System 2 with proper evaluation, is done well.</aside>
 </section>
 
 <section id="thanks" data-transition="fade" style="background:#12202E;color:#F6F4EE;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:40px">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" style="position:absolute;left:1400px;top:330px;width:300px;height:300px" role="img" aria-label="Smriti logo"> <defs> <linearGradient id="tbg" x1="0" y1="0" x2="1" y2="1"> <stop offset="0" stop-color="#1B2E40"/> <stop offset="1" stop-color="#0E1A26"/> </linearGradient> </defs> <rect width="120" height="120" rx="28" fill="url(#tbg)"/> <path d="M60 60 A19 19 0 1 1 43.5 88.5" fill="none" stroke="#5B8FC7" stroke-width="11" stroke-linecap="round"/> <path d="M76.5 31.5 A19 19 0 1 0 60 60" fill="none" stroke="#E9A23B" stroke-width="11" stroke-linecap="round"/> <path d="M88 14 L90.6 21.4 L98 24 L90.6 26.6 L88 34 L85.4 26.6 L78 24 L85.4 21.4 Z" fill="#F6C56B"/> </svg>
 <h1 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:120px;font-weight:700;line-height:1.05">Thank you</h1>
 <p style="font-size:44px;color:#E9A23B">Questions and feedback welcome</p>
+<p style="font-size:32px;color:#B9C6D3">Smriti v0.1.0 · Apache-2.0 · Mohit &amp; Kunal · DCRUST, Murthal</p>
 <p style="font-size:32px;color:#B9C6D3">Open source from day one: <a href="https://github.com/MohitBareja16/smriti" style="color:#E9A23B">github.com/MohitBareja16/smriti</a></p>
 <aside>Close by asking for feedback on scope: is Phase 1 the right size for this semester?</aside>
 </section>

@@ -1,3 +1,5 @@
+<p align="center"><img src="assets/logo.png" width="96" alt="Smriti logo"></p>
+
 # Project Synopsis (v0.2): Smriti (स्मृति), Personal Agentic RAG
 
 **Title:** Smriti: Fast and Slow Thinking (System 1 + System 2) for a Private, Grounded Student Assistant
@@ -43,7 +45,7 @@ The system is fully traced (observability), protected by guardrails, and evaluat
 **Future work:** flashcards, quizzes and a study planner; career features (job-match score, resume tailoring, LinkedIn drafts, always approved by the user); cloud hosting with passkey login; a mobile app.
 
 ## 6. Methodology
-1. **Ingestion:** Docling parses documents, OCR handles scans, and Presidio detects private data. Text is chunked page-aware and embedded locally. Facts such as exam dates and CGPA are extracted into a table.
+1. **Ingestion:** documents (PDF, DOCX, Markdown, text) are parsed page by page, and personal data is detected and redacted before indexing (Docling OCR and Presidio are planned upgrades). Text is chunked page-aware and indexed with BM25. Facts such as exam dates and CGPA are extracted into a table.
 2. **System 1:** an input guard and a router produce an intent and a confidence p. If p ≥ τ and the fact exists, it answers directly from the facts table with no LLM call. Otherwise it escalates.
 3. **System 2:** a LangGraph agent plans, calls search tools over the library and vault, and drafts an answer with citations.
 4. **Output checks (System 1):** a grounding check (is every claim supported?) and a PII-leak check. If they fail, the agent retries once and otherwise answers "I don't know".
@@ -54,7 +56,16 @@ The system is fully traced (observability), protected by guardrails, and evaluat
 Answer correctness, faithfulness and context recall (Ragas), page-citation accuracy, share of questions answered by System 1, latency (p50/p95), LLM calls per question, router accuracy and calibration (ECE), injection success rate, PII leak rate, and false refusal rate.
 
 ## 8. Tools and Technologies (all free and open source)
-Python, Chainlit, LangGraph, Ollama (local LLM), jeff, SetFit, Docling, Presidio, SQLite, LanceDB, Arize Phoenix, Ragas.
+| Part | Built in v0.1.0 | Planned next |
+|---|---|---|
+| System 1 | Rules engine (router, injection guard, grounding check, fact matching) | SetFit classifier, jeff |
+| System 2 | Plan → search → answer agent on Ollama (local LLM, e.g. phi3 / qwen2.5) | LangGraph port |
+| Retrieval | SQLite FTS5 (BM25), page-aware chunks, course filters | LanceDB vectors (hybrid search) |
+| Documents | pypdf, Markdown, TXT, DOCX; regex PII detection and redaction | Docling OCR, Presidio |
+| Security | AES-256-GCM vault (scrypt key), audit log | SQLCipher-encrypted index |
+| Observability | Per-request trace in UI and CLI; optional OpenTelemetry → Arize Phoenix | Phoenix dashboards, calibration plots |
+| Interface | Chainlit chat UI, `smriti` CLI | Mobile-friendly UI |
+| Evaluation | Own harness (baselines, ablation, red-team), CI | Ragas metrics, larger held-out set |
 
 ## 9. Work Division
 - **Mohit (knowledge + System 2):** ingestion and OCR, study library, encrypted vault and facts table, System-2 agent, Chainlit UI.
@@ -77,6 +88,26 @@ Python, Chainlit, LangGraph, Ollama (local LLM), jeff, SetFit, Docling, Presidio
 
 ## 12. Novelty
 Instead of treating agentic RAG as "always run the LLM agent", this project uses **calibrated fast System-1 decisions to route, answer, and guard**, and escalates to System 2 only when needed. It measures that trade-off openly, on a private, student-focused domain that combines academics with personal documents.
+
+## 13. Current Status (v0.1.0, open source)
+A working prototype is public at https://github.com/MohitBareja16/smriti (Apache-2.0):
+- The System-1 fast path answers fact questions (e.g. "When is my DBMS exam?") from an extracted facts table with **no LLM call**, citing the source document.
+- Other questions escalate to the System-2 agent, which searches with course filters, strips injected instructions from retrieved text, and answers with page citations. A grounding check and PII redaction run before the answer is shown.
+- Personal documents are encrypted (AES-256-GCM), and the search index stores only PII-redacted text. Every action is audit-logged.
+- Chainlit chat UI and `smriti` CLI, both showing the full step-by-step trace.
+- 41 automated tests and GitHub Actions CI, including an offline evaluation run.
+
+## 14. Preliminary Results
+`smriti eval` on the fictional Alex Demo dataset (23 QA items, 11 red-team items), using the offline extractive reasoner:
+
+| System | Accuracy | Answered by System 1 | Attacks not blocked ↓ | False refusals ↓ |
+|---|---|---|---|---|
+| Plain RAG | 80% | 0% | 100% | 0% |
+| System 2 only | 80% | 0% | 0% | 0% |
+| **System 1 + System 2 (ours)** | 80% | **30%** | **0%** | **0%** |
+| Ours without guardrails | 80% | 30% | 100% | 0% |
+
+On a CPU-only 8 GB laptop, a System-1 fast answer took under 1 ms, while a System-2 answer with the local `phi3` model took about 13–100 s. These are early numbers from a small dataset and a non-LLM reasoner. They show the harness works end to end. LLM-based results on a larger held-out set are the next milestone.
 
 ## References
 1. Kahneman, D. (2011). *Thinking, Fast and Slow*. Farrar, Straus and Giroux.

@@ -8,7 +8,8 @@ from pathlib import Path
 
 HERE = Path(__file__).parent
 ORDER = ["cover", "problem", "fastslow", "flow", "examples", "academics", "guardrails",
-         "observability", "research", "evaluation", "stack", "plan", "future", "thanks"]
+         "observability", "status", "results", "research", "evaluation", "stack", "plan",
+         "future", "thanks"]
 
 # Lucide-style 24x24 stroke icons
 ICONS = {
