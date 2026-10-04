@@ -7,8 +7,8 @@ import re
 from pathlib import Path
 
 HERE = Path(__file__).parent
-ORDER = ["cover", "problem", "solution", "academics", "architecture", "pipeline", "graph",
-         "security", "cost", "roadmap", "different", "outcomes", "thanks"]
+ORDER = ["cover", "problem", "fastslow", "flow", "examples", "academics", "guardrails",
+         "observability", "research", "evaluation", "stack", "plan", "future", "thanks"]
 
 # Lucide-style 24x24 stroke icons
 ICONS = {
@@ -27,6 +27,8 @@ ICONS = {
     "Warning": '<path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>',
     "Star": '<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>',
     "GraduationCap": '<path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/><line x1="22" y1="10" x2="22" y2="16"/>',
+    "Lightbulb": '<path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"/>',
+    "CheckCircle": '<circle cx="12" cy="12" r="10"/><polyline points="8 12 11 15 16 9"/>',
     "Activity": '<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>',
 }
 
@@ -47,9 +49,13 @@ def arrow(m):
 
 def connectors(html):
     lines = []
-    for m in re.finditer(r'<x-connector x1="(\d+)" y1="(\d+)" x2="(\d+)" y2="(\d+)"[^>]*color:([^;"]+);border-width:(\d+)px[^>]*></x-connector>\n?', html):
-        x1, y1, x2, y2, color, w = m.groups()
-        lines.append(f'<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke="{color}" stroke-width="{w}"/>')
+    for m in re.finditer(r'<x-connector x1="(\d+)" y1="(\d+)" x2="(\d+)" y2="(\d+)" head="(\w+)"[^>]*color:([^;"]+);border-width:(\d+)px[^>]*></x-connector>\n?', html):
+        x1, y1, x2, y2, head, color, w = m.groups()
+        mid = f"m{len(lines)}"
+        marker = (f'<defs><marker id="{mid}" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" '
+                  f'orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="{color}"/></marker></defs>') if head == "end" else ""
+        end = f' marker-end="url(#{mid})"' if head == "end" else ""
+        lines.append(f'{marker}<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke="{color}" stroke-width="{w}"{end}/>')
     html = re.sub(r'<x-connector[^>]*></x-connector>\n?', "", html)
     if lines:
         svg = ('<svg style="position:absolute;left:0;top:0;width:1920px;height:1080px" '
@@ -72,7 +78,7 @@ page = f"""<!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Personal Agentic RAG – Synopsis</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400..700&family=IBM+Plex+Sans:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400..700&family=IBM+Plex+Sans:wght@400;600&family=JetBrains+Mono&display=swap">
 <style>
   html, body {{ margin:0; height:100%; background:#0B141D; overflow:hidden; }}
   #stage {{ position:absolute; left:50%; top:50%; width:1920px; height:1080px; transform-origin:center; }}

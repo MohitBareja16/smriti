@@ -2,7 +2,7 @@
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Personal Agentic RAG – Synopsis</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400..700&family=IBM+Plex+Sans:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400..700&family=IBM+Plex+Sans:wght@400;600&family=JetBrains+Mono&display=swap">
 <style>
   html, body { margin:0; height:100%; background:#0B141D; overflow:hidden; }
   #stage { position:absolute; left:50%; top:50%; width:1920px; height:1080px; transform-origin:center; }
@@ -26,409 +26,366 @@
 <body><div id="stage">
 <section id="cover" data-transition="fade" style="background:#12202E;color:#F6F4EE;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:space-between">
 <div style="position:absolute;left:1240px;top:0px;width:680px;height:1080px;background:radial-gradient(circle at 70% 40%, #1F3A52 0%, #12202E 70%)"></div>
-<svg style="position:absolute;left:1420px;top:300px;width:320px;height:320px;color:#E9A23B;opacity:0.9;flex:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-<p style="font-size:32px;color:#E9A23B;font-weight:600;letter-spacing:4px;text-transform:uppercase">Project synopsis</p>
+<svg style="position:absolute;left:1420px;top:300px;width:320px;height:320px;color:#E9A23B;opacity:0.9;flex:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+<p style="font-size:32px;color:#E9A23B;font-weight:600;letter-spacing:4px;text-transform:uppercase">Project synopsis · v0.2</p>
 <div style="display:flex;flex-direction:column;gap:40px;width:1060px">
 <h1 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:120px;font-weight:700;line-height:1.05">Personal Agentic RAG</h1>
-<p style="font-size:44px;color:#B9C6D3;line-height:1.3">One private AI assistant for your studies, resume, GitHub, certificates and deadlines.</p>
+<p style="font-size:44px;color:#B9C6D3;line-height:1.3">Fast and slow thinking for your studies and documents: private, measurable and free.</p>
 <p style="font-size:32px;color:#E9A23B;font-style:italic">“Handle your documents safely and securely.”</p>
 </div>
 <p style="font-size:32px;color:#B9C6D3">Mohit &amp; Kunal · Professor: Dr. Neetu Verma · DCRUST, Murthal</p>
-<aside>Introduce the project in one line: a private, open-source AI assistant that knows everything about one person and runs on their own machine.</aside>
+<aside>A private, open-source agentic RAG for a student's notes, books and documents. The core idea is to combine fast System-1 decisions with slow System-2 reasoning, and to measure it properly.</aside>
 </section>
 
 <section id="problem" data-transition="fade" style="background:#F6F4EE;color:#12202E;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:56px">
 <div style="display:flex;flex-direction:column;gap:16px">
 <p style="font-size:24px;color:#2F6FB0;font-weight:600;letter-spacing:3px;text-transform:uppercase">The problem</p>
-<h2 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:72px;font-weight:700;line-height:1.1">Everything about you is scattered</h2>
+<h2 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:72px;font-weight:700;line-height:1.1">Students’ knowledge is scattered, and AI doesn’t help safely</h2>
 </div>
-<div style="display:flex;gap:20px">
-<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FDFCF9;border:1px solid #DDD8CC;border-radius:20px;padding:28px">
-<svg style="width:52px;height:52px;color:#2F6FB0;flex:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V2H6.5A2.5 2.5 0 0 0 4 4.5v15z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></svg>
-<h3 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:32px;font-weight:700">Studies</h3>
-<p style="font-size:24px;color:#4A5560;line-height:1.4">Notes, books and past papers in ten folders</p>
+<div style="display:flex;gap:24px">
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FDFCF9;border:1px solid #DDD8CC;border-radius:20px;padding:36px">
+<svg style="width:56px;height:56px;color:#2F6FB0;flex:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V2H6.5A2.5 2.5 0 0 0 4 4.5v15z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></svg>
+<h3 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:32px;font-weight:700">Scattered material</h3>
+<p style="font-size:24px;color:#4A5560;line-height:1.4">Notes, books, slides and past papers are spread across folders and phones</p>
 </div>
-<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FDFCF9;border:1px solid #DDD8CC;border-radius:20px;padding:28px">
-<svg style="width:52px;height:52px;color:#2F6FB0;flex:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-<h3 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:32px;font-weight:700">Deadlines</h3>
-<p style="font-size:24px;color:#4A5560;line-height:1.4">Exams and applications tracked in your head</p>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FDFCF9;border:1px solid #DDD8CC;border-radius:20px;padding:36px">
+<svg style="width:56px;height:56px;color:#2F6FB0;flex:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+<h3 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:32px;font-weight:700">Hard to find</h3>
+<p style="font-size:24px;color:#4A5560;line-height:1.4">Marksheets, certificates and exam dates when you need them</p>
 </div>
-<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FDFCF9;border:1px solid #DDD8CC;border-radius:20px;padding:28px">
-<svg style="width:52px;height:52px;color:#2F6FB0;flex:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.5 13 17 22l-5-3-5 3 1.5-9"/></svg>
-<h3 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:32px;font-weight:700">Documents</h3>
-<p style="font-size:24px;color:#4A5560;line-height:1.4">Certificates lost across drives and phones</p>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FDFCF9;border:1px solid #DDD8CC;border-radius:20px;padding:36px">
+<svg style="width:56px;height:56px;color:#2F6FB0;flex:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+<h3 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:32px;font-weight:700">Ungrounded answers</h3>
+<p style="font-size:24px;color:#4A5560;line-height:1.4">Chatbots answer from the internet, not your syllabus, and don’t cite the page</p>
 </div>
-<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FDFCF9;border:1px solid #DDD8CC;border-radius:20px;padding:28px">
-<svg style="width:52px;height:52px;color:#2F6FB0;flex:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-<h3 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:32px;font-weight:700">GitHub</h3>
-<p style="font-size:24px;color:#4A5560;line-height:1.4">Great projects that never reach the resume</p>
-</div>
-<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FDFCF9;border:1px solid #DDD8CC;border-radius:20px;padding:28px">
-<svg style="width:52px;height:52px;color:#2F6FB0;flex:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-<h3 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:32px;font-weight:700">LinkedIn</h3>
-<p style="font-size:24px;color:#4A5560;line-height:1.4">Profile falls out of date with real work</p>
-</div>
-<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FDFCF9;border:1px solid #DDD8CC;border-radius:20px;padding:28px">
-<svg style="width:52px;height:52px;color:#2F6FB0;flex:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-<h3 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:32px;font-weight:700">Resume</h3>
-<p style="font-size:24px;color:#4A5560;line-height:1.4">Many versions, edited by hand for every job</p>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FDFCF9;border:1px solid #DDD8CC;border-radius:20px;padding:36px">
+<svg style="width:56px;height:56px;color:#2F6FB0;flex:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+<h3 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:32px;font-weight:700">Privacy cost</h3>
+<p style="font-size:24px;color:#4A5560;line-height:1.4">Cloud AI only works if your documents leave your control</p>
 </div>
 </div>
-<p style="font-family:'Space Grotesk', Arial, sans-serif;font-size:44px;font-weight:600;line-height:1.25">Update one thing, and you have to update everything <span style="color:#C2410C">by hand</span>.</p>
+<p style="font-family:'Space Grotesk', Arial, sans-serif;font-size:44px;font-weight:600;line-height:1.25">Goal: an assistant that is <span style="color:#2F6FB0">grounded</span>, <span style="color:#2F6FB0">private</span> and <span style="color:#C2410C">measurable</span>.</p>
 <p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">Personal Agentic RAG · 2</p>
-<aside>Everyone, students especially, keeps the same information in five places. Nothing is linked, and it's hard to find an official document quickly when you need it.</aside>
+<aside>Four problems: scattered material, documents that are hard to find, answers not grounded in your own material, and privacy. The project answers all four, and measures how well it does.</aside>
 </section>
 
-<section id="solution" data-transition="fade" style="background:#12202E;color:#F6F4EE;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:56px">
+<section id="fastslow" data-transition="fade" style="background:#12202E;color:#F6F4EE;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:56px">
 <div style="display:flex;flex-direction:column;gap:16px">
-<p style="font-size:24px;color:#E9A23B;font-weight:600;letter-spacing:3px;text-transform:uppercase">The idea</p>
-<h2 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:72px;font-weight:700;line-height:1.1">One assistant that knows you, and only you</h2>
+<p style="font-size:24px;color:#E9A23B;font-weight:600;letter-spacing:3px;text-transform:uppercase">The core idea</p>
+<h2 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:72px;font-weight:700;line-height:1.1">Think fast when you can, slow when you must</h2>
 </div>
-<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:20px">
-<div style="display:flex;flex-direction:column;gap:20px;background:#1B2E40;border:1px solid #2C4560;border-radius:20px;padding:32px">
-<svg style="width:64px;height:64px;color:#E9A23B;flex:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/><line x1="22" y1="10" x2="22" y2="16"/></svg>
-<h3 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:44px;font-weight:700">Study</h3>
-<p style="font-size:24px;color:#B9C6D3;line-height:1.45">“Explain deadlock from my OS notes” answers with the page number.</p>
+<div style="display:flex;gap:32px">
+<div style="flex:1;display:flex;flex-direction:column;gap:20px;background:#1B2E40;border:2px solid #E9A23B;border-radius:20px;padding:44px">
+<div style="display:flex;align-items:center;gap:20px"><svg style="width:64px;height:64px;color:#E9A23B;flex:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><h3 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:44px;font-weight:700">System 1 · Fast</h3></div>
+<ul style="font-size:28px;color:#D7E0E8;line-height:1.6">
+<li>Small model with typed answers + confidence</li>
+<li>Routes questions, answers simple facts</li>
+<li>Safety checks on every input and output</li>
+<li>No LLM call</li>
+</ul>
 </div>
-<div style="display:flex;flex-direction:column;gap:20px;background:#1B2E40;border:1px solid #2C4560;border-radius:20px;padding:32px">
-<svg style="width:64px;height:64px;color:#E9A23B;flex:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-<h3 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:44px;font-weight:700">Ask</h3>
-<p style="font-size:24px;color:#B9C6D3;line-height:1.45">“What was my CGPA in semester 5?” gets an answer plus the source document.</p>
-</div>
-<div style="display:flex;flex-direction:column;gap:20px;background:#1B2E40;border:1px solid #2C4560;border-radius:20px;padding:32px">
-<svg style="width:64px;height:64px;color:#E9A23B;flex:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-<h3 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:44px;font-weight:700">Fetch</h3>
-<p style="font-size:24px;color:#B9C6D3;line-height:1.45">“Give me my AWS certificate” finds the file in your encrypted vault.</p>
-</div>
-<div style="display:flex;flex-direction:column;gap:20px;background:#1B2E40;border:1px solid #2C4560;border-radius:20px;padding:32px">
-<svg style="width:64px;height:64px;color:#E9A23B;flex:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-<h3 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:44px;font-weight:700">Track</h3>
-<p style="font-size:24px;color:#B9C6D3;line-height:1.45">Upcoming exams, certification expiries and application deadlines.</p>
-</div>
-<div style="display:flex;flex-direction:column;gap:20px;background:#1B2E40;border:1px solid #2C4560;border-radius:20px;padding:32px">
-<svg style="width:64px;height:64px;color:#E9A23B;flex:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-<h3 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:44px;font-weight:700">Tailor</h3>
-<p style="font-size:24px;color:#B9C6D3;line-height:1.45">Paste a job description to get a match score and a tailored resume draft.</p>
+<div style="flex:1;display:flex;flex-direction:column;gap:20px;background:#1B2E40;border:2px solid #5B8FC7;border-radius:20px;padding:44px">
+<div style="display:flex;align-items:center;gap:20px"><svg style="width:64px;height:64px;color:#8DB6E0;flex:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"/></svg><h3 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:44px;font-weight:700">System 2 · Slow</h3></div>
+<ul style="font-size:28px;color:#D7E0E8;line-height:1.6">
+<li>LLM agent that plans and reasons</li>
+<li>Searches notes, books and documents</li>
+<li>Several steps, cites its sources</li>
+<li>Used only when System 1 is unsure</li>
+</ul>
 </div>
 </div>
-<p style="font-size:32px;color:#F6F4EE;line-height:1.4">The AI <b>drafts</b>, and <span style="color:#E9A23B">you approve</span>. It never submits or posts on its own.</p>
+<p style="font-size:28px;color:#B9C6D3">Inspired by Daniel Kahneman, <i>Thinking, Fast and Slow</i> (2011)</p>
 <p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8FA1B3">Personal Agentic RAG · 3</p>
-<aside>Five capabilities: study, ask, fetch, track and tailor. The human-in-the-loop rule is key: anything that changes the outside world, like a LinkedIn post or a job application, is only drafted, and the user submits it.</aside>
+<aside>Humans answer easy questions instantly and think hard only when needed. We copy that: a small, fast, calibrated System-1 model handles easy and safety decisions, and escalates to the slow LLM agent only when its confidence is low.</aside>
+</section>
+
+<section id="flow" data-transition="fade" style="background:#F6F4EE;color:#12202E;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:16px"><svg style="position:absolute;left:0;top:0;width:1920px;height:1080px" viewBox="0 0 1920 1080"><defs><marker id="m0" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#4A5560"/></marker></defs><line x1="348" y1="580" x2="414" y2="580" stroke="#4A5560" stroke-width="3" marker-end="url(#m0)"/><line x1="750" y1="540" x2="790" y2="540" stroke="#4A5560" stroke-width="3"/><line x1="790" y1="540" x2="790" y2="385" stroke="#4A5560" stroke-width="3"/><defs><marker id="m3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#4A5560"/></marker></defs><line x1="790" y1="385" x2="824" y2="385" stroke="#4A5560" stroke-width="3" marker-end="url(#m3)"/><line x1="750" y1="640" x2="790" y2="640" stroke="#4A5560" stroke-width="3"/><line x1="790" y1="640" x2="790" y2="720" stroke="#4A5560" stroke-width="3"/><defs><marker id="m6" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#4A5560"/></marker></defs><line x1="790" y1="720" x2="824" y2="720" stroke="#4A5560" stroke-width="3" marker-end="url(#m6)"/><defs><marker id="m7" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#4A5560"/></marker></defs><line x1="1330" y1="720" x2="1394" y2="720" stroke="#4A5560" stroke-width="3" marker-end="url(#m7)"/><defs><marker id="m8" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#4A5560"/></marker></defs><line x1="1330" y1="385" x2="1394" y2="385" stroke="#4A5560" stroke-width="3" marker-end="url(#m8)"/><defs><marker id="m9" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#4A5560"/></marker></defs><line x1="1580" y1="620" x2="1580" y2="466" stroke="#4A5560" stroke-width="3" marker-end="url(#m9)"/></svg>
+<p style="font-size:24px;color:#2F6FB0;font-weight:600;letter-spacing:3px;text-transform:uppercase">How a question flows</p>
+<h2 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:72px;font-weight:700;line-height:1.1">Escalate only when unsure</h2>
+<div style="position:absolute;left:128px;top:520px;width:220px;height:120px;display:flex;flex-direction:column;justify-content:center;background:#FDFCF9;border:2px solid #12202E;border-radius:16px;padding:20px">
+<p style="font-size:28px;font-weight:600;text-align:center">Question</p>
+</div>
+<div style="position:absolute;left:420px;top:470px;width:330px;height:220px;display:flex;flex-direction:column;justify-content:center;gap:8px;background:#E9A23B;border-radius:16px;padding:28px">
+<p style="font-family:'Space Grotesk', Arial, sans-serif;font-size:32px;font-weight:700">System 1</p>
+<p style="font-size:24px">Input guard</p>
+<p style="font-size:24px">Router + confidence p</p>
+</div>
+<div style="position:absolute;left:830px;top:310px;width:500px;height:150px;display:flex;flex-direction:column;justify-content:center;gap:6px;background:#FBE7C6;border:2px solid #E9A23B;border-radius:16px;padding:24px 28px">
+<p style="font-size:28px;font-weight:600">p ≥ τ · Fast answer</p>
+<p style="font-size:24px;color:#4A5560">Facts table or vault, with no LLM call</p>
+</div>
+<div style="position:absolute;left:830px;top:620px;width:500px;height:200px;display:flex;flex-direction:column;justify-content:center;gap:6px;background:#12202E;border-radius:16px;padding:24px 28px">
+<p style="font-size:28px;font-weight:600;color:#F6F4EE">p &lt; τ · System 2 agent</p>
+<p style="font-size:24px;color:#D7E0E8">Plan, search notes, books and documents, reason, repeat</p>
+</div>
+<div style="position:absolute;left:1400px;top:620px;width:360px;height:200px;display:flex;flex-direction:column;justify-content:center;gap:6px;background:#E9A23B;border-radius:16px;padding:24px 28px">
+<p style="font-family:'Space Grotesk', Arial, sans-serif;font-size:28px;font-weight:700">System 1 checks</p>
+<p style="font-size:24px">Grounded in sources?</p>
+<p style="font-size:24px">Leaks private data?</p>
+</div>
+<div style="position:absolute;left:1400px;top:310px;width:360px;height:150px;display:flex;flex-direction:column;justify-content:center;gap:6px;background:#2F6FB0;border-radius:16px;padding:24px 28px">
+<p style="font-size:28px;font-weight:600;color:#F6F4EE">Answer + citations</p>
+<p style="font-size:24px;color:#E6EEF6">Badge: answered by S1 or S2</p>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">Personal Agentic RAG · 4</p>
+<aside>System 1 always runs first: an input guard, then a router that gives an intent and a confidence. If it's confident and the fact exists, it answers directly. Otherwise it escalates to the System-2 agent. System-2 answers pass back through System-1 checks for grounding and privacy before the user sees them.</aside>
+</section>
+
+<section id="examples" data-transition="fade" style="background:#F6F4EE;color:#12202E;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:48px">
+<div style="display:flex;flex-direction:column;gap:16px">
+<p style="font-size:24px;color:#2F6FB0;font-weight:600;letter-spacing:3px;text-transform:uppercase">Two examples</p>
+<h2 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:72px;font-weight:700;line-height:1.1">Same assistant, two ways of thinking</h2>
+</div>
+<div style="display:flex;gap:32px">
+<div style="flex:1;display:flex;flex-direction:column;gap:20px;background:#FDFCF9;border:1px solid #DDD8CC;border-top:8px solid #E9A23B;border-radius:20px;padding:40px">
+<p style="font-size:24px;color:#9A5B00;font-weight:600;letter-spacing:2px">FAST PATH · SYSTEM 1</p>
+<p style="font-family:'Space Grotesk', Arial, sans-serif;font-size:40px;font-weight:600;line-height:1.25">“When is my DBMS exam?”</p>
+<ol style="font-size:26px;color:#4A5560;line-height:1.6">
+<li>Guard: safe</li>
+<li>Router: fact lookup, high confidence</li>
+<li>Answer from the facts table</li>
+<li>Cites the exam timetable PDF</li>
+</ol>
+<p style="font-size:26px;font-weight:600">No LLM call</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:20px;background:#FDFCF9;border:1px solid #DDD8CC;border-top:8px solid #2F6FB0;border-radius:20px;padding:40px">
+<p style="font-size:24px;color:#2F6FB0;font-weight:600;letter-spacing:2px">SLOW PATH · SYSTEM 2</p>
+<p style="font-family:'Space Grotesk', Arial, sans-serif;font-size:40px;font-weight:600;line-height:1.25">“Compare how my notes and Galvin explain paging”</p>
+<ol style="font-size:26px;color:#4A5560;line-height:1.6">
+<li>Router: comparison, so escalate</li>
+<li>Agent searches notes, then the book</li>
+<li>Grounding check passes</li>
+<li>Cites notes p. 14 and Galvin ch. 9</li>
+</ol>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">Personal Agentic RAG · 5</p>
+<aside>The fast path is cheap and instant but only works for structured facts. The slow path handles real reasoning across several sources. Measuring when and how often each path is used is the core of our evaluation.</aside>
 </section>
 
 <section id="academics" data-transition="fade" style="background:#F6F4EE;color:#12202E;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:48px">
 <div style="display:flex;flex-direction:column;gap:16px">
-<p style="font-size:24px;color:#2F6FB0;font-weight:600;letter-spacing:3px;text-transform:uppercase">Academics</p>
-<h2 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:72px;font-weight:700;line-height:1.1">A study companion built on your own notes</h2>
+<p style="font-size:24px;color:#2F6FB0;font-weight:600;letter-spacing:3px;text-transform:uppercase">What it knows</p>
+<h2 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:72px;font-weight:700;line-height:1.1">Your studies and your documents</h2>
 </div>
 <div style="display:flex;gap:32px">
-<div style="width:560px;display:flex;flex-direction:column;gap:20px;background:#12202E;border-radius:20px;padding:40px">
+<div style="flex:1;display:flex;flex-direction:column;gap:20px;background:#12202E;border-radius:20px;padding:40px">
 <svg style="width:56px;height:56px;color:#E9A23B;flex:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/><line x1="22" y1="10" x2="22" y2="16"/></svg>
-<h3 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:32px;font-weight:700;color:#F6F4EE">Your study library</h3>
-<ul style="font-size:24px;color:#D7E0E8;line-height:1.55">
-<li>Lecture notes, typed or handwritten</li>
-<li>Textbooks and reference PDFs</li>
-<li>Lecture slides</li>
+<h3 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:36px;font-weight:700;color:#F6F4EE">Study library</h3>
+<ul style="font-size:26px;color:#D7E0E8;line-height:1.55">
+<li>Lecture notes, books, slides</li>
 <li>Previous year question papers</li>
-<li>Syllabus for each course</li>
-</ul>
-<p style="font-size:24px;color:#E9A23B">Organised as Semester → Course → Topic</p>
-</div>
-<div style="flex:1;display:grid;grid-template-columns:1fr 1fr;gap:20px">
-<div style="display:flex;flex-direction:column;gap:12px;background:#FDFCF9;border:1px solid #DDD8CC;border-radius:20px;padding:32px">
-<p style="font-size:24px;color:#2F6FB0;font-weight:600">PHASE 1</p>
-<h3 style="font-size:32px;font-weight:600">Ask with page citations</h3>
-<p style="font-size:24px;color:#4A5560;line-height:1.4">“Explain deadlock” answers from <i>your</i> OS notes, page 12</p>
-</div>
-<div style="display:flex;flex-direction:column;gap:12px;background:#FDFCF9;border:1px solid #DDD8CC;border-radius:20px;padding:32px">
-<p style="font-size:24px;color:#2F6FB0;font-weight:600">PHASE 2</p>
-<h3 style="font-size:32px;font-weight:600">Summaries and flashcards</h3>
-<p style="font-size:24px;color:#4A5560;line-height:1.4">For any unit, chapter or whole course</p>
-</div>
-<div style="display:flex;flex-direction:column;gap:12px;background:#FDFCF9;border:1px solid #DDD8CC;border-radius:20px;padding:32px">
-<p style="font-size:24px;color:#2F6FB0;font-weight:600">PHASE 2</p>
-<h3 style="font-size:32px;font-weight:600">Practice from past papers</h3>
-<p style="font-size:24px;color:#4A5560;line-height:1.4">Finds frequently asked topics and builds quizzes</p>
-</div>
-<div style="display:flex;flex-direction:column;gap:12px;background:#FDFCF9;border:1px solid #DDD8CC;border-radius:20px;padding:32px">
-<p style="font-size:24px;color:#2F6FB0;font-weight:600">PHASE 2</p>
-<h3 style="font-size:32px;font-weight:600">Study planner</h3>
-<p style="font-size:24px;color:#4A5560;line-height:1.4">Splits the syllabus into daily topics before each exam</p>
-</div>
-</div>
-</div>
-<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">Personal Agentic RAG · 4</p>
-<aside>Unlike a general chatbot, which answers from the internet, this one answers from your own syllabus, notes and books and tells you the exact page. The knowledge graph also links courses to skills and projects, so your academics feed into your career profile. Users upload only material they own; nothing is shared.</aside>
-</section>
-
-<section id="architecture" data-transition="fade" style="background:#F6F4EE;color:#12202E;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:48px">
-<div style="display:flex;flex-direction:column;gap:16px">
-<p style="font-size:24px;color:#2F6FB0;font-weight:600;letter-spacing:3px;text-transform:uppercase">Architecture</p>
-<h2 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:72px;font-weight:700;line-height:1.1">How it works</h2>
-</div>
-<div style="display:flex;align-items:stretch;gap:16px">
-<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FDFCF9;border:1px solid #DDD8CC;border-radius:20px;padding:32px">
-<p style="font-size:24px;color:#2F6FB0;font-weight:600">1 · YOUR DATA</p>
-<ul style="font-size:24px;color:#4A5560;line-height:1.5">
-<li>PDFs, Word files, scans, photos</li>
-<li>GitHub repositories</li>
-<li>Later: LinkedIn export, email</li>
+<li>Organised: Semester → Course → Topic</li>
+<li>Answers cite the page number</li>
 </ul>
 </div>
-<svg style="width:56px;height:32px;align-self:center;;flex:none" viewBox="0 0 56 32" preserveAspectRatio="none"><polygon points="0,10 34,10 34,0 56,16 34,32 34,22 0,22" fill="#2F6FB0"/></svg>
-<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FDFCF9;border:1px solid #DDD8CC;border-radius:20px;padding:32px">
-<p style="font-size:24px;color:#2F6FB0;font-weight:600">2 · UNDERSTAND</p>
-<ul style="font-size:24px;color:#4A5560;line-height:1.5">
-<li>Read text with OCR</li>
-<li>Describe images</li>
-<li>Detect private data (PII)</li>
-</ul>
-</div>
-<svg style="width:56px;height:32px;align-self:center;;flex:none" viewBox="0 0 56 32" preserveAspectRatio="none"><polygon points="0,10 34,10 34,0 56,16 34,32 34,22 0,22" fill="#2F6FB0"/></svg>
-<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FDFCF9;border:1px solid #DDD8CC;border-radius:20px;padding:32px">
-<p style="font-size:24px;color:#2F6FB0;font-weight:600">3 · REMEMBER</p>
-<ul style="font-size:24px;color:#4A5560;line-height:1.5">
-<li>Encrypted vault</li>
-<li>Vector search index</li>
-<li>Knowledge graph</li>
-</ul>
-</div>
-<svg style="width:56px;height:32px;align-self:center;;flex:none" viewBox="0 0 56 32" preserveAspectRatio="none"><polygon points="0,10 34,10 34,0 56,16 34,32 34,22 0,22" fill="#2F6FB0"/></svg>
-<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#12202E;border-radius:20px;padding:32px">
-<p style="font-size:24px;color:#E9A23B;font-weight:600">4 · AGENT</p>
-<ul style="font-size:24px;color:#D7E0E8;line-height:1.5">
-<li>Routes your question</li>
-<li>Searches step by step</li>
-<li>Checks before answering</li>
+<div style="flex:1;display:flex;flex-direction:column;gap:20px;background:#12202E;border-radius:20px;padding:40px">
+<svg style="width:56px;height:56px;color:#E9A23B;flex:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+<h3 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:36px;font-weight:700;color:#F6F4EE">Personal vault</h3>
+<ul style="font-size:26px;color:#D7E0E8;line-height:1.55">
+<li>Marksheets, certificates, IDs</li>
+<li>Exam timetable and deadlines</li>
+<li>Encrypted, never sent to the cloud</li>
+<li>Facts extracted for fast answers</li>
 </ul>
 </div>
 </div>
-<div style="display:flex;align-items:center;gap:24px;background:#E6EEF6;border-radius:20px;padding:32px 40px">
-<svg style="width:48px;height:48px;color:#2F6FB0;flex:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-<p style="font-size:32px;color:#12202E;line-height:1.35">Open-source AI models run on <b>your own machine</b>, so your documents never go to an AI company.</p>
-</div>
-<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">Personal Agentic RAG · 5</p>
-<aside>Data flows left to right. Ingestion turns raw files into searchable knowledge, the knowledge store keeps it encrypted, and the agent answers questions. All models are open source and run locally, through Ollama during development.</aside>
-</section>
-
-<section id="pipeline" data-transition="fade" style="background:#F6F4EE;color:#12202E;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:48px">
-<div style="display:flex;flex-direction:column;gap:16px">
-<p style="font-size:24px;color:#2F6FB0;font-weight:600;letter-spacing:3px;text-transform:uppercase">Agentic RAG</p>
-<h2 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:72px;font-weight:700;line-height:1.1">What happens when you ask a question</h2>
-</div>
-<div style="display:flex;align-items:stretch;gap:16px">
-<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#FDFCF9;border:1px solid #DDD8CC;border-radius:20px;padding:28px">
-<p style="font-family:'Space Grotesk', Arial, sans-serif;font-size:44px;font-weight:700;color:#2F6FB0">1</p>
-<h3 style="font-size:32px;font-weight:600">Question</h3>
-<p style="font-size:24px;color:#4A5560;line-height:1.4">You type in the web app</p>
-</div>
-<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#FDFCF9;border:1px solid #DDD8CC;border-radius:20px;padding:28px">
-<p style="font-family:'Space Grotesk', Arial, sans-serif;font-size:44px;font-weight:700;color:#2F6FB0">2</p>
-<h3 style="font-size:32px;font-weight:600">Router</h3>
-<p style="font-size:24px;color:#4A5560;line-height:1.4">A fast decision model picks the path and blocks unsafe requests</p>
-</div>
-<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#FDFCF9;border:1px solid #DDD8CC;border-radius:20px;padding:28px">
-<p style="font-family:'Space Grotesk', Arial, sans-serif;font-size:44px;font-weight:700;color:#2F6FB0">3</p>
-<h3 style="font-size:32px;font-weight:600">Agent</h3>
-<p style="font-size:24px;color:#4A5560;line-height:1.4">Searches documents, graph and GitHub, several times if needed</p>
-</div>
-<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#FDFCF9;border:1px solid #DDD8CC;border-radius:20px;padding:28px">
-<p style="font-family:'Space Grotesk', Arial, sans-serif;font-size:44px;font-weight:700;color:#2F6FB0">4</p>
-<h3 style="font-size:32px;font-weight:600">Check</h3>
-<p style="font-size:24px;color:#4A5560;line-height:1.4">Is the answer supported by the sources? If not, it retries</p>
-</div>
-<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#12202E;border-radius:20px;padding:28px">
-<p style="font-family:'Space Grotesk', Arial, sans-serif;font-size:44px;font-weight:700;color:#E9A23B">5</p>
-<h3 style="font-size:32px;font-weight:600;color:#F6F4EE">Answer</h3>
-<p style="font-size:24px;color:#D7E0E8;line-height:1.4">With citations, or an honest “I don’t know”</p>
-</div>
-</div>
-<div style="display:flex;flex-direction:column;gap:12px;border-left:6px solid #E9A23B;padding:8px 0px 8px 32px">
-<p style="font-size:32px;color:#12202E"><b>You:</b> Which of my projects used FastAPI?</p>
-<p style="font-size:32px;color:#4A5560"><b>Assistant:</b> “Campus Events Portal” and “Expense Tracker API”. Sources: their GitHub READMEs.</p>
-</div>
+<p style="font-size:28px;color:#4A5560">Scans and phone photos become searchable with <b style="color:#12202E">OCR</b>. Private data is detected automatically with <b style="color:#12202E">Presidio</b>.</p>
 <p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">Personal Agentic RAG · 6</p>
-<aside>Here's what makes it agentic rather than plain RAG: the agent decides which tools to use and can search more than once. A small, fast "System-1" decision model handles routing and safety checks. Answers always cite their sources, which keeps the model from making things up.</aside>
+<aside>Two kinds of data. The study library holds academic material with page-level citations. The personal vault holds sensitive documents, encrypted at rest; facts like exam dates and CGPA are extracted into a table that powers the System-1 fast path.</aside>
 </section>
 
-<section id="graph" data-transition="fade" style="background:#F6F4EE;color:#12202E;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:40px"><svg style="position:absolute;left:0;top:0;width:1920px;height:1080px" viewBox="0 0 1920 1080"><line x1="1290" y1="600" x2="990" y2="340" stroke="#9AA8B5" stroke-width="3"/><line x1="990" y1="340" x2="1590" y2="340" stroke="#9AA8B5" stroke-width="3"/><line x1="1630" y1="840" x2="1590" y2="340" stroke="#9AA8B5" stroke-width="3"/><line x1="1290" y1="600" x2="1630" y2="840" stroke="#9AA8B5" stroke-width="3"/><line x1="1290" y1="600" x2="1290" y2="840" stroke="#9AA8B5" stroke-width="3"/><line x1="1290" y1="600" x2="970" y2="840" stroke="#9AA8B5" stroke-width="3"/></svg>
+<section id="guardrails" data-transition="fade" style="background:#12202E;color:#F6F4EE;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:40px">
 <div style="display:flex;flex-direction:column;gap:16px">
-<p style="font-size:24px;color:#2F6FB0;font-weight:600;letter-spacing:3px;text-transform:uppercase">Graph RAG</p>
-<h2 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:72px;font-weight:700;line-height:1.1">A map of you</h2>
+<p style="font-size:24px;color:#E9A23B;font-weight:600;letter-spacing:3px;text-transform:uppercase">Guardrails and security</p>
+<h2 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:72px;font-weight:700;line-height:1.1">Three System-1 guards, plus a locked vault</h2>
 </div>
-<div style="display:flex;flex-direction:column;gap:32px;width:620px">
-<p style="font-size:32px;color:#4A5560;line-height:1.45">Plain search finds matching text. A knowledge graph also knows how things are <b style="color:#12202E">connected</b>.</p>
-<div style="background:#FDFCF9;border:1px solid #DDD8CC;border-radius:20px;padding:32px">
-<p style="font-size:24px;color:#2F6FB0;font-weight:600">EXAMPLE QUESTION</p>
-<p style="font-size:32px;line-height:1.4">“Which skills from my DBMS course have I used in a project?”</p>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px">
+<div style="display:flex;flex-direction:column;gap:12px;background:#1B2E40;border-radius:16px;padding:32px">
+<p style="font-size:24px;color:#E9A23B;font-weight:600">G1 · INPUT</p>
+<h3 style="font-size:32px;font-weight:600">Injection guard</h3>
+<p style="font-size:24px;color:#B9C6D3;line-height:1.4">Blocks attacks in questions and in text hidden inside uploaded PDFs</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;background:#1B2E40;border-radius:16px;padding:32px">
+<p style="font-size:24px;color:#E9A23B;font-weight:600">G2 · OUTPUT</p>
+<h3 style="font-size:32px;font-weight:600">Grounding check</h3>
+<p style="font-size:24px;color:#B9C6D3;line-height:1.4">Is every claim supported by a cited source? If not, retry or say “I don’t know”</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;background:#1B2E40;border-radius:16px;padding:32px">
+<p style="font-size:24px;color:#E9A23B;font-weight:600">G3 · OUTPUT</p>
+<h3 style="font-size:32px;font-weight:600">PII leak check</h3>
+<p style="font-size:24px;color:#B9C6D3;line-height:1.4">Never reveals ID numbers or marks you didn’t ask for</p>
 </div>
 </div>
-<p style="position:absolute;left:1065px;top:452px;width:150px;font-size:24px;font-weight:600;color:#2F6FB0;text-align:center;background:#F6F4EE">BUILT</p>
-<p style="position:absolute;left:1215px;top:302px;width:150px;font-size:24px;font-weight:600;color:#2F6FB0;text-align:center;background:#F6F4EE">USES</p>
-<p style="position:absolute;left:1515px;top:572px;width:150px;font-size:24px;font-weight:600;color:#2F6FB0;text-align:center;background:#F6F4EE">PROVES</p>
-<p style="position:absolute;left:1385px;top:702px;width:150px;font-size:24px;font-weight:600;color:#2F6FB0;text-align:center;background:#F6F4EE">EARNED</p>
-<p style="position:absolute;left:1055px;top:702px;width:170px;font-size:24px;font-weight:600;color:#2F6FB0;text-align:center;background:#F6F4EE">STUDIED</p>
-<p style="position:absolute;left:1180px;top:560px;width:220px;height:80px;font-family:'Space Grotesk', Arial, sans-serif;font-size:32px;font-weight:700;line-height:2.5;text-align:center;color:#12202E;background:#E9A23B;border-radius:40px">You</p>
-<p style="position:absolute;left:860px;top:300px;width:260px;height:80px;font-size:32px;font-weight:600;line-height:2.5;text-align:center;color:#F6F4EE;background:#12202E;border-radius:40px">Projects</p>
-<p style="position:absolute;left:1460px;top:300px;width:260px;height:80px;font-size:32px;font-weight:600;line-height:2.5;text-align:center;color:#F6F4EE;background:#2F6FB0;border-radius:40px">Skills</p>
-<p style="position:absolute;left:1480px;top:800px;width:300px;height:80px;font-size:32px;font-weight:600;line-height:2.5;text-align:center;color:#F6F4EE;background:#12202E;border-radius:40px">Certifications</p>
-<p style="position:absolute;left:840px;top:800px;width:260px;height:80px;font-size:32px;font-weight:600;line-height:2.5;text-align:center;color:#F6F4EE;background:#12202E;border-radius:40px">Education</p>
-<p style="position:absolute;left:1230px;top:702px;width:120px;font-size:24px;font-weight:600;color:#2F6FB0;text-align:center;background:#F6F4EE">READS</p>
-<p style="position:absolute;left:1150px;top:800px;width:280px;height:80px;font-size:32px;font-weight:600;line-height:2.5;text-align:center;color:#12202E;background:#CFE0F0;border-radius:40px">Notes &amp; Books</p>
-<p style="position:absolute;left:128px;bottom:64px;width:620px;font-size:24px;color:#6B7682">Personal Agentic RAG · 7</p>
-<aside>Each uploaded document and GitHub repo adds people, projects, skills and certifications to a graph. That lets the assistant answer relationship questions, and later it lets the resume update itself when a new project or certificate is added.</aside>
+<div style="display:flex;gap:20px">
+<div style="flex:1;display:flex;align-items:center;gap:20px;background:#1B2E40;border-radius:16px;padding:24px 32px"><svg style="width:44px;height:44px;color:#E9A23B;flex:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><p style="font-size:24px">AES-256 encrypted vault</p></div>
+<div style="flex:1;display:flex;align-items:center;gap:20px;background:#1B2E40;border-radius:16px;padding:24px 32px"><svg style="width:44px;height:44px;color:#E9A23B;flex:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg><p style="font-size:24px">Local models by default</p></div>
+<div style="flex:1;display:flex;align-items:center;gap:20px;background:#1B2E40;border-radius:16px;padding:24px 32px"><svg style="width:44px;height:44px;color:#E9A23B;flex:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><p style="font-size:24px">Audit log + red-team tests</p></div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8FA1B3">Personal Agentic RAG · 7</p>
+<aside>Guardrails are System-1 decisions too: fast typed checks with a confidence score. We test them with about 100 red-team attacks and report how many get through, and how often the guards wrongly refuse a normal question.</aside>
 </section>
 
-<section id="security" data-transition="fade" style="background:#12202E;color:#F6F4EE;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:40px">
+<section id="observability" data-transition="fade" style="background:#F6F4EE;color:#12202E;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:40px">
 <div style="display:flex;flex-direction:column;gap:16px">
-<p style="font-size:24px;color:#E9A23B;font-weight:600;letter-spacing:3px;text-transform:uppercase">Security by design</p>
-<h2 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:72px;font-weight:700;line-height:1.1">Six layers protect your documents</h2>
+<p style="font-size:24px;color:#2F6FB0;font-weight:600;letter-spacing:3px;text-transform:uppercase">Observability</p>
+<h2 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:72px;font-weight:700;line-height:1.1">Every decision is traced</h2>
 </div>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
-<div style="display:flex;align-items:center;gap:24px;background:#1B2E40;border-radius:16px;padding:28px 32px">
-<svg style="width:48px;height:48px;color:#E9A23B;flex:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-<div style="display:flex;flex-direction:column;gap:4px"><h3 style="font-size:32px;font-weight:600">Private network</h3><p style="font-size:24px;color:#B9C6D3">Not reachable from the public internet</p></div>
+<div style="display:flex;gap:40px;align-items:start">
+<div style="flex:1;display:flex;flex-direction:column;gap:10px;background:#12202E;border-radius:20px;padding:36px 40px">
+<p style="font-size:24px;color:#8FA1B3">Example trace (illustrative)</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#F6F4EE">▾ question</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#E9A23B">   ├ s1.guard.input   → safe</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#E9A23B">   ├ s1.router        → compare (low p)</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#8DB6E0">   ├ s2.agent.plan</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#8DB6E0">   │  ├ tool.library_search</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#8DB6E0">   │  └ tool.library_search</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#E9A23B">   ├ s1.guard.grounding → pass</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#E9A23B">   └ s1.guard.pii     → pass</p>
 </div>
-<div style="display:flex;align-items:center;gap:24px;background:#1B2E40;border-radius:16px;padding:28px 32px">
-<svg style="width:48px;height:48px;color:#E9A23B;flex:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6"/><path d="m15.5 7.5 3 3L22 7l-3-3"/></svg>
-<div style="display:flex;flex-direction:column;gap:4px"><h3 style="font-size:32px;font-weight:600">Passkey login</h3><p style="font-size:24px;color:#B9C6D3">Fingerprint or Face ID, with no passwords to leak</p></div>
-</div>
-<div style="display:flex;align-items:center;gap:24px;background:#1B2E40;border-radius:16px;padding:28px 32px">
-<svg style="width:48px;height:48px;color:#E9A23B;flex:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-<div style="display:flex;flex-direction:column;gap:4px"><h3 style="font-size:32px;font-weight:600">Encrypted vault</h3><p style="font-size:24px;color:#B9C6D3">Every file is encrypted at rest (AES-256)</p></div>
-</div>
-<div style="display:flex;align-items:center;gap:24px;background:#1B2E40;border-radius:16px;padding:28px 32px">
-<svg style="width:48px;height:48px;color:#E9A23B;flex:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
-<div style="display:flex;flex-direction:column;gap:4px"><h3 style="font-size:32px;font-weight:600">Local AI models</h3><p style="font-size:24px;color:#B9C6D3">No data is sent to AI companies</p></div>
-</div>
-<div style="display:flex;align-items:center;gap:24px;background:#1B2E40;border-radius:16px;padding:28px 32px">
-<svg style="width:48px;height:48px;color:#E9A23B;flex:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-<div style="display:flex;flex-direction:column;gap:4px"><h3 style="font-size:32px;font-weight:600">Guardrails</h3><p style="font-size:24px;color:#B9C6D3">Blocks prompt injection hidden in files</p></div>
-</div>
-<div style="display:flex;align-items:center;gap:24px;background:#1B2E40;border-radius:16px;padding:28px 32px">
-<svg style="width:48px;height:48px;color:#E9A23B;flex:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-<div style="display:flex;flex-direction:column;gap:4px"><h3 style="font-size:32px;font-weight:600">Audit log</h3><p style="font-size:24px;color:#B9C6D3">Every access and action is recorded</p></div>
+<div style="width:560px;display:flex;flex-direction:column;gap:24px">
+<div style="display:flex;flex-direction:column;gap:8px"><h3 style="font-size:32px;font-weight:600">Arize Phoenix</h3><p style="font-size:24px;color:#4A5560;line-height:1.4">Open-source tracing that runs on the laptop, built on OpenTelemetry</p></div>
+<div style="display:flex;flex-direction:column;gap:8px"><h3 style="font-size:32px;font-weight:600">Linked from the chat</h3><p style="font-size:24px;color:#4A5560;line-height:1.4">Each answer shows its trace, path (S1/S2) and confidence</p></div>
+<div style="display:flex;flex-direction:column;gap:8px"><h3 style="font-size:32px;font-weight:600">Private by default</h3><p style="font-size:24px;color:#4A5560;line-height:1.4">PII is redacted from trace data</p></div>
 </div>
 </div>
-<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8FA1B3">Personal Agentic RAG · 8</p>
-<aside>Security is the core principle. Prompt injection matters here: a malicious PDF could contain hidden text telling the AI to leak data, so retrieved text is always treated as data, never as instructions.</aside>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">Personal Agentic RAG · 8</p>
+<aside>Each request becomes a tree of spans: System-1 guards and router decisions, System-2 agent steps and tool calls, then the final checks. This makes the system debuggable and gives the raw data for the evaluation.</aside>
 </section>
 
-<section id="cost" data-transition="fade" style="background:#F6F4EE;color:#12202E;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:48px">
+<section id="research" data-transition="fade" style="background:#F6F4EE;color:#12202E;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:40px">
 <div style="display:flex;flex-direction:column;gap:16px">
-<p style="font-size:24px;color:#2F6FB0;font-weight:600;letter-spacing:3px;text-transform:uppercase">Built for a student budget</p>
-<h2 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:72px;font-weight:700;line-height:1.1">100% open source, zero license cost</h2>
+<p style="font-size:24px;color:#2F6FB0;font-weight:600;letter-spacing:3px;text-transform:uppercase">Research questions</p>
+<h2 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:72px;font-weight:700;line-height:1.1">What the report will answer</h2>
+</div>
+<table style="font-size:26px;color:#12202E">
+<tr><th style="width:9%">ID</th><th style="width:55%">Question</th><th style="width:36%">Measured by</th></tr>
+<tr><td><b>RQ1</b></td><td>Can System 1 answer some questions alone, as accurately as System 2?</td><td>% answered by S1, accuracy</td></tr>
+<tr><td><b>RQ2</b></td><td>How much time and compute does escalation save?</td><td>Latency, LLM calls, tokens</td></tr>
+<tr><td><b>RQ3</b></td><td>Does the agent beat plain RAG on our questions?</td><td>Correctness, faithfulness, page citations</td></tr>
+<tr><td><b>RQ4</b></td><td>What do the guardrails catch, and what do they wrongly block?</td><td>Attack success, PII leaks, false refusals</td></tr>
+<tr><td><b>RQ5</b></td><td>Which System-1 engine is better: jeff or our trained classifier?</td><td>Accuracy, calibration, speed</td></tr>
+</table>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">Personal Agentic RAG · 9</p>
+<aside>These five questions turn the project from a demo into a study with measurable results. jeff is an open-source, self-hosted implementation of the Jev System-1 API; our alternative is a small SetFit classifier trained on synthetic data.</aside>
+</section>
+
+<section id="evaluation" data-transition="fade" style="background:#F6F4EE;color:#12202E;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:48px">
+<div style="display:flex;flex-direction:column;gap:16px">
+<p style="font-size:24px;color:#2F6FB0;font-weight:600;letter-spacing:3px;text-transform:uppercase">Evaluation</p>
+<h2 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:72px;font-weight:700;line-height:1.1">Public data, clear baselines</h2>
+</div>
+<div style="display:flex;gap:24px">
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FDFCF9;border:1px solid #DDD8CC;border-radius:20px;padding:36px">
+<h3 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:32px;font-weight:700;color:#2F6FB0">Datasets</h3>
+<ul style="font-size:24px;color:#4A5560;line-height:1.55">
+<li>“Alex Demo”: a fictional student’s documents</li>
+<li>Open textbooks (OpenStax)</li>
+<li>~200 Q&amp;A with gold pages</li>
+<li>~100 red-team attacks</li>
+</ul>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FDFCF9;border:1px solid #DDD8CC;border-radius:20px;padding:36px">
+<h3 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:32px;font-weight:700;color:#2F6FB0">Compared systems</h3>
+<ul style="font-size:24px;color:#4A5560;line-height:1.55">
+<li>Plain RAG</li>
+<li>System 2 only (agent)</li>
+<li><b style="color:#12202E">System 1 + System 2 (ours)</b></li>
+<li>Ours without guardrails</li>
+<li>jeff vs SetFit engine</li>
+</ul>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FDFCF9;border:1px solid #DDD8CC;border-radius:20px;padding:36px">
+<h3 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:32px;font-weight:700;color:#2F6FB0">Metrics</h3>
+<ul style="font-size:24px;color:#4A5560;line-height:1.55">
+<li>Correctness, faithfulness (Ragas)</li>
+<li>Page-citation accuracy</li>
+<li>Latency, LLM calls</li>
+<li>Calibration (ECE)</li>
+<li>Attack success, false refusals</li>
+</ul>
+</div>
+</div>
+<p style="font-size:28px;color:#4A5560">One command (<b style="color:#12202E">make eval</b>) reproduces every table and plot. No real personal data is used.</p>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">Personal Agentic RAG · 10</p>
+<aside>Because the datasets are synthetic or openly licensed, anyone can rerun our evaluation. The test split is never used for tuning thresholds or prompts.</aside>
+</section>
+
+<section id="stack" data-transition="fade" style="background:#F6F4EE;color:#12202E;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:48px">
+<div style="display:flex;flex-direction:column;gap:16px">
+<p style="font-size:24px;color:#2F6FB0;font-weight:600;letter-spacing:3px;text-transform:uppercase">Free for every student</p>
+<h2 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:72px;font-weight:700;line-height:1.1">Open source, runs on an 8 GB laptop</h2>
 </div>
 <div style="display:flex;gap:64px;align-items:center">
 <div style="width:420px;display:flex;flex-direction:column;gap:8px">
 <p style="font-family:'Space Grotesk', Arial, sans-serif;font-size:200px;font-weight:700;line-height:1;color:#2F6FB0">0</p>
-<p style="font-size:32px;color:#4A5560;line-height:1.35">paid software or API fees. It runs on a normal laptop during development.</p>
+<p style="font-size:32px;color:#4A5560;line-height:1.35">cost. No GPU, no paid APIs. An optional free cloud API can be used for non-sensitive data.</p>
 </div>
 <table style="flex:1;font-size:26px;color:#12202E">
-<tr><th style="width:30%">Part</th><th style="width:48%">Open-source tool</th><th style="width:22%">Cost</th></tr>
-<tr><td>AI models</td><td>Ollama + small open models</td><td>Free</td></tr>
-<tr><td>Reading documents</td><td>Docling + OCR</td><td>Free</td></tr>
-<tr><td>Agent</td><td>LangGraph</td><td>Free</td></tr>
-<tr><td>Database + search</td><td>PostgreSQL + pgvector</td><td>Free</td></tr>
-<tr><td>Monitoring</td><td>Langfuse (self-hosted)</td><td>Free</td></tr>
-<tr><td>Private access</td><td>Tailscale free plan</td><td>Free</td></tr>
-<tr><td>Cloud (later)</td><td>Student credits</td><td>Optional</td></tr>
+<tr><th style="width:38%">Part</th><th style="width:62%">Open-source tool</th></tr>
+<tr><td>Chat UI</td><td>Chainlit</td></tr>
+<tr><td>System 2 agent</td><td>LangGraph + Ollama (local LLM)</td></tr>
+<tr><td>System 1</td><td>jeff · SetFit</td></tr>
+<tr><td>Documents + OCR</td><td>Docling · Presidio</td></tr>
+<tr><td>Storage</td><td>SQLite + LanceDB</td></tr>
+<tr><td>Tracing</td><td>Arize Phoenix</td></tr>
+<tr><td>Evals</td><td>Ragas + our harness</td></tr>
 </table>
 </div>
-<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">Personal Agentic RAG · 9</p>
-<aside>The project uses only open-source components. During development everything runs on a laptop. Cloud hosting is optional and later, using student credits, so any student can afford to run their own copy.</aside>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">Personal Agentic RAG · 11</p>
+<aside>Everything is open source and lightweight. There is no database server: SQLite and LanceDB are embedded, so the project installs with one command on a normal student laptop.</aside>
 </section>
 
-<section id="roadmap" data-transition="fade" style="background:#F6F4EE;color:#12202E;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:48px">
+<section id="plan" data-transition="fade" style="background:#F6F4EE;color:#12202E;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:40px">
 <div style="display:flex;flex-direction:column;gap:16px">
-<p style="font-size:24px;color:#2F6FB0;font-weight:600;letter-spacing:3px;text-transform:uppercase">Roadmap</p>
-<h2 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:72px;font-weight:700;line-height:1.1">Built in modules, one phase at a time</h2>
+<p style="font-size:24px;color:#2F6FB0;font-weight:600;letter-spacing:3px;text-transform:uppercase">Team and plan</p>
+<h2 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:72px;font-weight:700;line-height:1.1">Two layers, one semester</h2>
 </div>
 <div style="display:flex;gap:24px">
-<div style="flex:1;display:flex;flex-direction:column;gap:20px;background:#12202E;border-radius:20px;padding:40px">
-<p style="font-size:24px;color:#E9A23B;font-weight:600;letter-spacing:2px">PHASE 1 · FOUNDATION</p>
-<h3 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:44px;font-weight:700;color:#F6F4EE">Vault, Study + Ask</h3>
-<ul style="font-size:24px;color:#D7E0E8;line-height:1.55">
-<li>Upload and encrypt documents</li>
-<li>Study library for notes and books</li>
-<li>OCR for scans and photos</li>
-<li>GitHub connector</li>
-<li>Chat with citations</li>
-<li>Simple knowledge graph</li>
-</ul>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#12202E;border-radius:20px;padding:32px 36px">
+<p style="font-size:24px;color:#8DB6E0;font-weight:600;letter-spacing:2px">MOHIT · KNOWLEDGE + SYSTEM 2</p>
+<p style="font-size:26px;color:#D7E0E8;line-height:1.5">Ingestion and OCR · study library · encrypted vault and facts table · System-2 agent · Chainlit UI</p>
 </div>
-<div style="flex:1;display:flex;flex-direction:column;gap:20px;background:#FDFCF9;border:1px solid #DDD8CC;border-radius:20px;padding:40px">
-<p style="font-size:24px;color:#2F6FB0;font-weight:600;letter-spacing:2px">PHASE 2 · CAREER</p>
-<h3 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:44px;font-weight:700">Career + exams</h3>
-<ul style="font-size:24px;color:#4A5560;line-height:1.55">
-<li>Flashcards, quizzes, study planner</li>
-<li>Deadlines and exam tracker</li>
-<li>Job description match score</li>
-<li>Auto-tailored resume draft</li>
-<li>Full Graph RAG</li>
-<li>MCP server</li>
-</ul>
-</div>
-<div style="flex:1;display:flex;flex-direction:column;gap:20px;background:#FDFCF9;border:1px solid #DDD8CC;border-radius:20px;padding:40px">
-<p style="font-size:24px;color:#2F6FB0;font-weight:600;letter-spacing:2px">PHASE 3 · AUTOMATION</p>
-<h3 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:44px;font-weight:700">Hands</h3>
-<ul style="font-size:24px;color:#4A5560;line-height:1.55">
-<li>Fill job forms in the browser</li>
-<li>LinkedIn post and profile drafts</li>
-<li>Email and calendar sync</li>
-<li>Mobile app</li>
-<li>Cloud deployment</li>
-</ul>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#12202E;border-radius:20px;padding:32px 36px">
+<p style="font-size:24px;color:#E9A23B;font-weight:600;letter-spacing:2px">KUNAL · SYSTEM 1 + TRUST</p>
+<p style="font-size:26px;color:#D7E0E8;line-height:1.5">System-1 engines · escalation policy · guardrails · Phoenix tracing · evals and red-team</p>
 </div>
 </div>
-<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">Personal Agentic RAG · 10</p>
-<aside>Each phase is made of independent modules, so juniors and other contributors can each own one module, such as the GitHub connector or OCR. Phase 1 is the scope for this semester.</aside>
-</section>
-
-<section id="different" data-transition="fade" style="background:#F6F4EE;color:#12202E;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:48px">
-<div style="display:flex;flex-direction:column;gap:16px">
-<p style="font-size:24px;color:#2F6FB0;font-weight:600;letter-spacing:3px;text-transform:uppercase">Why it’s different</p>
-<h2 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:72px;font-weight:700;line-height:1.1">Compared with existing tools</h2>
-</div>
-<table style="font-size:28px;color:#12202E">
-<tr><th style="width:37%">Feature</th><th style="width:21%">Cloud AI chatbots</th><th style="width:21%">Resume tools</th><th style="width:21%">This project</th></tr>
-<tr><td>Data stays on your machine</td><td>No</td><td>No</td><td><b>Yes</b></td></tr>
-<tr><td>Knows all your documents and GitHub</td><td>Partly</td><td>No</td><td><b>Yes</b></td></tr>
-<tr><td>Answers cite their sources</td><td>Partly</td><td>No</td><td><b>Yes</b></td></tr>
-<tr><td>Study help from your own notes, with page numbers</td><td>Partly</td><td>No</td><td><b>Yes</b></td></tr>
-<tr><td>Job match and tailored resume</td><td>Manual</td><td>Yes</td><td><b>Yes</b></td></tr>
-<tr><td>Open source and free</td><td>No</td><td>Mostly no</td><td><b>Yes</b></td></tr>
-<tr><td>Acts only with your approval</td><td>Varies</td><td>Varies</td><td><b>Always</b></td></tr>
-</table>
-<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">Personal Agentic RAG · 11</p>
-<aside>This is a general comparison with typical tools in each category. The combination is what's new: private, open source, knows everything about one person, and always cites its sources.</aside>
-</section>
-
-<section id="outcomes" data-transition="fade" style="background:#F6F4EE;color:#12202E;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:48px">
-<div style="display:flex;flex-direction:column;gap:16px">
-<p style="font-size:24px;color:#2F6FB0;font-weight:600;letter-spacing:3px;text-transform:uppercase">Evaluation</p>
-<h2 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:72px;font-weight:700;line-height:1.1">How we will measure success</h2>
-</div>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
-<div style="display:flex;flex-direction:column;gap:12px;background:#FDFCF9;border:1px solid #DDD8CC;border-radius:20px;padding:36px">
-<h3 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:32px;font-weight:700;color:#2F6FB0">Answer accuracy</h3>
-<p style="font-size:24px;color:#4A5560;line-height:1.45">50 test questions about a fake demo student and open textbooks, with known answers</p>
-</div>
-<div style="display:flex;flex-direction:column;gap:12px;background:#FDFCF9;border:1px solid #DDD8CC;border-radius:20px;padding:36px">
-<h3 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:32px;font-weight:700;color:#2F6FB0">Faithfulness</h3>
-<p style="font-size:24px;color:#4A5560;line-height:1.45">How often answers are backed by the retrieved sources, measured with Ragas</p>
-</div>
-<div style="display:flex;flex-direction:column;gap:12px;background:#FDFCF9;border:1px solid #DDD8CC;border-radius:20px;padding:36px">
-<h3 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:32px;font-weight:700;color:#2F6FB0">Security tests</h3>
-<p style="font-size:24px;color:#4A5560;line-height:1.45">Planted prompt-injection documents must be ignored, and private data never leaks</p>
-</div>
-<div style="display:flex;flex-direction:column;gap:12px;background:#FDFCF9;border:1px solid #DDD8CC;border-radius:20px;padding:36px">
-<h3 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:32px;font-weight:700;color:#2F6FB0">Speed and cost</h3>
-<p style="font-size:24px;color:#4A5560;line-height:1.45">Response time on a student laptop, and a cost that stays at zero</p>
-</div>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:16px">
+<div style="display:flex;flex-direction:column;gap:8px;border-top:6px solid #2F6FB0;padding-top:16px"><p style="font-size:24px;color:#2F6FB0;font-weight:600">Week 4</p><p style="font-size:24px">Plain RAG baseline + first numbers</p></div>
+<div style="display:flex;flex-direction:column;gap:8px;border-top:6px solid #2F6FB0;padding-top:16px"><p style="font-size:24px;color:#2F6FB0;font-weight:600">Week 6</p><p style="font-size:24px">System-1 fast answers working</p></div>
+<div style="display:flex;flex-direction:column;gap:8px;border-top:6px solid #E9A23B;padding-top:16px"><p style="font-size:24px;color:#9A5B00;font-weight:600">Week 8</p><p style="font-size:24px">Mid-term demo: agent + guardrails</p></div>
+<div style="display:flex;flex-direction:column;gap:8px;border-top:6px solid #2F6FB0;padding-top:16px"><p style="font-size:24px;color:#2F6FB0;font-weight:600">Week 12</p><p style="font-size:24px">Full results + report draft</p></div>
+<div style="display:flex;flex-direction:column;gap:8px;border-top:6px solid #E9A23B;padding-top:16px"><p style="font-size:24px;color:#9A5B00;font-weight:600">Week 14</p><p style="font-size:24px">Final demo + viva</p></div>
 </div>
 <p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">Personal Agentic RAG · 12</p>
-<aside>Using a fake demo persona means no real personal data is needed for testing, and contributors can run the same tests. Every observation is traced with Langfuse.</aside>
+<aside>The split is by layer, so each person owns modules that can be tested independently. Both meet at a shared Answer object: text, citations, path (S1 or S2), confidence, guard verdicts and trace ID.</aside>
+</section>
+
+<section id="future" data-transition="fade" style="background:#F6F4EE;color:#12202E;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:48px">
+<div style="display:flex;flex-direction:column;gap:16px">
+<p style="font-size:24px;color:#2F6FB0;font-weight:600;letter-spacing:3px;text-transform:uppercase">Future work</p>
+<h2 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:72px;font-weight:700;line-height:1.1">Where it can grow next</h2>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px">
+<div style="display:flex;flex-direction:column;gap:16px;background:#FDFCF9;border:1px solid #DDD8CC;border-radius:20px;padding:36px">
+<svg style="width:52px;height:52px;color:#2F6FB0;flex:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/><line x1="22" y1="10" x2="22" y2="16"/></svg>
+<h3 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:32px;font-weight:700">Study tools</h3>
+<p style="font-size:24px;color:#4A5560;line-height:1.45">Flashcards, practice quizzes from past papers, a study planner tied to exam dates</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:16px;background:#FDFCF9;border:1px solid #DDD8CC;border-radius:20px;padding:36px">
+<svg style="width:52px;height:52px;color:#2F6FB0;flex:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+<h3 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:32px;font-weight:700">Career</h3>
+<p style="font-size:24px;color:#4A5560;line-height:1.45">Job-match score, tailored resume, LinkedIn drafts. You approve every action</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:16px;background:#FDFCF9;border:1px solid #DDD8CC;border-radius:20px;padding:36px">
+<svg style="width:52px;height:52px;color:#2F6FB0;flex:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+<h3 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:32px;font-weight:700">Anywhere</h3>
+<p style="font-size:24px;color:#4A5560;line-height:1.45">Private cloud hosting with passkey login, and a mobile app</p>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">Personal Agentic RAG · 13</p>
+<aside>These were deliberately moved out of this semester's scope so the core contribution, System 1 + System 2 with proper evaluation, is done well.</aside>
 </section>
 
 <section id="thanks" data-transition="fade" style="background:#12202E;color:#F6F4EE;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:40px">

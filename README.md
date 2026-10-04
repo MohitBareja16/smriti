@@ -1,18 +1,12 @@
 # Personal Agentic RAG
 
-A private, self-hosted, open-source AI assistant that knows **one person**: their study material (notes, books, slides, past papers), documents, certificates, GitHub projects, deadlines and career profiles.
+A free, open-source, local-first **agentic RAG** for a student's study material (notes, books, slides, past papers) and personal documents (marksheets, certificates, exam dates).
+
+The core idea is **System 1 + System 2 thinking**. Fast, calibrated System-1 decisions route questions, answer simple facts and run guardrails. They escalate to a slow System-2 LLM agent only when deeper reasoning is needed. Everything is traced (Arize Phoenix) and evaluated against baselines on public data.
 
 > **Core principle:** *Handle your documents safely and securely.*
-> All models run locally, documents are encrypted, and the assistant never acts without your approval.
 
-**Status:** planning / pre-alpha. Nothing to install yet.
-
-## What it will do
-- **Study:** ask questions from your own notes and books and get answers with page numbers. Later: flashcards, quizzes and a study planner.
-- **Ask:** questions about your documents and projects, answered with cited sources.
-- **Fetch:** "give me my AWS certificate" finds the file in your encrypted vault.
-- **Track:** exams, certificate expiries and application deadlines.
-- **Tailor (later):** paste a job description to get a match score and a tailored resume draft. You review and submit.
+**Status:** planning (PRD v0.2). Nothing to install yet.
 
 ## Docs
 - [Product Requirements (PRD)](docs/PRD.md)
