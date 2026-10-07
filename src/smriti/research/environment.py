@@ -46,7 +46,7 @@ def capture(settings: Settings) -> dict:
         "timestamp_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "smriti_version": smriti.__version__,
         "git_commit": _git("rev-parse", "HEAD"),
-        "git_dirty": bool(_git("status", "--porcelain")),
+        "git_dirty": bool(_git("status", "--porcelain", "--", ".", ":!experiments/results")),
         "python": sys.version.split()[0],
         "platform": platform.platform(),
         "processor": platform.processor() or platform.machine(),
