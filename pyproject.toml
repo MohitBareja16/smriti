@@ -5,7 +5,7 @@ description = "Smriti (स्मृति): a private, local-first agentic RAG w
 readme = "README.md"
 license = "Apache-2.0"
 requires-python = ">=3.10"
-authors = [{ name = "Mohit" }, { name = "Kunal" }]
+authors = [{ name = "Smriti contributors" }]
 dependencies = [
     "cryptography>=42",
     "pypdf>=4",

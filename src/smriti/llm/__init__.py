@@ -3,7 +3,7 @@
 from smriti.config import Settings
 from smriti.llm.base import Reasoner
 from smriti.llm.extractive import ExtractiveReasoner
-from smriti.llm.ollama import LLMUnavailableError, OllamaReasoner
+from smriti.llm.ollama import LLMUnavailableError, OllamaReasoner, ollama_status
 
 
 def get_reasoner(settings: Settings) -> Reasoner:
@@ -14,4 +14,4 @@ def get_reasoner(settings: Settings) -> Reasoner:
     raise ValueError(f"Unknown LLM backend '{settings.llm_backend}' (use 'ollama' or 'extractive').")
 
 
-__all__ = ["ExtractiveReasoner", "LLMUnavailableError", "OllamaReasoner", "Reasoner", "get_reasoner"]
+__all__ = ["ExtractiveReasoner", "LLMUnavailableError", "OllamaReasoner", "Reasoner", "get_reasoner", "ollama_status"]

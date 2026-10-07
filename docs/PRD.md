@@ -4,8 +4,7 @@
 |---|---|
 | Status | Draft v0.2 (re-scoped; v0.1 is in git history) |
 | Date | 2026-10-05 |
-| Team | Mohit & Kunal · Professor: Dr. Neetu Verma · DCRUST, Murthal |
-| Deliverable | One semester: working demo + project report + viva |
+| Deliverable | v1: working demo + evaluation report |
 | Repo | https://github.com/MohitBareja16/smriti |
 | License | Open source (AGPL-3.0 vs Apache-2.0: to decide) |
 
@@ -218,22 +217,22 @@ Resource budget (8 GB laptop): LLM ~3 GB, embeddings + S1 models <1 GB, Phoenix 
 
 | Module | Owner | Interface |
 |---|---|---|
-| `ingest` (parse, OCR, chunk, embed, PII flag) | **Mohit** | `ingest(file, course?) -> DocumentId` |
-| `academics` (library structure, page-aware chunks, scoped search) | **Mohit** | `Library.add()`, `search(query, filters)` |
-| `vault` (encryption, facts table, fetch) | **Mohit** | `Vault.put/get`, `facts.lookup()` |
-| `agent` (System 2, LangGraph, tools) | **Mohit** | `answer(question) -> Answer` |
-| `ui` (Chainlit) | **Mohit** | — |
-| `decision` (System 1 engines, calibration) | **Kunal** | `decide(text, questions)` |
-| `guardrails` (G1 input, G2 grounding, G3 PII leak) | **Kunal** | `check_input()`, `check_output()` |
-| `orchestrator` (S1→S2 escalation policy) | **Kunal** | `handle(question) -> Answer` |
-| `observability` (Phoenix setup, span conventions) | **Kunal** | — |
-| `evals` (datasets, harness, red-team, plots) | **Kunal** | `make eval` |
+| `ingest` (parse, OCR, chunk, embed, PII flag) | Track A | `ingest(file, course?) -> DocumentId` |
+| `academics` (library structure, page-aware chunks, scoped search) | Track A | `Library.add()`, `search(query, filters)` |
+| `vault` (encryption, facts table, fetch) | Track A | `Vault.put/get`, `facts.lookup()` |
+| `agent` (System 2, LangGraph, tools) | Track A | `answer(question) -> Answer` |
+| `ui` (Chainlit) | Track A | — |
+| `decision` (System 1 engines, calibration) | Track B | `decide(text, questions)` |
+| `guardrails` (G1 input, G2 grounding, G3 PII leak) | Track B | `check_input()`, `check_output()` |
+| `orchestrator` (S1→S2 escalation policy) | Track B | `handle(question) -> Answer` |
+| `observability` (Phoenix setup, span conventions) | Track B | — |
+| `evals` (datasets, harness, red-team, plots) | Track B | `make eval` |
 
 Shared contract: the `Answer` object = `{text, citations[], path: "S1"|"S2", confidence, guard_verdicts, trace_id}`.
 
 ## 12. Semester plan (about 14 weeks)
 
-| Week | Mohit | Kunal | Checkpoint |
+| Week | Track A (knowledge + System 2) | Track B (System 1 + trust) | Checkpoint |
 |---|---|---|---|
 | 1–2 | Repo skeleton, Ollama model choice, Docling ingestion | Generate the Alex Demo dataset + QA/router sets, Phoenix setup | Ingest a demo PDF; trace visible |
 | 3–4 | Library + page-aware chunks, hybrid search, **B1 plain RAG** | jeff running; SetFit router trained; eval harness v1 | **First baseline numbers (B1)** |
@@ -241,7 +240,7 @@ Shared contract: the `Answer` object = `{text, citations[], path: "S1"|"S2", con
 | 7–8 | **System 2 agent (B2)** with tools | Guardrails G1/G2/G3, red-team set | **Mid-term demo** |
 | 9–10 | Graph lookup, agent polishing | Full eval runs: B1, B2, Ours, ablations | Results tables v1 |
 | 11–12 | UI shows S1/S2 badges and confidence; install script | Plots, error analysis, threshold sweep | Report draft |
-| 13–14 | Bug fixes, README, demo video | Final evals, report results chapter | **Final demo + viva** |
+| 13–14 | Bug fixes, README, demo video | Final evals, report results chapter | **Final demo + report** |
 
 ## 13. Risks
 

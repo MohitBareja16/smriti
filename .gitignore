@@ -24,10 +24,16 @@ node_modules/
 .DS_Store
 
 # Tooling / generated
-.chainlit/*
-!.chainlit/config.toml
+**/.chainlit/*
+!src/smriti/ui/.chainlit/config.toml
 .files/
 .ruff_cache/
 *.egg-info/
 evals/results/
 /data-demo/
+/smriti-demo/
+
+# Private, local-only documents (synopsis, deck, archives)
+docs/SYNOPSIS.md
+docs/synopsis/
+docs/*.zip

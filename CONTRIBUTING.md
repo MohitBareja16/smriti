@@ -4,7 +4,8 @@ Thanks for helping! The project is split into small modules with clear interface
 
 ## Setup
 ```bash
-uv venv && uv pip install -e ".[dev]"
+python3 -m venv .venv && source .venv/bin/activate
+pip install -e ".[dev,ui]"
 make test lint
 ```
 Tests run offline (`SMRITI_LLM=extractive`), so you don't need a GPU or a model.
@@ -15,20 +16,20 @@ Tests run offline (`SMRITI_LLM=extractive`), so you don't need a GPU or a model.
 3. Keep modules independent: talk to other modules only through their public interface (listed below).
 4. If you change behaviour, run `smriti eval` and paste the before/after table in your PR.
 
-## Modules and owners
+## Modules
 
-| Module | Interface | Owner |
-|---|---|---|
-| `ingest/` | `ingest_file(path, db, vault, course=, kind=)` | Mohit |
-| `vault/` | `Vault.put / get` | Mohit |
-| `storage/` | `Database.search / all_facts / audit` | Mohit |
-| `agent/` (System 2) | `System2Agent.run(question, tracer, intent=)` | Mohit |
-| `ui/` | Chainlit app | Mohit |
-| `decision/` (System 1) | `DecisionEngine.route / is_injection / is_supported` | Kunal |
-| `guardrails/` | `check_input / filter_chunks / check_grounding / check_pii` | Kunal |
-| `orchestrator.py` | `Orchestrator.handle(question, mode=, guardrails=)` | Kunal |
-| `observability.py` | `Tracer.span(name)` | Kunal |
-| `evaluation.py` + `evals/` | `run_eval(data_dir, settings)` | Kunal |
+| Module | Interface |
+|---|---|
+| `ingest/` | `ingest_file(path, db, vault, course=, kind=)` |
+| `vault/` | `Vault.put / get` |
+| `storage/` | `Database.search / all_facts / audit` |
+| `agent/` (System 2) | `System2Agent.run(question, tracer, intent=)` |
+| `ui/` | Chainlit app |
+| `decision/` (System 1) | `DecisionEngine.route / is_injection / is_supported` |
+| `guardrails/` | `check_input / filter_chunks / check_grounding / check_pii` |
+| `orchestrator.py` | `Orchestrator.handle(question, mode=, guardrails=)` |
+| `observability.py` | `Tracer.span(name)` |
+| `evaluation.py` + `evals/` | `run_eval(data_dir, settings)` |
 
 ## Good first issues
 - **SetFit System-1 engine:** implement `DecisionEngine` in `decision/setfit_engine.py`, train it on a router dataset, and register it in `decision/ENGINES`.

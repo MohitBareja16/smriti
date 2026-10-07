@@ -25,11 +25,17 @@ def get_app():
 
 @cl.on_chat_start
 async def start() -> None:
-    docs = get_app().db.list_documents()
+    app = get_app()
+    docs = app.db.list_documents()
+    offline = ("\n\n> Offline mode: no local LLM found, so answers quote your documents directly. "
+               "For full answers install [Ollama](https://ollama.com) and run `ollama pull qwen2.5:3b`."
+               if app.settings.llm_backend == "extractive" else "")
+    hint = "" if docs else "\n\nYou haven't added any documents yet. In a terminal, run `smriti add <folder>`."
     await cl.Message(
-        content=f"Namaste! I am **Smriti**, and I know **{len(docs)} documents**. Ask about your notes, books, exams or certificates.\n\n"
+        content=f"Namaste! I am **Smriti**, and I know **{len(docs)} documents**. "
+                "Ask about your notes, books, exams or certificates.\n\n"
                 "Try: *When is my DBMS exam?* · *Explain deadlock from my OS notes* · "
-                "*Compare paging and segmentation*"
+                f"*Compare paging and segmentation*{hint}{offline}"
     ).send()
 
 

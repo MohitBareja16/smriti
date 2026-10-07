@@ -57,3 +57,16 @@ class OllamaReasoner:
             return IDK
         user = f"Sources:\n{format_sources(chunks)}\n\nQuestion: {question}"
         return self._chat(ANSWER_SYSTEM, user)
+
+
+def ollama_status(model: str, url: str = "http://localhost:11434", timeout: float = 3.0) -> tuple[bool, str]:
+    """Check whether Ollama is running and has `model`. Returns (ok, human-readable message)."""
+    try:
+        with urllib.request.urlopen(f"{url.rstrip('/')}/api/tags", timeout=timeout) as resp:
+            names = [m["name"] for m in json.loads(resp.read()).get("models", [])]
+    except (urllib.error.URLError, TimeoutError, OSError, ValueError):
+        return False, "Ollama is not running (install it from https://ollama.com, then run `ollama serve`)."
+    if any(n == model or n.split(":")[0] == model or n == f"{model}:latest" for n in names):
+        return True, f"Using local model '{model}'."
+    available = ", ".join(names) or "none"
+    return False, f"Model '{model}' is not downloaded (run `ollama pull {model}`). Downloaded models: {available}."

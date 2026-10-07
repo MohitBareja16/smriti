@@ -11,9 +11,14 @@ def _env(name: str, default: str) -> str:
     return os.environ.get(f"SMRITI_{name}", default)
 
 
+HOME = Path("~/.smriti").expanduser()  # where your data lives by default
+DEMO_DIR = HOME / "demo"                # the fictional demo student
+DEMO_PASSPHRASE = "demo"                # demo data is fictional, so a fixed passphrase is fine
+
+
 @dataclass
 class Settings:
-    data_dir: Path = field(default_factory=lambda: Path(_env("DATA_DIR", "./data")))
+    data_dir: Path = field(default_factory=lambda: Path(_env("DATA_DIR", str(HOME / "data"))).expanduser())
     # LLM used by System 2. "ollama" (local, default) or "extractive" (no model, offline fallback).
     llm_backend: str = field(default_factory=lambda: _env("LLM", "ollama"))
     llm_model: str = field(default_factory=lambda: _env("LLM_MODEL", "qwen2.5:3b"))
