@@ -119,6 +119,21 @@ Click **"Thinking"** above any answer to see each step Smriti took and why.
 - Hidden instructions inside documents ("ignore previous instructions…") are detected and ignored.
 - Every answer shows its sources, and Smriti says *"I don't know"* instead of guessing.
 
+## 🔬 Research
+
+Smriti is also a research project: **can a fast, calibrated "System 1" answer and guard most questions, and call the slow LLM agent only when needed, without losing accuracy or safety?**
+
+```bash
+pip install -e ".[research]"
+smriti experiment list                          # the experiments, with the research question each answers
+smriti experiment run tau_sweep_offline.json    # reproducible run: config, git commit, data fingerprint and results saved
+```
+
+- 📖 [Research guide](docs/research/README.md): research questions, hypotheses, metric definitions and the dev/test protocol
+- 📒 [Experiment log](docs/research/LOG.md): every result so far, including the negative ones
+- 🧩 [Open work packages](docs/research/TASKS.md): self-contained tasks for contributors
+- 🗂 [Dataset datasheet](evals/data/README.md) · 📎 [How to cite](CITATION.cff)
+
 ## 🛠 For developers
 
 <details>
@@ -159,7 +174,7 @@ flowchart TD
 
 ```bash
 pip install -e ".[dev,ui]"
-pytest                 # 46 tests, no AI model needed
+pytest                 # all tests run offline, no AI model needed
 smriti eval            # compares plain RAG, agent-only and Smriti, with and without guardrails
 ```
 

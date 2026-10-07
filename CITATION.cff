@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use Smriti in your research, please cite it as below."
+title: "Smriti: Fast and Slow Thinking for Private, Grounded Personal RAG"
+abstract: >-
+  Smriti is an open-source, local-first agentic RAG system for a student's notes, books and personal
+  documents. A calibrated System-1 layer of fast, typed decisions routes questions, answers simple
+  facts without an LLM and enforces guardrails, escalating to a System-2 LLM agent only when needed.
+  The repository includes a reproducible experiment runner and evaluation data.
+authors:
+  - name: "Smriti contributors"
+version: 0.1.0
+date-released: 2026-10-08
+license: Apache-2.0
+repository-code: "https://github.com/MohitBareja16/smriti"
+keywords:
+  - retrieval-augmented generation
+  - agentic RAG
+  - dual-process theory
+  - LLM guardrails
+  - calibration
+  - privacy

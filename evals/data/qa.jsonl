@@ -1,23 +1,23 @@
-{"id": "f1", "question": "When is my DBMS exam?", "intent": "fact_lookup", "expect_contains": ["10 December 2026"], "expect_source": "exam_timetable"}
-{"id": "f2", "question": "When is my OS exam?", "intent": "fact_lookup", "expect_contains": ["14 December 2026"], "expect_source": "exam_timetable"}
-{"id": "f3", "question": "What is my CGPA?", "intent": "fact_lookup", "expect_contains": ["8.2"], "expect_source": "marksheet_sem4"}
-{"id": "f4", "question": "What was my SGPA in semester 4?", "intent": "fact_lookup", "expect_contains": ["8.6"], "expect_source": "marksheet_sem4"}
-{"id": "f5", "question": "When does my AWS certificate expire?", "intent": "fact_lookup", "expect_contains": ["2029"], "expect_source": "certificates"}
-{"id": "f6", "question": "What is my roll number?", "intent": "fact_lookup", "expect_contains": ["23CSE0420"], "expect_source": "marksheet_sem4"}
-{"id": "f7", "question": "What score did I get in the NPTEL ML course?", "intent": "fact_lookup", "expect_contains": ["78"], "expect_source": "certificates"}
-{"id": "f8", "question": "Which hall is my Computer Networks exam in?", "intent": "fact_lookup", "expect_contains": ["Hall C"], "expect_source": "exam_timetable"}
-{"id": "d1", "question": "Give me my AWS certificate", "intent": "fetch_doc", "expect_contains": ["certificates"], "expect_source": "certificates"}
-{"id": "e1", "question": "Explain the four conditions for deadlock from my OS notes", "intent": "explain", "expect_contains": ["mutual exclusion", "circular wait"], "expect_source": "os_notes"}
-{"id": "e2", "question": "What is a TLB?", "intent": "explain", "expect_contains": ["cache"], "expect_source": "os_notes"}
-{"id": "e3", "question": "Explain ACID properties of transactions", "intent": "explain", "expect_contains": ["Atomicity"], "expect_source": "dbms_notes"}
-{"id": "e4", "question": "What is third normal form?", "intent": "explain", "expect_contains": ["transitive"], "expect_source": "dbms_notes"}
-{"id": "e5", "question": "Why are B+ tree indexes good for range queries?", "intent": "explain", "expect_contains": ["leaf"], "expect_source": "dbms_notes"}
-{"id": "e6", "question": "Explain Round Robin scheduling", "intent": "explain", "expect_contains": ["quantum"], "expect_source": "os_notes"}
-{"id": "e7", "question": "How does the Banker's algorithm help with deadlock?", "intent": "explain", "expect_contains": ["safe state"], "expect_source": "os_notes"}
-{"id": "c1", "question": "Compare paging and segmentation", "intent": "compare", "expect_contains": ["fragmentation"], "expect_source": "os_notes"}
-{"id": "c2", "question": "Compare how my notes and Galvin explain paging", "intent": "compare", "expect_contains": ["page table"], "expect_source": "galvin_memory_summary"}
-{"id": "c3", "question": "What is the difference between a process and a thread?", "intent": "compare", "expect_contains": ["stack"], "expect_source": "os_notes"}
-{"id": "p1", "question": "Which OS topics come up most in past papers?", "intent": "exam_prep", "expect_contains": ["deadlock", "paging"], "expect_source": "os_past_papers"}
-{"id": "u1", "question": "What was my GPA in semester 9?", "intent": "fact_lookup", "expect_idk": true}
-{"id": "u2", "question": "When is my Physics exam?", "intent": "fact_lookup", "expect_idk": true}
-{"id": "u3", "question": "Explain quantum entanglement", "intent": "explain", "expect_idk": true}
+{"id": "f1", "question": "When is my DBMS exam?", "intent": "fact_lookup", "expect_contains": ["10 December 2026"], "expect_source": "exam_timetable", "split": "dev"}
+{"id": "f2", "question": "When is my OS exam?", "intent": "fact_lookup", "expect_contains": ["14 December 2026"], "expect_source": "exam_timetable", "split": "dev"}
+{"id": "f3", "question": "What is my CGPA?", "intent": "fact_lookup", "expect_contains": ["8.2"], "expect_source": "marksheet_sem4", "split": "dev"}
+{"id": "f4", "question": "What was my SGPA in semester 4?", "intent": "fact_lookup", "expect_contains": ["8.6"], "expect_source": "marksheet_sem4", "split": "dev"}
+{"id": "f5", "question": "When does my AWS certificate expire?", "intent": "fact_lookup", "expect_contains": ["2029"], "expect_source": "certificates", "split": "dev"}
+{"id": "f6", "question": "What is my roll number?", "intent": "fact_lookup", "expect_contains": ["23CSE0420"], "expect_source": "marksheet_sem4", "split": "dev"}
+{"id": "f7", "question": "What score did I get in the NPTEL ML course?", "intent": "fact_lookup", "expect_contains": ["78"], "expect_source": "certificates", "split": "dev"}
+{"id": "f8", "question": "Which hall is my Computer Networks exam in?", "intent": "fact_lookup", "expect_contains": ["Hall C"], "expect_source": "exam_timetable", "split": "dev"}
+{"id": "d1", "question": "Give me my AWS certificate", "intent": "fetch_doc", "expect_contains": ["certificates"], "expect_source": "certificates", "split": "dev"}
+{"id": "e1", "question": "Explain the four conditions for deadlock from my OS notes", "intent": "explain", "expect_contains": ["mutual exclusion", "circular wait"], "expect_source": "os_notes", "split": "dev"}
+{"id": "e2", "question": "What is a TLB?", "intent": "explain", "expect_contains": ["cache"], "expect_source": "os_notes", "split": "dev"}
+{"id": "e3", "question": "Explain ACID properties of transactions", "intent": "explain", "expect_contains": ["Atomicity"], "expect_source": "dbms_notes", "split": "dev"}
+{"id": "e4", "question": "What is third normal form?", "intent": "explain", "expect_contains": ["transitive"], "expect_source": "dbms_notes", "split": "dev"}
+{"id": "e5", "question": "Why are B+ tree indexes good for range queries?", "intent": "explain", "expect_contains": ["leaf"], "expect_source": "dbms_notes", "split": "dev"}
+{"id": "e6", "question": "Explain Round Robin scheduling", "intent": "explain", "expect_contains": ["quantum"], "expect_source": "os_notes", "split": "dev"}
+{"id": "e7", "question": "How does the Banker's algorithm help with deadlock?", "intent": "explain", "expect_contains": ["safe state"], "expect_source": "os_notes", "split": "dev"}
+{"id": "c1", "question": "Compare paging and segmentation", "intent": "compare", "expect_contains": ["fragmentation"], "expect_source": "os_notes", "split": "dev"}
+{"id": "c2", "question": "Compare how my notes and Galvin explain paging", "intent": "compare", "expect_contains": ["page table"], "expect_source": "galvin_memory_summary", "split": "dev"}
+{"id": "c3", "question": "What is the difference between a process and a thread?", "intent": "compare", "expect_contains": ["stack"], "expect_source": "os_notes", "split": "dev"}
+{"id": "p1", "question": "Which OS topics come up most in past papers?", "intent": "exam_prep", "expect_contains": ["deadlock", "paging"], "expect_source": "os_past_papers", "split": "dev"}
+{"id": "u1", "question": "What was my GPA in semester 9?", "intent": "fact_lookup", "expect_idk": true, "split": "dev"}
+{"id": "u2", "question": "When is my Physics exam?", "intent": "fact_lookup", "expect_idk": true, "split": "dev"}
+{"id": "u3", "question": "Explain quantum entanglement", "intent": "explain", "expect_idk": true, "split": "dev"}

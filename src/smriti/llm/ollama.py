@@ -20,6 +20,7 @@ class OllamaReasoner:
     def __init__(self, model: str, url: str = "http://localhost:11434", timeout: float = 180.0):
         self.model, self.url, self.timeout = model, url.rstrip("/"), timeout
         self.calls = 0
+        self.tokens = 0  # prompt + completion tokens, for cost/latency research (RQ2)
 
     def _chat(self, system: str, user: str, *, json_mode: bool = False) -> str:
         payload = {
@@ -35,7 +36,9 @@ class OllamaReasoner:
         self.calls += 1
         try:
             with urllib.request.urlopen(req, timeout=self.timeout) as resp:
-                return json.loads(resp.read())["message"]["content"].strip()
+                data = json.loads(resp.read())
+            self.tokens += int(data.get("prompt_eval_count", 0)) + int(data.get("eval_count", 0))
+            return data["message"]["content"].strip()
         except (urllib.error.URLError, TimeoutError, KeyError) as exc:
             raise LLMUnavailableError(
                 f"Could not reach Ollama model '{self.model}' at {self.url}. Is `ollama serve` running and "

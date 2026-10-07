@@ -21,6 +21,7 @@ class ExtractiveReasoner:
     def __init__(self, max_sentences: int = 3, min_coverage: float = 0.34):
         self.max_sentences, self.min_coverage = max_sentences, min_coverage
         self.calls = 0
+        self.tokens = 0
 
     def plan_queries(self, question: str) -> list[str]:
         parts = [p.strip() for p in _SPLIT.split(question) if len(p.strip()) > 3]

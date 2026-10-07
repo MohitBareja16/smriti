@@ -1,0 +1,40 @@
+{"id": "r01", "question": "What's the date of my operating systems exam?", "intent": "fact_lookup", "split": "dev"}
+{"id": "r02", "question": "my cgpa?", "intent": "fact_lookup", "split": "dev"}
+{"id": "r03", "question": "Which room is the networks exam in?", "intent": "fact_lookup", "split": "dev"}
+{"id": "r04", "question": "How much did I score in NPTEL machine learning?", "intent": "fact_lookup", "split": "dev"}
+{"id": "r05", "question": "Tell me my roll no", "intent": "fact_lookup", "split": "dev"}
+{"id": "r06", "question": "When does the AWS cert expire", "intent": "fact_lookup", "split": "dev"}
+{"id": "r07", "question": "On which day is the DBMS lab practical?", "intent": "fact_lookup", "split": "dev"}
+{"id": "r08", "question": "What grade did I get in discrete maths?", "intent": "fact_lookup", "split": "dev"}
+{"id": "r09", "question": "Send me the grade card PDF", "intent": "fetch_doc", "split": "dev"}
+{"id": "r10", "question": "open my exam timetable", "intent": "fetch_doc", "split": "dev"}
+{"id": "r11", "question": "I need a copy of my certificates file", "intent": "fetch_doc", "split": "dev"}
+{"id": "r12", "question": "Download my semester 4 marksheet", "intent": "fetch_doc", "split": "dev"}
+{"id": "r13", "question": "Can you pull up my AWS credential document?", "intent": "fetch_doc", "split": "dev"}
+{"id": "r14", "question": "What is a page table?", "intent": "explain", "split": "dev"}
+{"id": "r15", "question": "Describe the Banker's algorithm", "intent": "explain", "split": "dev"}
+{"id": "r16", "question": "How does write-ahead logging give durability?", "intent": "explain", "split": "dev"}
+{"id": "r17", "question": "Why does round robin cause context switch overhead?", "intent": "explain", "split": "dev"}
+{"id": "r18", "question": "define BCNF", "intent": "explain", "split": "dev"}
+{"id": "r19", "question": "Summarise my notes on CPU scheduling", "intent": "explain", "split": "dev"}
+{"id": "r20", "question": "Tell me about TLBs", "intent": "explain", "split": "dev"}
+{"id": "r21", "question": "what are kernel level threads", "intent": "explain", "split": "dev"}
+{"id": "r22", "question": "Paging vs segmentation?", "intent": "compare", "split": "dev"}
+{"id": "r23", "question": "How is a thread different from a process?", "intent": "compare", "split": "dev"}
+{"id": "r24", "question": "Contrast FCFS with SJF", "intent": "compare", "split": "dev"}
+{"id": "r25", "question": "Which is better for range queries, B+ tree or hash index?", "intent": "compare", "split": "dev"}
+{"id": "r26", "question": "What's the difference between 2NF and 3NF?", "intent": "compare", "split": "dev"}
+{"id": "r27", "question": "Compare deadlock prevention and avoidance", "intent": "compare", "split": "dev"}
+{"id": "r28", "question": "Which topics are asked most often in OS papers?", "intent": "exam_prep", "split": "dev"}
+{"id": "r29", "question": "What should I revise first for the OS exam based on past papers?", "intent": "exam_prep", "split": "dev"}
+{"id": "r30", "question": "Show previous year questions on paging", "intent": "exam_prep", "split": "dev"}
+{"id": "r31", "question": "List important topics for operating systems", "intent": "exam_prep", "split": "dev"}
+{"id": "r32", "question": "Did deadlock come up in the 2024 paper?", "intent": "exam_prep", "split": "dev"}
+{"id": "r33", "question": "hi", "intent": "other", "split": "dev"}
+{"id": "r34", "question": "thanks, that helped", "intent": "other", "split": "dev"}
+{"id": "r35", "question": "What's the weather in Delhi?", "intent": "other", "split": "dev"}
+{"id": "r36", "question": "Write me a poem about exams", "intent": "other", "split": "dev"}
+{"id": "r37", "question": "Who won the cricket match yesterday?", "intent": "other", "split": "dev"}
+{"id": "r38", "question": "how do I use this app?", "intent": "other", "split": "dev"}
+{"id": "r39", "question": "Can you remind me to study tomorrow?", "intent": "other", "split": "dev"}
+{"id": "r40", "question": "What can you do?", "intent": "other", "split": "dev"}

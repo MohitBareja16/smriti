@@ -6,6 +6,7 @@
     smriti ask "question"         ask from the terminal
     smriti docs | facts | audit   inspect what Smriti knows and did
     smriti eval                   run the evaluation
+    smriti experiment list|run    reproducible research experiments (see docs/research/)
 """
 
 from __future__ import annotations
@@ -197,6 +198,40 @@ def cmd_eval(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_experiment(args: argparse.Namespace) -> int:
+    from smriti.research.experiments import load_config, run_experiment
+
+    configs = sorted((REPO_ROOT / "experiments" / "configs").glob("*.json"))
+    if args.action == "list":
+        for c in configs:
+            cfg = load_config(c)
+            print(f"{c.name:<34} {cfg['type']:<20} {', '.join(cfg['research_questions']):<10} "
+                  f"{cfg['settings'].get('llm_backend', 'ollama')}")
+        return 0
+    if not args.config:
+        print("Give a config, e.g.:  smriti experiment run experiments/configs/tau_sweep_offline.json")
+        return 1
+    path = Path(args.config)
+    if not path.exists():
+        path = REPO_ROOT / "experiments" / "configs" / args.config
+    cfg = load_config(path)
+    if cfg["settings"].get("llm_backend", Settings().llm_backend) == "ollama":
+        s = Settings()
+        ok, msg = ollama_status(cfg["settings"].get("llm_model", s.llm_model), s.ollama_url)
+        if not ok:
+            print(f"✗ {msg}\n  This experiment needs the local model. Use an *_offline.json config instead.")
+            return 1
+    print(f"Running '{cfg['name']}' ({cfg['type']}, {', '.join(cfg['research_questions'])}) ...")
+    try:
+        run_dir = run_experiment(path)
+    except LLMUnavailableError as exc:
+        print(f"✗ {exc}")
+        return 1
+    print((run_dir / "summary.md").read_text())
+    print(f"Saved to {run_dir.relative_to(REPO_ROOT) if run_dir.is_relative_to(REPO_ROOT) else run_dir}/")
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="smriti", description="Smriti: a private AI memory for your notes, books and documents.",
@@ -232,6 +267,11 @@ def build_parser() -> argparse.ArgumentParser:
     p.set_defaults(func=cmd_audit)
 
     sub.add_parser("demo", help="load the fictional demo student").set_defaults(func=cmd_demo)
+
+    p = sub.add_parser("experiment", help="run a reproducible research experiment")
+    p.add_argument("action", choices=["list", "run"])
+    p.add_argument("config", nargs="?", help="path or file name in experiments/configs/")
+    p.set_defaults(func=cmd_experiment)
 
     p = sub.add_parser("eval", help="run the evaluation (baselines vs Smriti)")
     p.add_argument("--data", default=str(EVAL_DATA))

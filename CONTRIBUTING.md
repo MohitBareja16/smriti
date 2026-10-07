@@ -10,6 +10,16 @@ make test lint
 ```
 Tests run offline (`SMRITI_LLM=extractive`), so you don't need a GPU or a model.
 
+## Doing research
+Smriti is a research project. Start with [docs/research/README.md](docs/research/README.md) (questions, metrics, protocol), then pick a work package from [docs/research/TASKS.md](docs/research/TASKS.md).
+
+```bash
+pip install -e ".[dev,ui,research]"
+smriti experiment list
+smriti experiment run tau_sweep_offline.json
+```
+Write your hypothesis in the config **before** running, tune only on `dev`, and log every run that informed a decision in [docs/research/LOG.md](docs/research/LOG.md).
+
 ## Rules
 1. **Never commit real personal documents or data.** Use `evals/data/alex_demo` (fictional) or add new fictional files.
 2. Every change needs a test. `make test` and `make lint` must pass.

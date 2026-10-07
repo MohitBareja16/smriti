@@ -68,5 +68,6 @@ class Answer:
     guard_verdicts: list[GuardVerdict] = field(default_factory=list)
     trace: list[TraceStep] = field(default_factory=list)
     llm_calls: int = 0
+    llm_tokens: int = 0  # prompt + completion tokens reported by the LLM (0 for System 1)
     latency_ms: float = 0.0
     attachment: str | None = None  # path to a decrypted document for fetch_doc

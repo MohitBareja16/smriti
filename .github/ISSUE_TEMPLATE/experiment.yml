@@ -1,0 +1,30 @@
+name: Research question / experiment
+description: Propose an experiment or a new research question
+labels: ["research"]
+body:
+  - type: input
+    id: rq
+    attributes:
+      label: Research question
+      description: Which RQ (RQ1–RQ5) or a new question
+      placeholder: "RQ5: does a SetFit router beat rules on calibration?"
+    validations:
+      required: true
+  - type: textarea
+    id: hypothesis
+    attributes:
+      label: Hypothesis (write before running)
+    validations:
+      required: true
+  - type: textarea
+    id: setup
+    attributes:
+      label: Setup
+      description: Experiment type, config changes vs an existing config, split (dev/test), model
+    validations:
+      required: true
+  - type: textarea
+    id: metrics
+    attributes:
+      label: Metrics and success criterion
+      placeholder: "ECE < 0.08 and router accuracy ≥ rules on dev"

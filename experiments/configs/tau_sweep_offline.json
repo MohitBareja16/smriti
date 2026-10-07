@@ -1,0 +1,10 @@
+{
+  "name": "tau_sweep_offline",
+  "type": "tau_sweep",
+  "research_questions": ["RQ1", "RQ2"],
+  "hypothesis": "There is a range of tau where System 1 answers a meaningful share of questions with no loss of accuracy compared with always escalating to System 2.",
+  "dataset": "evals/data",
+  "split": "dev",
+  "settings": {"llm_backend": "extractive", "s1_engine": "rules"},
+  "params": {"taus": [0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1.0]}
+}

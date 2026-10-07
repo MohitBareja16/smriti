@@ -1,0 +1,22 @@
+name: Task / work package
+description: A self-contained piece of work (see docs/research/TASKS.md)
+labels: ["help wanted"]
+body:
+  - type: textarea
+    id: why
+    attributes:
+      label: Why (which research question it serves)
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What to build
+    validations:
+      required: true
+  - type: textarea
+    id: done
+    attributes:
+      label: Done when
+    validations:
+      required: true

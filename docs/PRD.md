@@ -8,6 +8,8 @@
 | Repo | https://github.com/MohitBareja16/smriti |
 | License | Open source (AGPL-3.0 vs Apache-2.0: to decide) |
 
+> **Research:** the research questions here are maintained, with hypotheses, metrics and protocol, in [docs/research/README.md](research/README.md). Results are in [docs/research/LOG.md](research/LOG.md).
+
 ---
 
 ## 1. Summary
