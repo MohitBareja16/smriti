@@ -1,0 +1,18 @@
+{
+  "combined": "72d062e468edffb0",
+  "files": {
+    "README.md": "0844614a903ea58b",
+    "alex_demo/library/dbms_notes.md": "a4d7054f9eaaf424",
+    "alex_demo/library/galvin_memory_summary.md": "fda845f21cc27eca",
+    "alex_demo/library/os_notes.md": "caeade7409580ab7",
+    "alex_demo/library/os_past_papers.md": "d18771c845ba9a9b",
+    "alex_demo/library/shared_threads_notes.md": "d31fd0af3d1ae510",
+    "alex_demo/manifest.json": "6ed6bd5244d5308f",
+    "alex_demo/personal/certificates.md": "2d576153b39df53a",
+    "alex_demo/personal/exam_timetable.md": "16edf138907616bf",
+    "alex_demo/personal/marksheet_sem4.md": "0ee4f2779aaa252b",
+    "qa.jsonl": "e9e1a04ab0f100f8",
+    "redteam.jsonl": "06916b3029298bc8",
+    "router.jsonl": "eb2e4eb1da887acb"
+  }
+}

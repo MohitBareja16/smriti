@@ -59,9 +59,17 @@ New questions are welcome. Open an issue with the **"Research question / experim
 6. **No real personal data**, ever. Datasets are fictional or openly licensed.
 7. **Determinism.** LLM temperature is 0. Expect small run-to-run differences in latency, not in answers. If answers differ between runs, log it.
 
-## 5. Current status
+## 5. Current status (2026-10-07, dev split only)
 
-See [LOG.md](LOG.md) for the full record. In short: the harness, experiment runner and three experiment types work. Results so far are **dev-only** on a small fictional dataset, with the rules engine as System 1. The highest-value next steps are a **blind test set** (WP1), a **learned System-1 engine** (WP2) and **LLM-based System-2 runs** (WP5).
+| Finding | Evidence |
+|---|---|
+| With qwen2.5:3b, τ = 0.6–0.9 keeps accuracy at 100% while cutting latency −20%, LLM calls −25%, tokens −22% | LOG: qwen τ sweep |
+| With the weaker phi3, System 1 also **raises** accuracy (65% → 74%) | LOG: phi3 τ sweep |
+| The rules router is 84% accurate, ECE 0.144; most errors are paraphrases that fail safely (low confidence → escalate) | LOG: router calibration |
+| Guardrails block 5/5 direct attacks with 0/3 false refusals | LOG: baselines |
+| The lexical grounding check causes **over-abstention** with paraphrasing models | LOG: phi3 τ sweep → WP9 |
+
+All on 23 QA and 63 router questions written by the developers, so these are early, optimistic estimates. Highest-value next steps: **blind test set** (WP1, #1), **learned router** (WP2, #2), **semantic grounding** (WP9, #9).
 
 ## 6. How to cite
 

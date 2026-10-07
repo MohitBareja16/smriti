@@ -1,0 +1,10 @@
+{
+  "name": "baselines_qwen2.5-3b",
+  "type": "baselines",
+  "research_questions": ["RQ3", "RQ4"],
+  "hypothesis": "With a real LLM, the agent (planning, course filters, wider retry, grounding check) beats plain RAG on compare and exam-prep questions and abstains correctly on unanswerable ones; guardrails still block all attacks with no false refusals.",
+  "dataset": "evals/data",
+  "split": "dev",
+  "settings": {"llm_backend": "ollama", "llm_model": "qwen2.5:3b", "s1_engine": "rules"},
+  "params": {"systems": ["plain_rag", "s2_only", "s1_s2_ours", "ours_no_guards"]}
+}

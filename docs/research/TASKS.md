@@ -4,17 +4,17 @@ Self-contained tasks for contributors. Each one says **why** it matters (which r
 
 Before you start, read [docs/research/README.md](README.md) (especially §4, the protocol) and [CONTRIBUTING.md](../../CONTRIBUTING.md).
 
-| WP | Title | RQ | Size | Good first? |
-|---|---|---|---|---|
-| WP1 | Blind test set | all | M | ✅ (no coding) |
-| WP2 | SetFit System-1 router | RQ5, RQ1 | M | |
-| WP3 | jeff System-1 engine | RQ5 | M | |
-| WP4 | Hybrid retrieval (BM25 + vectors) | RQ3 | M | |
-| WP5 | LLM-judge correctness and faithfulness | RQ3 | M | |
-| WP6 | Red-team expansion and guard benchmark | RQ4 | S–M | ✅ |
-| WP7 | OCR for scanned documents | – | M | |
-| WP8 | Phoenix tracing and per-step cost accounting | RQ2 | S | ✅ |
-
+| WP | Title | RQ | Size | Good first? | Issue |
+|---|---|---|---|---|---|
+| WP1 | Blind test set | all | M | ✅ (no coding) | [#1](https://github.com/MohitBareja16/smriti/issues/1) |
+| WP2 | SetFit System-1 router | RQ5, RQ1 | M | | [#2](https://github.com/MohitBareja16/smriti/issues/2) |
+| WP3 | jeff System-1 engine | RQ5 | M | | [#3](https://github.com/MohitBareja16/smriti/issues/3) |
+| WP4 | Hybrid retrieval (BM25 + vectors) | RQ3 | M | | [#4](https://github.com/MohitBareja16/smriti/issues/4) |
+| WP5 | LLM-judge correctness and faithfulness | RQ3 | M | | [#5](https://github.com/MohitBareja16/smriti/issues/5) |
+| WP6 | Red-team expansion and guard benchmark | RQ4 | S–M | ✅ | [#6](https://github.com/MohitBareja16/smriti/issues/6) |
+| WP7 | OCR for scanned documents | – | M | | [#7](https://github.com/MohitBareja16/smriti/issues/7) |
+| WP8 | Phoenix tracing and per-step cost accounting | RQ2 | S | ✅ | [#8](https://github.com/MohitBareja16/smriti/issues/8) |
+| WP9 | Semantic grounding check (reduce over-abstention) | RQ4, RQ3 | M | | [#9](https://github.com/MohitBareja16/smriti/issues/9) |
 ---
 
 ## WP1: Blind test set
@@ -60,3 +60,10 @@ Before you start, read [docs/research/README.md](README.md) (especially §4, the
 **Why:** RQ2 needs per-step latency and token costs, and Phoenix gives a visual trace for the report.
 **Do:** verify `SMRITI_TRACING=phoenix` end to end, add token counts to spans, and write `docs/research/tracing.md` with screenshots.
 **Done when:** a traced `tau_sweep` run is visible in Phoenix, and the doc explains how to reproduce it.
+
+## WP9: Semantic grounding check
+**Why:** RQ4/RQ3. The lexical grounding guard (word overlap ≥ 60% per sentence) rejects correct but paraphrased answers. With phi3, 6 of 8 errors were false "I don't know" answers caused by it (LOG 2026-10-07).
+**Do:** add a second `is_supported` implementation using a small local NLI or embedding model (e.g. a cross-encoder NLI model), selectable by a setting (`grounding: lexical | nli`). Build a labelled set of ~60 (sentence, evidence, supported?) pairs from real System-2 outputs, including deliberately hallucinated ones.
+**Measure:** false-abstention rate (correct answers rejected) and hallucination catch rate (unsupported answers rejected), for lexical vs NLI, plus a `tau_sweep` with phi3 and qwen.
+**Done when:** both checks are implemented and tested, the labelled pairs are in `evals/data/`, and a LOG entry compares them.
+

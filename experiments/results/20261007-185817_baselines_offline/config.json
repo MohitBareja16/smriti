@@ -1,0 +1,23 @@
+{
+  "name": "baselines_offline",
+  "type": "baselines",
+  "research_questions": [
+    "RQ3",
+    "RQ4"
+  ],
+  "hypothesis": "With identical retrieval, adding System-1 guardrails removes attack success without false refusals, and the System-1 fast path does not reduce accuracy.",
+  "dataset": "evals/data",
+  "split": "dev",
+  "settings": {
+    "llm_backend": "extractive",
+    "s1_engine": "rules"
+  },
+  "params": {
+    "systems": [
+      "plain_rag",
+      "s2_only",
+      "s1_s2_ours",
+      "ours_no_guards"
+    ]
+  }
+}
