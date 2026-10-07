@@ -1,25 +1,25 @@
 {
-  "name": "tau_sweep_offline",
+  "name": "tau_sweep_qwen_trim",
   "type": "tau_sweep",
   "research_questions": [
     "RQ1",
-    "RQ2"
+    "RQ2",
+    "RQ4"
   ],
-  "hypothesis": "There is a range of tau where System 1 answers a meaningful share of questions with no loss of accuracy compared with always escalating to System 2.",
+  "hypothesis": "With qwen2.5:3b, which already had 100% accuracy, trim causes no accuracy loss.",
   "dataset": "evals/data",
   "split": "dev",
   "settings": {
-    "llm_backend": "extractive",
+    "llm_backend": "ollama",
+    "llm_model": "qwen2.5:3b",
     "s1_engine": "rules",
     "grounding": "lexical",
-    "grounding_policy": "abstain"
+    "grounding_policy": "trim"
   },
   "params": {
     "taus": [
       0.5,
-      0.55,
       0.6,
-      0.65,
       0.7,
       0.75,
       0.8,

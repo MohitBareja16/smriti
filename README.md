@@ -192,6 +192,8 @@ Set these as environment variables (see [`.env.example`](.env.example)):
 | `SMRITI_LLM` | `ollama` | `ollama`, or `extractive` for offline mode |
 | `SMRITI_LLM_MODEL` | `qwen2.5:3b` | Which Ollama model to use |
 | `SMRITI_TAU_FAST` | `0.75` | How confident the fast path must be before answering alone |
+| `SMRITI_GROUNDING` | `lexical` | How answers are checked against your files: `lexical`, or `embedding` (more thorough; needs `pip install -e ".[ml]"`) |
+| `SMRITI_GROUNDING_POLICY` | `trim` | `trim` drops unsupported sentences; `abstain` rejects the whole answer |
 | `SMRITI_TRACING` | `off` | `phoenix` exports traces to Arize Phoenix |
 </details>
 

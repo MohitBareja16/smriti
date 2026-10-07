@@ -27,7 +27,14 @@ class Settings:
     s1_engine: str = field(default_factory=lambda: _env("S1_ENGINE", "rules"))
     # Confidence threshold tau: System 1 answers alone only when p >= tau.
     tau_fast: float = field(default_factory=lambda: float(_env("TAU_FAST", "0.75")))
-    # Minimum grounding score for a System 2 answer to be accepted.
+    # G2 grounding check (issue #9). rule: lexical (no extra installs) | embedding | nli | hybrid.
+    grounding: str = field(default_factory=lambda: _env("GROUNDING", "lexical"))
+    # Threshold for the rule; empty = the rule's default (lexical 0.6, embedding 0.6, nli 0.5).
+    grounding_threshold: float | None = field(
+        default_factory=lambda: float(_env("GROUNDING_THRESHOLD", "")) if _env("GROUNDING_THRESHOLD", "") else None)
+    # trim: drop unsupported sentences, abstain only if none are left | abstain: all-or-nothing.
+    grounding_policy: str = field(default_factory=lambda: _env("GROUNDING_POLICY", "trim"))
+    # For the 'abstain' policy: minimum share of supported sentences.
     tau_grounding: float = field(default_factory=lambda: float(_env("TAU_GROUNDING", "0.5")))
     top_k: int = field(default_factory=lambda: int(_env("TOP_K", "5")))
     max_agent_steps: int = field(default_factory=lambda: int(_env("MAX_AGENT_STEPS", "2")))

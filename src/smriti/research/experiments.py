@@ -156,10 +156,65 @@ def exp_router_calibration(cfg: dict, data_dir: Path, settings: Settings) -> dic
             "plot": ("reliability.png", _plot_reliability, bins)}
 
 
+def exp_grounding_benchmark(cfg: dict, data_dir: Path, settings: Settings) -> dict:
+    """RQ4/RQ3 (#9): which grounding check best separates supported from unsupported answer sentences?
+
+    Computes every signal once per labelled (claim, evidence document) pair, then scores each rule
+    over a threshold grid. False rejection = supported sentence rejected (causes over-abstention);
+    catch rate = unsupported sentence rejected (stops hallucinations).
+    """
+    from smriti.decision import grounding as g
+    from smriti.ingest.chunker import chunk_pages
+    from smriti.ingest.parsers import parse
+
+    items = load_split(data_dir / cfg["params"].get("file", "grounding.jsonl"), cfg["split"])
+    docs: dict[str, list[str]] = {}
+    rows = []
+    t0 = time.perf_counter()
+    for it in items:
+        if it["evidence_doc"] not in docs:
+            docs[it["evidence_doc"]] = [c for _, c in chunk_pages(parse(data_dir / "alex_demo" / it["evidence_doc"]))]
+        ev = docs[it["evidence_doc"]]
+        nli = g.nli_signals([it["claim"]], ev)[0]
+        rows.append({"id": it["id"], "supported": it["supported"], "kind": it["kind"], "origin": it["origin"],
+                     "lexical": round(g.lexical_coverage(it["claim"], ev), 4),
+                     "entail": round(nli["entail"], 4), "contradict": round(nli["contradict"], 4),
+                     "embedding": round(g.embedding_similarity([it["claim"]], ev)[0], 4), "claim": it["claim"]})
+    ms_per_item = (time.perf_counter() - t0) * 1000 / max(len(items), 1)
+
+    grid = cfg["params"].get("grid", {
+        "lexical": [0.4, 0.5, 0.6, 0.7], "nli": [0.1, 0.3, 0.5, 0.7],
+        "embedding": [0.5, 0.6, 0.7, 0.8], "hybrid": [0.5, 0.6, 0.7]})
+    pos = [r for r in rows if r["supported"]]
+    neg = [r for r in rows if not r["supported"]]
+    table = []
+    for rule, values in grid.items():
+        for v in values:
+            grounder = g.Grounder(rule=rule, thresholds={rule: v})
+            ok = {r["id"]: grounder.decide(r).label == "yes" for r in rows}
+            false_rej = sum(not ok[r["id"]] for r in pos) / max(len(pos), 1)
+            catch = sum(not ok[r["id"]] for r in neg) / max(len(neg), 1)
+            table.append({"rule": rule, "threshold": v, "false_rejection": round(false_rej, 4),
+                          "catch_rate": round(catch, 4), "balanced_accuracy": round((1 - false_rej + catch) / 2, 4)})
+    best = max(table, key=lambda r: (r["balanced_accuracy"], -r["false_rejection"]))
+    current = next(r for r in table if r["rule"] == "lexical" and r["threshold"] == 0.6)
+
+    md = [f"{len(pos)} supported and {len(neg)} unsupported sentences · signal time {ms_per_item:.0f} ms/sentence\n",
+          "| Rule | Threshold | False rejection ↓ | Catch rate ↑ | Balanced accuracy ↑ |", "|---|---|---|---|---|"]
+    for r in table:
+        mark = " **(current)**" if r is current else (" **(best)**" if r is best else "")
+        md.append(f"| {r['rule']}{mark} | {r['threshold']} | {r['false_rejection']:.0%} | {r['catch_rate']:.0%} | "
+                  f"{r['balanced_accuracy']:.0%} |")
+    return {"summary": {"n_supported": len(pos), "n_unsupported": len(neg), "ms_per_sentence": round(ms_per_item, 1),
+                        "current": current, "best": best, "table": table},
+            "markdown": "\n".join(md) + "\n", "details": rows, "csv": {"grounding_table.csv": table}}
+
+
 EXPERIMENTS: dict[str, Callable[[dict, Path, Settings], dict]] = {
     "baselines": exp_baselines,
     "tau_sweep": exp_tau_sweep,
     "router_calibration": exp_router_calibration,
+    "grounding_benchmark": exp_grounding_benchmark,
 }
 
 
