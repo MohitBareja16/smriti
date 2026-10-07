@@ -14,6 +14,15 @@ Newest first. Each entry links to its run folder in `experiments/results/`, whic
 
 ---
 
+## 2026-10-08: Conflicting numbers no longer fool the fact matcher (#10)
+**Run:** [`20261007-194501_tau_sweep_offline`](../../experiments/results/20261007-194501_tau_sweep_offline/) · **RQ:** RQ1 · **Split:** dev · **PR:** fixes #10
+
+**Hypothesis:** rejecting facts whose numbers conflict with the question ("semester 9" vs "Semester 4") removes System 1's only confident wrong answer, without losing any correct System-1 answers.
+
+**Result:** at τ = 0.50, System 1 now answers 8/23 with **100% precision** (before: 9/23 at 89%). The dropped answer is u1, *"What was my GPA in semester 9?"*, which System 1 had answered with the semester-4 CGPA. τ = 0.55–0.90 is unchanged (7/23, 100%).
+
+**Interpretation:** **supported.** The τ = 0.5 failure was a matching bug, not a calibration limit. u1 now escalates to System 2. In the earlier qwen2.5:3b run, System 2 already answered u1 correctly ("I don't know"), and System 2 doesn't depend on this change, so with qwen the τ = 0.50 point should now also reach 100% accuracy. Confirm in the next qwen sweep.
+
 ## 2026-10-07: τ sweep with phi3, and a guardrail side effect
 **Run:** [`20261007-192740_tau_sweep_phi3`](../../experiments/results/20261007-192740_tau_sweep_phi3/) · **RQ:** RQ1, RQ2, RQ4 · **Split:** dev (23 items) · **Hardware:** CPU-only laptop
 
