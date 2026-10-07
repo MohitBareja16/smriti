@@ -11,7 +11,7 @@ import re
 from dataclasses import dataclass, replace
 
 from smriti.decision.base import DecisionEngine
-from smriti.decision.grounding import Grounder
+from smriti.decision.grounding import Grounder, sentence_spans
 from smriti.guardrails.pii import find_pii, redact, requested_pii_kinds
 from smriti.types import Chunk, GuardVerdict
 
@@ -19,6 +19,7 @@ _SENTENCE = re.compile(r"(?<=[.!?])\s+")
 _LINE_OR_SENTENCE = re.compile(r"(?<=[.!?])\s+|\n+")
 _CITATION = re.compile(r"\[\d+(?:,\s*\d+)*\]")
 IDK = "I don't know based on your documents."
+POLICIES = ("trim", "abstain", "adaptive")
 
 
 def check_input(question: str, engine: DecisionEngine) -> GuardVerdict:
@@ -56,7 +57,7 @@ def split_answer(answer: str) -> list[str]:
     "A is x. [1] B is y. [2]" -> ["A is x [1].", "B is y [2]."]
     """
     normalised = _CITE_AFTER_STOP.sub(lambda m: f" {m.group(2).strip()}{m.group(1)} ", answer)
-    return [s.strip() for s in _SENTENCE.split(normalised.strip()) if s.strip()]
+    return sentence_spans(normalised.strip())
 
 
 @dataclass
@@ -71,11 +72,13 @@ def ground_answer(answer: str, chunks: list[Chunk], grounder: Grounder, *, polic
                   threshold: float = 0.5) -> GroundingResult:
     """G2: check every sentence of the answer against the retrieved chunks.
 
-    policy="trim"     keep supported sentences, drop the rest; fail only if nothing is supported
-    policy="abstain"  keep the whole answer if >= `threshold` of sentences are supported, else fail
+    policy="trim"      keep supported sentences, drop the rest; fail only if nothing is supported
+    policy="abstain"   keep the whole answer if >= `threshold` of sentences are supported, else fail
+    policy="adaptive"  keep the whole answer if >= `threshold` are supported (tolerates a reworded
+                       sentence the check misses), otherwise trim like "trim"
     """
-    if policy not in ("trim", "abstain"):
-        raise ValueError("policy must be 'trim' or 'abstain'")
+    if policy not in POLICIES:
+        raise ValueError(f"policy must be one of {POLICIES}")
     if answer.strip() == IDK or not answer.strip():
         return GroundingResult(answer, GuardVerdict("grounding", True, 1.0, "abstained"), 0, 0)
     sentences = split_answer(answer)
@@ -87,7 +90,7 @@ def ground_answer(answer: str, chunks: list[Chunk], grounder: Grounder, *, polic
     supported = {i for i, d in zip(checkable, decisions) if d.label == "yes"}
     score = len(supported) / len(checkable)
     detail = f"{len(supported)}/{len(checkable)} sentences supported ({grounder.name})"
-    if policy == "abstain":
+    if policy == "abstain" or (policy == "adaptive" and score >= threshold):
         return GroundingResult(answer, GuardVerdict("grounding", score >= threshold, score, detail),
                                len(checkable) if score >= threshold else 0, len(checkable))
     kept = [s for i, s in enumerate(sentences) if i in supported]

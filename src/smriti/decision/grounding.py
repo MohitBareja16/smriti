@@ -25,15 +25,31 @@ EMBED_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
 RULES = ("lexical", "nli", "embedding", "hybrid")
 DEFAULT_THRESHOLDS = {"lexical": 0.6, "nli": 0.5, "embedding": 0.6, "hybrid": 0.6, "hybrid_contradiction": 0.5}
 
-_SENTENCE = re.compile(r"(?<=[.!?])\s+|\n+")
+_BOUNDARY = re.compile(r"[.!?]\s+")
+_LIST_NUMBER = re.compile(r"(?:^|\s)\d{1,2}$")  # "2." in "… (3 papers) 2. Paging" is a list marker
 
 
 class MissingModelDependencyError(RuntimeError):
     pass
 
 
+def sentence_spans(text: str) -> list[str]:
+    """Split into sentences: one per line, then at . ! ? — but not after a list number like "2."."""
+    out: list[str] = []
+    for line in text.splitlines():
+        start = 0
+        for m in _BOUNDARY.finditer(line):
+            if _LIST_NUMBER.search(line[start:m.start()]):
+                continue
+            out.append(line[start:m.end()].strip())
+            start = m.end()
+        if line[start:].strip():
+            out.append(line[start:].strip())
+    return [s for s in out if s]
+
+
 def split_sentences(text: str) -> list[str]:
-    return [s.strip(" -*#\t") for s in _SENTENCE.split(text) if len(s.strip(" -*#\t")) > 3]
+    return [s.strip(" -*#\t") for s in sentence_spans(text) if len(s.strip(" -*#\t")) > 3]
 
 
 # ---- signals -------------------------------------------------------------------------------

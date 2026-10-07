@@ -81,3 +81,20 @@ def test_embedding_grounder_accepts_paraphrase_and_rejects_hallucination():
     para, fake = g.check(["The TLB caches page-table entries so address translation is faster.",
                           "Write-ahead logging was first used in the System R database."], ev)
     assert para.label == "yes" and fake.label == "no"
+
+
+def test_numbered_lists_are_not_split_at_list_markers():
+    assert split_answer("1. Deadlock (3 papers) 2. Paging (3 papers) 3. CPU scheduling (2 papers)") == [
+        "1. Deadlock (3 papers) 2. Paging (3 papers) 3. CPU scheduling (2 papers)"]
+    assert split_answer("- Atomicity is all or nothing.\n- Isolation hides partial results.") == [
+        "- Atomicity is all or nothing.", "- Isolation hides partial results."]
+
+
+def test_adaptive_keeps_mostly_grounded_answers_whole_and_trims_the_rest():
+    chunks = [_chunk("A TLB is a small fast cache of page-table entries. Deadlock needs four conditions.")]
+    mostly = "A TLB is a small fast cache of page-table entries. Deadlock needs four conditions. Aliens built it."
+    r = ground_answer(mostly, chunks, Grounder(), policy="adaptive", threshold=0.5)
+    assert r.verdict.passed and "Aliens" in r.text  # 2/3 supported: kept whole, like 'abstain'
+    barely = "A TLB is a small fast cache of page-table entries. Aliens built it. Martians use it daily."
+    r = ground_answer(barely, chunks, Grounder(), policy="adaptive", threshold=0.5)
+    assert r.verdict.passed and "Aliens" not in r.text and "TLB" in r.text  # 1/3: trimmed
