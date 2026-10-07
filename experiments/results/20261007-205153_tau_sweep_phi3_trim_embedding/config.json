@@ -1,0 +1,33 @@
+{
+  "name": "tau_sweep_phi3_trim_embedding",
+  "type": "tau_sweep",
+  "research_questions": [
+    "RQ1",
+    "RQ2",
+    "RQ4"
+  ],
+  "hypothesis": "Embedding grounding (0.7) plus trim keeps phi3's accuracy gain from trimming while catching more unsupported sentences (it was best on the grounding benchmark).",
+  "dataset": "evals/data",
+  "split": "dev",
+  "settings": {
+    "llm_backend": "ollama",
+    "llm_model": "phi3",
+    "s1_engine": "rules",
+    "grounding": "embedding",
+    "grounding_policy": "trim",
+    "grounding_threshold": 0.7
+  },
+  "params": {
+    "taus": [
+      0.5,
+      0.6,
+      0.7,
+      0.75,
+      0.8,
+      0.85,
+      0.9,
+      0.95,
+      1.0
+    ]
+  }
+}

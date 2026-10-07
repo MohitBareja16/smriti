@@ -1,0 +1,126 @@
+{
+  "n_supported": 33,
+  "n_unsupported": 32,
+  "ms_per_sentence": 626.2,
+  "current": {
+    "rule": "lexical",
+    "threshold": 0.6,
+    "false_rejection": 0.0303,
+    "catch_rate": 0.5,
+    "balanced_accuracy": 0.7348
+  },
+  "best": {
+    "rule": "embedding",
+    "threshold": 0.7,
+    "false_rejection": 0.0909,
+    "catch_rate": 0.75,
+    "balanced_accuracy": 0.8295
+  },
+  "table": [
+    {
+      "rule": "lexical",
+      "threshold": 0.4,
+      "false_rejection": 0.0303,
+      "catch_rate": 0.2188,
+      "balanced_accuracy": 0.5942
+    },
+    {
+      "rule": "lexical",
+      "threshold": 0.5,
+      "false_rejection": 0.0303,
+      "catch_rate": 0.2812,
+      "balanced_accuracy": 0.6255
+    },
+    {
+      "rule": "lexical",
+      "threshold": 0.6,
+      "false_rejection": 0.0303,
+      "catch_rate": 0.5,
+      "balanced_accuracy": 0.7348
+    },
+    {
+      "rule": "lexical",
+      "threshold": 0.7,
+      "false_rejection": 0.0606,
+      "catch_rate": 0.5938,
+      "balanced_accuracy": 0.7666
+    },
+    {
+      "rule": "nli",
+      "threshold": 0.1,
+      "false_rejection": 0.3939,
+      "catch_rate": 0.8125,
+      "balanced_accuracy": 0.7093
+    },
+    {
+      "rule": "nli",
+      "threshold": 0.3,
+      "false_rejection": 0.5152,
+      "catch_rate": 0.8438,
+      "balanced_accuracy": 0.6643
+    },
+    {
+      "rule": "nli",
+      "threshold": 0.5,
+      "false_rejection": 0.5152,
+      "catch_rate": 0.8438,
+      "balanced_accuracy": 0.6643
+    },
+    {
+      "rule": "nli",
+      "threshold": 0.7,
+      "false_rejection": 0.5758,
+      "catch_rate": 0.9062,
+      "balanced_accuracy": 0.6652
+    },
+    {
+      "rule": "embedding",
+      "threshold": 0.5,
+      "false_rejection": 0.0,
+      "catch_rate": 0.2188,
+      "balanced_accuracy": 0.6094
+    },
+    {
+      "rule": "embedding",
+      "threshold": 0.6,
+      "false_rejection": 0.0303,
+      "catch_rate": 0.5,
+      "balanced_accuracy": 0.7348
+    },
+    {
+      "rule": "embedding",
+      "threshold": 0.7,
+      "false_rejection": 0.0909,
+      "catch_rate": 0.75,
+      "balanced_accuracy": 0.8295
+    },
+    {
+      "rule": "embedding",
+      "threshold": 0.8,
+      "false_rejection": 0.303,
+      "catch_rate": 0.875,
+      "balanced_accuracy": 0.786
+    },
+    {
+      "rule": "hybrid",
+      "threshold": 0.5,
+      "false_rejection": 0.6364,
+      "catch_rate": 0.8438,
+      "balanced_accuracy": 0.6037
+    },
+    {
+      "rule": "hybrid",
+      "threshold": 0.6,
+      "false_rejection": 0.6364,
+      "catch_rate": 0.9062,
+      "balanced_accuracy": 0.6349
+    },
+    {
+      "rule": "hybrid",
+      "threshold": 0.7,
+      "false_rejection": 0.6667,
+      "catch_rate": 0.9688,
+      "balanced_accuracy": 0.651
+    }
+  ]
+}
