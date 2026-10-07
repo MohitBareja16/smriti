@@ -61,3 +61,26 @@ def test_fact_match_penalises_ambiguity():
 
 def test_fact_match_none_when_unrelated():
     assert match_fact("When is my Physics exam?", [_fact("CGPA", "8.2")]) is None
+
+
+def test_conflicting_numbers_reject_the_fact():
+    facts = [_fact("CGPA (after Semester 4)", "8.2"), _fact("SGPA (Semester 4)", "8.6")]
+    assert match_fact("What was my GPA in semester 9?", facts) is None
+
+
+def test_matching_numbers_still_match():
+    facts = [_fact("CGPA (after Semester 4)", "8.2"), _fact("SGPA (Semester 4)", "8.6")]
+    m = match_fact("What was my SGPA in semester 4?", facts)
+    assert m is not None and m.fact.value == "8.6"
+
+
+def test_questions_without_numbers_are_unchanged():
+    facts = [_fact("CGPA (after Semester 4)", "8.2")]
+    assert match_fact("What is my CGPA?", facts).fact.value == "8.2"
+
+
+def test_leading_zeros_are_normalised():
+    from smriti.decision.facts_match import numbers, qualifiers_conflict
+
+    assert numbers("semester 04 and 2026") == {"4", "2026"}
+    assert not qualifiers_conflict("semester 04", "Semester 4")
