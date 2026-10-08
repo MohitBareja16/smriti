@@ -8,6 +8,7 @@ requires-python = ">=3.10"
 authors = [{ name = "Smriti contributors" }]
 dependencies = [
     "cryptography>=42",
+    "langgraph>=0.2",
     "pypdf>=4",
 ]
 
