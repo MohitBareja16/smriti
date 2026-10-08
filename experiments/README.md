@@ -48,6 +48,7 @@ experiments/
 | `baselines` | RQ3, RQ4 | `systems`: subset of `plain_rag`, `s2_only`, `s1_s2_ours`, `ours_no_guards` |
 | `tau_sweep` | RQ1, RQ2 | `taus`: thresholds to evaluate (computed exactly from one pass) |
 | `router_calibration` | RQ1, RQ5 | `bins`; `router_file`: extra labelled questions (default `router.jsonl`) |
+| `grounding_benchmark` | RQ4, RQ3 | `file` (default `grounding.jsonl`); `grid`: thresholds per rule (lexical, nli, embedding, hybrid). Needs the `ml` extra |
 
 ## Adding a new experiment type
 

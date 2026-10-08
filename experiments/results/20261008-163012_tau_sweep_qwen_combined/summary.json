@@ -1,0 +1,89 @@
+{
+  "curve": [
+    {
+      "tau": 0.5,
+      "accuracy": 0.9565,
+      "s1_share": 0.3478,
+      "s1_precision": 1.0,
+      "mean_latency_ms": 14439.4,
+      "llm_calls_per_q": 0.826,
+      "llm_tokens_per_q": 322.4
+    },
+    {
+      "tau": 0.6,
+      "accuracy": 0.9565,
+      "s1_share": 0.3043,
+      "s1_precision": 1.0,
+      "mean_latency_ms": 14613.87,
+      "llm_calls_per_q": 0.87,
+      "llm_tokens_per_q": 332.7
+    },
+    {
+      "tau": 0.7,
+      "accuracy": 0.9565,
+      "s1_share": 0.3043,
+      "s1_precision": 1.0,
+      "mean_latency_ms": 14613.87,
+      "llm_calls_per_q": 0.87,
+      "llm_tokens_per_q": 332.7
+    },
+    {
+      "tau": 0.75,
+      "accuracy": 0.9565,
+      "s1_share": 0.3043,
+      "s1_precision": 1.0,
+      "mean_latency_ms": 14613.87,
+      "llm_calls_per_q": 0.87,
+      "llm_tokens_per_q": 332.7
+    },
+    {
+      "tau": 0.8,
+      "accuracy": 0.9565,
+      "s1_share": 0.3043,
+      "s1_precision": 1.0,
+      "mean_latency_ms": 14613.87,
+      "llm_calls_per_q": 0.87,
+      "llm_tokens_per_q": 332.7
+    },
+    {
+      "tau": 0.85,
+      "accuracy": 0.9565,
+      "s1_share": 0.3043,
+      "s1_precision": 1.0,
+      "mean_latency_ms": 14613.87,
+      "llm_calls_per_q": 0.87,
+      "llm_tokens_per_q": 332.7
+    },
+    {
+      "tau": 0.9,
+      "accuracy": 0.9565,
+      "s1_share": 0.3043,
+      "s1_precision": 1.0,
+      "mean_latency_ms": 14613.87,
+      "llm_calls_per_q": 0.87,
+      "llm_tokens_per_q": 332.7
+    },
+    {
+      "tau": 0.95,
+      "accuracy": 0.9565,
+      "s1_share": 0.0,
+      "s1_precision": null,
+      "mean_latency_ms": 18588.4,
+      "llm_calls_per_q": 1.174,
+      "llm_tokens_per_q": 433.7
+    },
+    {
+      "tau": 1.0,
+      "accuracy": 0.9565,
+      "s1_share": 0.0,
+      "s1_precision": null,
+      "mean_latency_ms": 18588.4,
+      "llm_calls_per_q": 1.174,
+      "llm_tokens_per_q": 433.7
+    }
+  ],
+  "always_system2": {
+    "accuracy": 0.9565,
+    "mean_latency_ms": 18587.86
+  }
+}

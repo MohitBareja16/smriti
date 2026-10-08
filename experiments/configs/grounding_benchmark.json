@@ -1,0 +1,10 @@
+{
+  "name": "grounding_benchmark",
+  "type": "grounding_benchmark",
+  "research_questions": ["RQ4", "RQ3"],
+  "hypothesis": "The lexical grounding check (word overlap >= 0.6) wrongly rejects many correct paraphrased sentences; a model-based check (NLI, embedding or hybrid) cuts false rejections substantially while catching at least as many unsupported sentences.",
+  "dataset": "evals/data",
+  "split": "dev",
+  "settings": {"llm_backend": "extractive"},
+  "params": {"file": "grounding.jsonl"}
+}

@@ -3,7 +3,8 @@
     question → G1 input guard → S1 router (+confidence)
         ├─ fact_lookup and confident → S1 direct answer from the facts table (no LLM)
         ├─ fetch_doc   and confident → S1 fetches the document from the vault
-        └─ otherwise → ESCALATE to the S2 agent → G2 grounding (retry once) → G3 PII leak → answer
+        └─ otherwise → ESCALATE to the S2 agent → G2 grounding: drop unsupported sentences
+           (retry wider once if nothing is supported) → G3 PII leak → answer
 """
 
 from __future__ import annotations
@@ -13,10 +14,12 @@ from pathlib import Path
 from typing import Literal
 
 from smriti.agent import System2Agent
+from smriti.agent.system2 import cited_refs
 from smriti.config import Settings
 from smriti.decision import DecisionEngine, match_fact
+from smriti.decision.grounding import Grounder
 from smriti.decision.text import norm_set, overlap_f1
-from smriti.guardrails import IDK, check_grounding, check_input, check_pii
+from smriti.guardrails import IDK, GroundingResult, check_input, check_pii, ground_answer
 from smriti.llm.base import Reasoner
 from smriti.observability import Tracer
 from smriti.storage import Database
@@ -31,6 +34,8 @@ class Orchestrator:
     def __init__(self, settings: Settings, db: Database, vault: Vault, engine: DecisionEngine,
                  reasoner: Reasoner):
         self.settings, self.db, self.vault, self.engine, self.reasoner = settings, db, vault, engine, reasoner
+        thr = settings.grounding_threshold
+        self.grounder = Grounder(rule=settings.grounding, thresholds={settings.grounding: thr} if thr else {})
 
     def handle(self, question: str, *, mode: Mode = "ours", guardrails: bool = True,
                tau: float | None = None) -> Answer:
@@ -49,6 +54,10 @@ class Orchestrator:
         answer.llm_tokens = getattr(self.reasoner, "tokens", 0) - tokens_before
         self.db.audit("ask", f"path={answer.path} intent={answer.intent} q={question[:80]!r}")
         return answer
+
+    def _ground(self, text: str, chunks) -> GroundingResult:
+        return ground_answer(text, chunks, self.grounder, policy=self.settings.grounding_policy,
+                             threshold=self.settings.tau_grounding)
 
     def system1_candidate(self, question: str) -> Answer | None:
         """What System 1 would answer on its own, with its confidence, ignoring the threshold.
@@ -95,15 +104,20 @@ class Orchestrator:
 
         if guardrails:
             with tracer.span("s1.guard.grounding") as s:
-                g = check_grounding(text, draft.chunks, self.engine, self.settings.tau_grounding)
-                s["detail"] = f"{g.detail} (score={g.score:.2f})"
-            if not g.passed:
+                g = self._ground(text, draft.chunks)
+                s["detail"] = f"{g.verdict.detail} (score={g.verdict.score:.2f})"
+            if not g.verdict.passed:
                 with tracer.span("s2.retry") as s:
-                    s["detail"] = "grounding failed: searching wider and answering again"
+                    s["detail"] = "nothing grounded: searching wider and answering again"
                 draft = agent.run(question, tracer, intent=route.label, widen=True)
-                g = check_grounding(draft.text, draft.chunks, self.engine, self.settings.tau_grounding)
-                text, citations = (draft.text, draft.citations) if g.passed else (IDK, [])
-            verdicts.append(g)
+                with tracer.span("s1.guard.grounding") as s:
+                    g = self._ground(draft.text, draft.chunks)
+                    s["detail"] = f"{g.verdict.detail} (score={g.verdict.score:.2f})"
+            if g.verdict.passed:
+                text, citations = g.text, cited_refs(g.text, draft.chunks)
+            else:
+                text, citations = IDK, []
+            verdicts.append(g.verdict)
             with tracer.span("s1.guard.pii") as s:
                 text, p = check_pii(text, question)
                 verdicts.append(p)

@@ -67,9 +67,9 @@ New questions are welcome. Open an issue with the **"Research question / experim
 | With the weaker phi3, System 1 also **raises** accuracy (65% → 74%) | LOG: phi3 τ sweep |
 | The rules router is 84% accurate, ECE 0.144; most errors are paraphrases that fail safely (low confidence → escalate) | LOG: router calibration |
 | Guardrails block 5/5 direct attacks with 0/3 false refusals | LOG: baselines |
-| The lexical grounding check causes **over-abstention** with paraphrasing models | LOG: phi3 τ sweep → WP9 |
+| Over-abstention fixed: trimming unsupported sentences + combined grounding takes phi3 from 74% to **96%** (with System 1) | LOG: #9 grounding |
 
-All on 23 QA and 63 router questions written by the developers, so these are early, optimistic estimates. Highest-value next steps: **blind test set** (WP1, #1), **learned router** (WP2, #2), **semantic grounding** (WP9, #9).
+All on 23 QA and 63 router questions written by the developers, so these are early, optimistic estimates. Highest-value next steps: **blind test set** (WP1, #1), **learned System-1 models + cross-machine model matrix**, **LLM-judge metric** (WP5, #5).
 
 ## 6. How to cite
 

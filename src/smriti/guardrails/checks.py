@@ -1,16 +1,17 @@
 """Guardrails, all powered by System-1 decisions:
 
 G1  input guard: prompt injection in the question, and in retrieved chunks
-G2  grounding:   is each sentence of the answer supported by the cited sources?
+G2  grounding:   is each sentence of the answer supported by the sources? (drop or abstain)
 G3  PII leak:    redact personal data the user did not ask for
 """
 
 from __future__ import annotations
 
 import re
-from dataclasses import replace
+from dataclasses import dataclass, replace
 
 from smriti.decision.base import DecisionEngine
+from smriti.decision.grounding import Grounder, sentence_spans
 from smriti.guardrails.pii import find_pii, redact, requested_pii_kinds
 from smriti.types import Chunk, GuardVerdict
 
@@ -18,6 +19,7 @@ _SENTENCE = re.compile(r"(?<=[.!?])\s+")
 _LINE_OR_SENTENCE = re.compile(r"(?<=[.!?])\s+|\n+")
 _CITATION = re.compile(r"\[\d+(?:,\s*\d+)*\]")
 IDK = "I don't know based on your documents."
+POLICIES = ("trim", "abstain", "adaptive")
 
 
 def check_input(question: str, engine: DecisionEngine) -> GuardVerdict:
@@ -46,18 +48,62 @@ def filter_chunks(chunks: list[Chunk], engine: DecisionEngine) -> tuple[list[Chu
                               detail=detail)
 
 
-def check_grounding(answer: str, chunks: list[Chunk], engine: DecisionEngine,
-                    threshold: float = 0.5) -> GuardVerdict:
+_CITE_AFTER_STOP = re.compile(r"([.!?])\s*((?:\[\d+(?:,\s*\d+)*\]\s*)+)")
+
+
+def split_answer(answer: str) -> list[str]:
+    """Split an answer into sentences, keeping each citation marker with its own sentence.
+
+    "A is x. [1] B is y. [2]" -> ["A is x [1].", "B is y [2]."]
+    """
+    normalised = _CITE_AFTER_STOP.sub(lambda m: f" {m.group(2).strip()}{m.group(1)} ", answer)
+    return sentence_spans(normalised.strip())
+
+
+@dataclass
+class GroundingResult:
+    text: str
+    verdict: GuardVerdict
+    kept: int
+    total: int
+
+
+def ground_answer(answer: str, chunks: list[Chunk], grounder: Grounder, *, policy: str = "trim",
+                  threshold: float = 0.5) -> GroundingResult:
+    """G2: check every sentence of the answer against the retrieved chunks.
+
+    policy="trim"      keep supported sentences, drop the rest; fail only if nothing is supported
+    policy="abstain"   keep the whole answer if >= `threshold` of sentences are supported, else fail
+    policy="adaptive"  keep the whole answer if >= `threshold` are supported (tolerates a reworded
+                       sentence the check misses), otherwise trim like "trim"
+    """
+    if policy not in POLICIES:
+        raise ValueError(f"policy must be one of {POLICIES}")
     if answer.strip() == IDK or not answer.strip():
-        return GuardVerdict("grounding", passed=True, score=1.0, detail="abstained")
-    evidence = "\n".join(c.text for c in chunks)
-    sentences = [s for s in (_CITATION.sub("", s).strip() for s in _SENTENCE.split(answer)) if len(s) > 3]
-    if not sentences:
-        return GuardVerdict("grounding", passed=False, score=0.0, detail="empty answer")
-    supported = [engine.is_supported(s, evidence).label == "yes" for s in sentences]
-    score = sum(supported) / len(sentences)
-    return GuardVerdict("grounding", passed=score >= threshold, score=score,
-                        detail=f"{sum(supported)}/{len(sentences)} sentences supported")
+        return GroundingResult(answer, GuardVerdict("grounding", True, 1.0, "abstained"), 0, 0)
+    sentences = split_answer(answer)
+    claims = [_CITATION.sub("", s).strip() for s in sentences]
+    checkable = [i for i, c in enumerate(claims) if len(c) > 3]
+    if not checkable:
+        return GroundingResult(answer, GuardVerdict("grounding", False, 0.0, "empty answer"), 0, 0)
+    decisions = grounder.check([claims[i] for i in checkable], [c.text for c in chunks])
+    supported = {i for i, d in zip(checkable, decisions) if d.label == "yes"}
+    score = len(supported) / len(checkable)
+    detail = f"{len(supported)}/{len(checkable)} sentences supported ({grounder.name})"
+    if policy == "abstain" or (policy == "adaptive" and score >= threshold):
+        return GroundingResult(answer, GuardVerdict("grounding", score >= threshold, score, detail),
+                               len(checkable) if score >= threshold else 0, len(checkable))
+    kept = [s for i, s in enumerate(sentences) if i in supported]
+    if len(kept) < len(checkable):
+        detail += f"; dropped {len(checkable) - len(kept)} unsupported"
+    return GroundingResult(" ".join(kept), GuardVerdict("grounding", bool(kept), score, detail),
+                           len(kept), len(checkable))
+
+
+def check_grounding(answer: str, chunks: list[Chunk], grounder: Grounder | None = None,
+                    threshold: float = 0.5) -> GuardVerdict:
+    """Answer-level verdict (the 'abstain' policy). Kept for experiments and backward compatibility."""
+    return ground_answer(answer, chunks, grounder or Grounder(), policy="abstain", threshold=threshold).verdict
 
 
 def check_pii(answer: str, question: str) -> tuple[str, GuardVerdict]:
