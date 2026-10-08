@@ -19,7 +19,7 @@ research = ["matplotlib>=3.7"]
 # Model-based System-1 checks (grounding, later the SetFit router). For a small CPU-only PyTorch, first run:
 #   pip install torch --index-url https://download.pytorch.org/whl/cpu
 ml = ["sentence-transformers>=3"]
-dev = ["pytest>=8", "ruff>=0.5"]
+dev = ["pytest>=8", "ruff>=0.5", "opentelemetry-sdk"]
 
 [project.scripts]
 smriti = "smriti.cli:main"

@@ -5,6 +5,7 @@ OpenTelemetry spans to Arize Phoenix (`SMRITI_TRACING=phoenix`, needs the `traci
 from __future__ import annotations
 
 import time
+import uuid
 from collections.abc import Iterator
 from contextlib import contextmanager
 from typing import Any
@@ -30,11 +31,34 @@ def setup_tracing(mode: str) -> bool:
     return True
 
 
+def set_otel_tracer(tracer) -> None:
+    """Use a specific OpenTelemetry tracer (tests, or custom exporters). None disables export."""
+    global _otel_tracer
+    _otel_tracer = tracer
+
+
 class Tracer:
-    """Collects the steps of one request."""
+    """Collects the steps of one request. Use `request()` once around the whole request so every
+    step becomes a child of one root span (one trace per question in Phoenix)."""
 
     def __init__(self) -> None:
         self.steps: list[TraceStep] = []
+        self.trace_id: str = uuid.uuid4().hex
+
+    @contextmanager
+    def request(self, name: str = "smriti.request", **attrs: Any) -> Iterator[dict[str, Any]]:
+        """Root span. Yields a dict; keys set on it become attributes of the root span."""
+        record: dict[str, Any] = {}
+        if _otel_tracer is None:
+            yield record
+            return
+        with _otel_tracer.start_as_current_span(name) as root:
+            self.trace_id = format(root.get_span_context().trace_id, "032x")
+            for k, v in attrs.items():
+                root.set_attribute(f"smriti.{k}", str(v))
+            yield record
+            for k, v in record.items():
+                root.set_attribute(f"smriti.{k}", str(v))
 
     @contextmanager
     def span(self, name: str, **attrs: Any) -> Iterator[dict[str, Any]]:

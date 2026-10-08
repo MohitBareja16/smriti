@@ -46,6 +46,18 @@ CREATE TABLE IF NOT EXISTS facts (
     attribute TEXT NOT NULL,
     value TEXT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS traces (
+    trace_id TEXT PRIMARY KEY,
+    ts REAL NOT NULL,
+    question TEXT NOT NULL,          -- PII-redacted
+    path TEXT NOT NULL,
+    intent TEXT NOT NULL,
+    confidence REAL NOT NULL,
+    latency_ms REAL NOT NULL,
+    llm_calls INTEGER NOT NULL,
+    llm_tokens INTEGER NOT NULL,
+    steps TEXT NOT NULL              -- JSON list of {name, detail, ms}, PII-redacted
+);
 CREATE TABLE IF NOT EXISTS audit (
     id INTEGER PRIMARY KEY,
     ts REAL NOT NULL,
@@ -165,6 +177,23 @@ class Database:
         ).fetchall()
         return [Fact(attribute=r["attribute"], value=r["value"], doc_id=r["doc_id"], doc_title=r["title"],
                      page=r["page"]) for r in rows]
+
+    # ---- traces ----------------------------------------------------------------------
+    def add_trace(self, row: dict) -> None:
+        self.conn.execute(
+            "INSERT OR REPLACE INTO traces (trace_id, ts, question, path, intent, confidence, latency_ms, "
+            "llm_calls, llm_tokens, steps) VALUES (:trace_id, :ts, :question, :path, :intent, :confidence, "
+            ":latency_ms, :llm_calls, :llm_tokens, :steps)", row)
+        self.conn.commit()
+
+    def get_trace(self, trace_id: str) -> sqlite3.Row | None:
+        """Exact id, or a unique prefix (like git short hashes)."""
+        rows = self.conn.execute("SELECT * FROM traces WHERE trace_id LIKE ? ORDER BY ts DESC LIMIT 2",
+                                 (f"{trace_id}%",)).fetchall()
+        return rows[0] if len(rows) == 1 else None
+
+    def recent_traces(self, limit: int = 20) -> list[sqlite3.Row]:
+        return self.conn.execute("SELECT * FROM traces ORDER BY ts DESC LIMIT ?", (limit,)).fetchall()
 
     # ---- audit -----------------------------------------------------------------------
     def audit(self, action: str, detail: str) -> None:

@@ -55,7 +55,7 @@ async def on_message(message: cl.Message) -> None:
         s.output = f"| Step | Decision / detail | ms |\n|---|---|---|\n{rows}"
 
     meta = (f"{BADGES[answer.path]} · intent `{answer.intent}` · confidence {answer.confidence:.2f} · "
-            f"LLM calls {answer.llm_calls} · {answer.latency_ms:.0f} ms")
+            f"LLM calls {answer.llm_calls} · {answer.latency_ms:.0f} ms · trace `{answer.trace_id[:12]}`")
     sources = f"\n\n**Sources:** {'; '.join(answer.citations)}" if answer.citations else ""
     elements = [cl.File(name=answer.attachment.split("/")[-1], path=answer.attachment)] \
         if answer.attachment and answer.path == "S1" and "exports" in answer.attachment else []

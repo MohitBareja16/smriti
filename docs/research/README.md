@@ -49,6 +49,9 @@ New questions are welcome. Open an issue with the **"Research question / experim
 | **False refusal rate** | Share of benign look-alike items that were blocked. |
 | **ECE** | Expected Calibration Error of the router, with 10 equal-width bins: Σ_b (\|b\|/N) · \|accuracy(b) − confidence(b)\|. |
 
+### Traces for error analysis
+Every answer has a `trace_id`, shown in the UI and CLI. Its full step list (System-1 decisions, confidences, searches, grounding verdicts and timings, with PII redacted) is stored locally. `smriti traces` lists recent ones and `smriti trace <id>` shows one. With `SMRITI_TRACING=phoenix`, the same id is the trace id in Arize Phoenix, with one trace per question and every step nested under `smriti.request`.
+
 ## 4. Protocol (rules that keep results honest)
 
 1. **Dev vs test.** Tune anything (rules, prompts, τ, models) **only on `dev`**. The `test` split is written blind, by someone who has not seen the rules, and is evaluated once per final claim. Today **only `dev` exists** (see TASKS: WP1), so all current results are dev results and must be labelled as such.

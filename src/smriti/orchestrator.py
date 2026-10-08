@@ -9,6 +9,7 @@
 
 from __future__ import annotations
 
+import json
 import time
 from pathlib import Path
 from typing import Literal
@@ -20,6 +21,7 @@ from smriti.decision import DecisionEngine, match_fact
 from smriti.decision.grounding import Grounder
 from smriti.decision.text import norm_set, overlap_f1
 from smriti.guardrails import IDK, GroundingResult, check_input, check_pii, ground_answer
+from smriti.guardrails.pii import redact
 from smriti.llm.base import Reasoner
 from smriti.observability import Tracer
 from smriti.storage import Database
@@ -47,13 +49,25 @@ class Orchestrator:
         tau = self.settings.tau_fast if tau is None else tau
         start, calls_before = time.perf_counter(), self.reasoner.calls
         tokens_before = getattr(self.reasoner, "tokens", 0)
-        answer = self._handle(question, mode, guardrails, tracer, tau)
+        with tracer.request(mode=mode, guardrails=guardrails, tau=tau) as root:
+            answer = self._handle(question, mode, guardrails, tracer, tau)
+            root.update(path=answer.path, intent=answer.intent, confidence=round(answer.confidence, 4))
         answer.trace = tracer.steps
+        answer.trace_id = tracer.trace_id
         answer.latency_ms = (time.perf_counter() - start) * 1000
         answer.llm_calls = self.reasoner.calls - calls_before
         answer.llm_tokens = getattr(self.reasoner, "tokens", 0) - tokens_before
-        self.db.audit("ask", f"path={answer.path} intent={answer.intent} q={question[:80]!r}")
+        self._store_trace(question, answer)
+        self.db.audit("ask", f"trace={answer.trace_id[:12]} path={answer.path} intent={answer.intent} "
+                             f"q={redact(question)[:80]!r}")
         return answer
+
+    def _store_trace(self, question: str, answer: Answer) -> None:
+        steps = [{"name": s.name, "detail": redact(s.detail), "ms": round(s.ms, 2)} for s in answer.trace]
+        self.db.add_trace({
+            "trace_id": answer.trace_id, "ts": time.time(), "question": redact(question), "path": answer.path,
+            "intent": answer.intent, "confidence": answer.confidence, "latency_ms": answer.latency_ms,
+            "llm_calls": answer.llm_calls, "llm_tokens": answer.llm_tokens, "steps": json.dumps(steps)})
 
     def _ground(self, text: str, chunks) -> GroundingResult:
         return ground_answer(text, chunks, self.grounder, policy=self.settings.grounding_policy,

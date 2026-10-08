@@ -5,6 +5,7 @@
     smriti add <files/folders>    add your documents
     smriti ask "question"         ask from the terminal
     smriti docs | facts | audit   inspect what Smriti knows and did
+    smriti traces | trace <id>    past answers and every step behind them
     smriti eval                   run the evaluation
     smriti experiment list|run    reproducible research experiments (see docs/research/)
 """
@@ -134,7 +135,7 @@ def print_answer(answer, show_trace: bool) -> None:
     if answer.citations:
         print("Sources: " + "; ".join(answer.citations))
     print(f"[{badge} · intent={answer.intent} · confidence={answer.confidence:.2f} · "
-          f"LLM calls={answer.llm_calls} · {answer.latency_ms:.0f} ms]")
+          f"LLM calls={answer.llm_calls} · {answer.latency_ms:.0f} ms · trace {answer.trace_id[:12]}]")
     if show_trace:
         print("\nTrace:")
         for step in answer.trace:
@@ -175,6 +176,34 @@ def cmd_audit(args: argparse.Namespace) -> int:
     for row in _app(args).db.audit_log(args.limit):
         ts = dt.datetime.fromtimestamp(row["ts"], tz=dt.timezone.utc).astimezone().strftime("%Y-%m-%d %H:%M:%S")
         print(f"{ts}  {row['action']:<8} {row['detail']}")
+    return 0
+
+
+def cmd_traces(args: argparse.Namespace) -> int:
+    import datetime as dt
+
+    rows = _app(args).db.recent_traces(args.limit)
+    if not rows:
+        print("No traces yet. Ask something first: smriti ask \"...\"")
+    for r in rows:
+        ts = dt.datetime.fromtimestamp(r["ts"], tz=dt.timezone.utc).astimezone().strftime("%m-%d %H:%M")
+        print(f"{r['trace_id'][:12]}  {ts}  {r['path']:<7} {r['intent']:<11} {r['latency_ms']:>8.0f} ms  "
+              f"{r['question'][:60]}")
+    return 0
+
+
+def cmd_trace(args: argparse.Namespace) -> int:
+    import json
+
+    r = _app(args).db.get_trace(args.trace_id)
+    if r is None:
+        print(f"No single trace matches '{args.trace_id}'. See: smriti traces")
+        return 1
+    print(f"Trace {r['trace_id']}\nQuestion: {r['question']}\nPath: {r['path']} · intent {r['intent']} · "
+          f"confidence {r['confidence']:.2f} · {r['latency_ms']:.0f} ms · LLM calls {r['llm_calls']} · "
+          f"tokens {r['llm_tokens']}\n")
+    for s in json.loads(r["steps"]):
+        print(f"  {s['name']:<20} {s['ms']:8.1f} ms  {s['detail']}")
     return 0
 
 
@@ -265,6 +294,13 @@ def build_parser() -> argparse.ArgumentParser:
     p = sub.add_parser("audit", parents=[demo_flag], help="show what Smriti did (audit log)")
     p.add_argument("--limit", type=int, default=30)
     p.set_defaults(func=cmd_audit)
+
+    p = sub.add_parser("traces", parents=[demo_flag], help="list recent answers with their trace ids")
+    p.add_argument("--limit", type=int, default=20)
+    p.set_defaults(func=cmd_traces)
+    p = sub.add_parser("trace", parents=[demo_flag], help="show every step of one answer")
+    p.add_argument("trace_id", help="trace id (or its first characters)")
+    p.set_defaults(func=cmd_trace)
 
     sub.add_parser("demo", help="load the fictional demo student").set_defaults(func=cmd_demo)
 
