@@ -14,6 +14,26 @@ Newest first. Each entry links to its run folder in `experiments/results/`, whic
 
 ---
 
+## 2026-10-09: Learned System-1 routers: a rules → embedding cascade wins (#20)
+**Run:** [`20261008-200328_router_benchmark`](../../experiments/results/20261008-200328_router_benchmark/) · **RQ:** RQ5, RQ1 · **Split:** dev (66 router-labelled questions), **5-fold cross-validation** for trained engines
+
+**Hypothesis (before running):** a learned embedding router beats the rules on accuracy and calibration; zero-shot NLI is weakest.
+
+**Result:**
+
+| Router | Accuracy | Macro-F1 | ECE ↓ | Accuracy when confident (p ≥ 0.75) | ms/decision |
+|---|---|---|---|---|---|
+| rules (hand-written) | 85% | 0.84 | 0.162 | **100%** | 0.0 |
+| embedding (MiniLM + logistic regression) | 71% | 0.65 | **0.131** | 82% | 13 |
+| **cascade** (rules if p ≥ 0.5, else embedding) | **89%** | **0.89** | 0.164 | 94% | 2.5 |
+| zero-shot NLI (deberta-v3-xsmall) | 24% | 0.18 | 0.343 | 62% | 193 |
+
+On `router.jsonl` alone (40 questions written after the rules, so a fairer test of the rules): rules 75%, embedding 68%, **cascade 82%**.
+
+**Interpretation:** **not supported as stated; a better design emerged.** With about 53 training questions per fold, the learned router alone loses to hand-written rules, which encode the domain directly. Its first version reached only 59% (L2 = 0.01 underfit; defaults retuned on dev CV, so 71% is slightly optimistic). The two fail *differently*: the rules miss paraphrases but **know when they're unsure** (they fall to `other` at p ≈ 0.47), and the embedding model handles paraphrases. The cascade (cheap rules first, the learned model only when unsure) is "fast and slow thinking" inside System 1 itself, and beats both. Tradeoff: when the cascade is confident it's right 94% of the time vs 100% for the rules, which matters for the fast path. The model matrix (#21) measures the end-to-end effect before any default changes. Zero-shot with a 22M-parameter NLI model is not viable. A bigger NLI model on GPU machines is a matrix question.
+
+**Next:** more and blind router data (WP1) is the main lever for learned routers; end-to-end cascade vs rules in the model matrix.
+
 ## 2026-10-09: LangGraph agent with System-1-selected tools (#19), and a latency confound
 **Runs (final, commit c77ad6b, each starting from a cold prompt cache):** [`20261008-190839_tau_sweep_qwen_notools`](../../experiments/results/20261008-190839_tau_sweep_qwen_notools/) · [`20261008-191711_tau_sweep_qwen_tools`](../../experiments/results/20261008-191711_tau_sweep_qwen_tools/) · [`20261008-193636_tau_sweep_phi3_notools`](../../experiments/results/20261008-193636_tau_sweep_phi3_notools/) · [`20261008-195630_tau_sweep_phi3_tools`](../../experiments/results/20261008-195630_tau_sweep_phi3_tools/) · earlier confounded runs kept in `20261008-17*`–`18*` · **RQ:** RQ2, RQ3 · **Split:** dev (26 items) · **Hardware:** CPU-only, 8 GB
 
