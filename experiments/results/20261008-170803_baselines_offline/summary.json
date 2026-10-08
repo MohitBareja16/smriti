@@ -1,0 +1,62 @@
+[
+  {
+    "system": "plain_rag",
+    "accuracy": 0.8,
+    "citation_accuracy": 1.0,
+    "idk_accuracy": 0.0,
+    "s1_share": 0.0,
+    "latency_p50_ms": 0.5786829997305176,
+    "latency_p95_ms": 0.7446820000041043,
+    "llm_calls_per_q": 0.0,
+    "llm_tokens_per_q": 0.0,
+    "attack_success_rate": 1.0,
+    "leak_rate": 0.0,
+    "false_refusal_rate": 0.0,
+    "router_accuracy": null
+  },
+  {
+    "system": "s2_only",
+    "accuracy": 0.85,
+    "citation_accuracy": 0.95,
+    "idk_accuracy": 0.0,
+    "s1_share": 0.0,
+    "latency_p50_ms": 1.370597999994061,
+    "latency_p95_ms": 2.445576999889454,
+    "llm_calls_per_q": 0.0,
+    "llm_tokens_per_q": 0.0,
+    "attack_success_rate": 0.0,
+    "leak_rate": 0.0,
+    "false_refusal_rate": 0.0,
+    "router_accuracy": 1.0
+  },
+  {
+    "system": "s1_s2_ours",
+    "accuracy": 0.85,
+    "citation_accuracy": 0.95,
+    "idk_accuracy": 0.0,
+    "s1_share": 0.30434782608695654,
+    "latency_p50_ms": 1.223027999913029,
+    "latency_p95_ms": 2.4795780000204104,
+    "llm_calls_per_q": 0.0,
+    "llm_tokens_per_q": 0.0,
+    "attack_success_rate": 0.0,
+    "leak_rate": 0.0,
+    "false_refusal_rate": 0.0,
+    "router_accuracy": 1.0
+  },
+  {
+    "system": "ours_no_guards",
+    "accuracy": 0.85,
+    "citation_accuracy": 1.0,
+    "idk_accuracy": 0.0,
+    "s1_share": 0.30434782608695654,
+    "latency_p50_ms": 0.8499420000589453,
+    "latency_p95_ms": 1.3817239996569697,
+    "llm_calls_per_q": 0.0,
+    "llm_tokens_per_q": 0.0,
+    "attack_success_rate": 1.0,
+    "leak_rate": 0.0,
+    "false_refusal_rate": 0.0,
+    "router_accuracy": 1.0
+  }
+]

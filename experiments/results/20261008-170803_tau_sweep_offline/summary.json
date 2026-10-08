@@ -1,0 +1,107 @@
+{
+  "curve": [
+    {
+      "tau": 0.5,
+      "accuracy": 0.7826,
+      "s1_share": 0.3478,
+      "s1_precision": 1.0,
+      "mean_latency_ms": 1.07,
+      "llm_calls_per_q": 0.0,
+      "llm_tokens_per_q": 0.0
+    },
+    {
+      "tau": 0.55,
+      "accuracy": 0.7391,
+      "s1_share": 0.3043,
+      "s1_precision": 1.0,
+      "mean_latency_ms": 1.1,
+      "llm_calls_per_q": 0.0,
+      "llm_tokens_per_q": 0.0
+    },
+    {
+      "tau": 0.6,
+      "accuracy": 0.7391,
+      "s1_share": 0.3043,
+      "s1_precision": 1.0,
+      "mean_latency_ms": 1.1,
+      "llm_calls_per_q": 0.0,
+      "llm_tokens_per_q": 0.0
+    },
+    {
+      "tau": 0.65,
+      "accuracy": 0.7391,
+      "s1_share": 0.3043,
+      "s1_precision": 1.0,
+      "mean_latency_ms": 1.1,
+      "llm_calls_per_q": 0.0,
+      "llm_tokens_per_q": 0.0
+    },
+    {
+      "tau": 0.7,
+      "accuracy": 0.7391,
+      "s1_share": 0.3043,
+      "s1_precision": 1.0,
+      "mean_latency_ms": 1.1,
+      "llm_calls_per_q": 0.0,
+      "llm_tokens_per_q": 0.0
+    },
+    {
+      "tau": 0.75,
+      "accuracy": 0.7391,
+      "s1_share": 0.3043,
+      "s1_precision": 1.0,
+      "mean_latency_ms": 1.1,
+      "llm_calls_per_q": 0.0,
+      "llm_tokens_per_q": 0.0
+    },
+    {
+      "tau": 0.8,
+      "accuracy": 0.7391,
+      "s1_share": 0.3043,
+      "s1_precision": 1.0,
+      "mean_latency_ms": 1.1,
+      "llm_calls_per_q": 0.0,
+      "llm_tokens_per_q": 0.0
+    },
+    {
+      "tau": 0.85,
+      "accuracy": 0.7391,
+      "s1_share": 0.3043,
+      "s1_precision": 1.0,
+      "mean_latency_ms": 1.1,
+      "llm_calls_per_q": 0.0,
+      "llm_tokens_per_q": 0.0
+    },
+    {
+      "tau": 0.9,
+      "accuracy": 0.7391,
+      "s1_share": 0.3043,
+      "s1_precision": 1.0,
+      "mean_latency_ms": 1.1,
+      "llm_calls_per_q": 0.0,
+      "llm_tokens_per_q": 0.0
+    },
+    {
+      "tau": 0.95,
+      "accuracy": 0.7391,
+      "s1_share": 0.0,
+      "s1_precision": null,
+      "mean_latency_ms": 1.37,
+      "llm_calls_per_q": 0.0,
+      "llm_tokens_per_q": 0.0
+    },
+    {
+      "tau": 1.0,
+      "accuracy": 0.7391,
+      "s1_share": 0.0,
+      "s1_precision": null,
+      "mean_latency_ms": 1.37,
+      "llm_calls_per_q": 0.0,
+      "llm_tokens_per_q": 0.0
+    }
+  ],
+  "always_system2": {
+    "accuracy": 0.7391,
+    "mean_latency_ms": 1.18
+  }
+}
