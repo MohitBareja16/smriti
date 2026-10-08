@@ -281,6 +281,13 @@ def run_experiment(config_path: Path, results_root: Path | None = None) -> Path:
     data_dir = (REPO_ROOT / cfg["dataset"]) if not Path(cfg["dataset"]).is_absolute() else Path(cfg["dataset"])
     settings = make_settings(cfg["settings"])
     env = capture(settings)  # before the run: the eval app replaces data_dir with a temp folder
+    if settings.llm_backend == "ollama" and cfg["type"] != "model_matrix":
+        # Same starting state for every run: model loaded, prompt cache empty. Without this, a run that
+        # follows another on the same model reuses Ollama's prompt cache and looks faster (LOG 2026-10-09).
+        from smriti.llm.ollama import unload, warm_up
+
+        unload(settings.llm_model, settings.ollama_url)
+        env["llm_cold_start_s"] = round(warm_up(settings.llm_model, settings.ollama_url), 2)
     started = time.perf_counter()
     out = EXPERIMENTS[cfg["type"]](cfg, data_dir, settings)
     env["duration_s"] = round(time.perf_counter() - started, 2)

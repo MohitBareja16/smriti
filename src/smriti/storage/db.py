@@ -186,6 +186,13 @@ class Database:
             "GROUP BY d.id, c.topic ORDER BY d.semester IS NULL, d.semester, d.course IS NULL, d.course, "
             "d.title, first_chunk").fetchall()
 
+    def document_chunks(self, doc_id: int) -> list[Chunk]:
+        rows = self.conn.execute(
+            "SELECT c.id, c.doc_id, c.page, c.text, c.topic, d.title, d.course, d.kind FROM chunks c "
+            "JOIN documents d ON d.id = c.doc_id WHERE c.doc_id = ? ORDER BY c.id", (doc_id,)).fetchall()
+        return [Chunk(id=r["id"], doc_id=r["doc_id"], doc_title=r["title"], page=r["page"], text=r["text"],
+                      course=r["course"], kind=r["kind"], topic=r["topic"]) for r in rows]
+
     def courses(self) -> list[str]:
         rows = self.conn.execute("SELECT DISTINCT course FROM documents WHERE course IS NOT NULL").fetchall()
         return [r["course"] for r in rows]

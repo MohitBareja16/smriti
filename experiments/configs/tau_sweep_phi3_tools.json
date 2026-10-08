@@ -1,0 +1,33 @@
+{
+  "name": "tau_sweep_phi3_tools",
+  "type": "tau_sweep",
+  "research_questions": [
+    "RQ1",
+    "RQ2",
+    "RQ3"
+  ],
+  "hypothesis": "System-1-selected tools (facts_lookup for escalated fact questions, library/vault scoping, get_document) raise System-2 accuracy over search-only, at similar LLM cost.",
+  "dataset": "evals/data",
+  "split": "dev",
+  "settings": {
+    "llm_backend": "ollama",
+    "llm_model": "phi3",
+    "s1_engine": "rules",
+    "grounding": "combined",
+    "grounding_policy": "trim",
+    "agent_tools": true
+  },
+  "params": {
+    "taus": [
+      0.5,
+      0.6,
+      0.7,
+      0.75,
+      0.8,
+      0.85,
+      0.9,
+      0.95,
+      1.0
+    ]
+  }
+}

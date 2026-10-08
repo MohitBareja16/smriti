@@ -1,0 +1,89 @@
+{
+  "curve": [
+    {
+      "tau": 0.5,
+      "accuracy": 0.9615,
+      "s1_share": 0.3077,
+      "s1_precision": 1.0,
+      "mean_latency_ms": 14971.3,
+      "llm_calls_per_q": 1.038,
+      "llm_tokens_per_q": 354.0
+    },
+    {
+      "tau": 0.6,
+      "accuracy": 0.9615,
+      "s1_share": 0.2692,
+      "s1_precision": 1.0,
+      "mean_latency_ms": 15418.78,
+      "llm_calls_per_q": 1.077,
+      "llm_tokens_per_q": 363.7
+    },
+    {
+      "tau": 0.7,
+      "accuracy": 0.9615,
+      "s1_share": 0.2692,
+      "s1_precision": 1.0,
+      "mean_latency_ms": 15418.78,
+      "llm_calls_per_q": 1.077,
+      "llm_tokens_per_q": 363.7
+    },
+    {
+      "tau": 0.75,
+      "accuracy": 0.9615,
+      "s1_share": 0.2692,
+      "s1_precision": 1.0,
+      "mean_latency_ms": 15418.78,
+      "llm_calls_per_q": 1.077,
+      "llm_tokens_per_q": 363.7
+    },
+    {
+      "tau": 0.8,
+      "accuracy": 0.9615,
+      "s1_share": 0.2692,
+      "s1_precision": 1.0,
+      "mean_latency_ms": 15418.78,
+      "llm_calls_per_q": 1.077,
+      "llm_tokens_per_q": 363.7
+    },
+    {
+      "tau": 0.85,
+      "accuracy": 0.9615,
+      "s1_share": 0.2692,
+      "s1_precision": 1.0,
+      "mean_latency_ms": 15418.78,
+      "llm_calls_per_q": 1.077,
+      "llm_tokens_per_q": 363.7
+    },
+    {
+      "tau": 0.9,
+      "accuracy": 0.9615,
+      "s1_share": 0.2692,
+      "s1_precision": 1.0,
+      "mean_latency_ms": 15418.78,
+      "llm_calls_per_q": 1.077,
+      "llm_tokens_per_q": 363.7
+    },
+    {
+      "tau": 0.95,
+      "accuracy": 0.9615,
+      "s1_share": 0.0,
+      "s1_precision": null,
+      "mean_latency_ms": 19317.54,
+      "llm_calls_per_q": 1.346,
+      "llm_tokens_per_q": 451.2
+    },
+    {
+      "tau": 1.0,
+      "accuracy": 0.9615,
+      "s1_share": 0.0,
+      "s1_precision": null,
+      "mean_latency_ms": 19317.54,
+      "llm_calls_per_q": 1.346,
+      "llm_tokens_per_q": 451.2
+    }
+  ],
+  "always_system2": {
+    "accuracy": 0.9615,
+    "mean_latency_ms": 19317.17
+  }
+}

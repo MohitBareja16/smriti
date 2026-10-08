@@ -14,6 +14,28 @@ Newest first. Each entry links to its run folder in `experiments/results/`, whic
 
 ---
 
+## 2026-10-09: LangGraph agent with System-1-selected tools (#19), and a latency confound
+**Runs (final, commit c77ad6b, each starting from a cold prompt cache):** [`20261008-190839_tau_sweep_qwen_notools`](../../experiments/results/20261008-190839_tau_sweep_qwen_notools/) · [`20261008-191711_tau_sweep_qwen_tools`](../../experiments/results/20261008-191711_tau_sweep_qwen_tools/) · [`20261008-193636_tau_sweep_phi3_notools`](../../experiments/results/20261008-193636_tau_sweep_phi3_notools/) · [`20261008-195630_tau_sweep_phi3_tools`](../../experiments/results/20261008-195630_tau_sweep_phi3_tools/) · earlier confounded runs kept in `20261008-17*`–`18*` · **RQ:** RQ2, RQ3 · **Split:** dev (26 items) · **Hardware:** CPU-only, 8 GB
+
+**Change:** System 2 is now a LangGraph state machine (plan → act → broaden → tools → guard → answer). **System 1 selects the tools** from the intent: escalated fact questions get `facts_lookup` + `vault_search`; study questions use `library_search` (personal documents stay out unless nothing is found); `fetch_doc` gets `get_document`; `connect` keeps `graph_lookup`. The LLM never picks tools, which keeps small local models reliable and saves calls. Step 1 (the port alone) was verified **per-item identical** offline. The compiled graph is reused per configuration (LangGraph overhead ≈ 4 ms per question).
+
+**Hypothesis:** tools raise System-2 accuracy over search-only at similar LLM cost.
+
+**Result (tools off → on):**
+
+| | System 2 alone | with System 1 (τ 0.75) |
+|---|---|---|
+| qwen2.5:3b accuracy | 92% → **96%** | 92% → **96%** |
+| qwen2.5:3b mean latency | 18.7 s → 19.3 s | 15.5 s → 15.4 s |
+| phi3 accuracy | 96% → **100%** | 100% → 100% |
+| phi3 mean latency | 43.7 s → 45.3 s | 38.1 s → 39.4 s |
+
+LLM calls and tokens are within ±3%. The fixed items are exactly escalated fact questions (qwen f7, phi3 f1), which `facts_lookup` now answers from structured facts.
+
+**Interpretation:** **supported:** +4 points of System-2 accuracy for ≤ 4% latency. With System 1 in front, most fact questions never reach System 2, so the gain there is smaller (phi3: 100% either way). Caveat: answers vary slightly between runs at temperature 0 (phi3 without tools got 92% in an earlier run and 96% here), so ±1 item on n = 26 is within noise.
+
+**Methodology finding (important):** the first comparison showed tools costing +75% latency, but with *identical tokens* (exam_prep: 527 vs 527 tokens, 19.5 s vs 6.0 s). Cause: **Ollama's prompt cache.** The no-tools run directly followed the tools run on the same model and reused cached prompt prefixes. Rerunning no-tools with a cold cache gave 18.7 s instead of 10.8 s. **Fix:** the runner now unloads and reloads the model before every LLM experiment (protocol rule 7). Latency comparisons made back-to-back on the same model before 2026-10-09, including the earlier trim/adaptive/combined runs, may carry this bias. Their accuracy numbers are unaffected.
+
 ## 2026-10-08: A knowledge graph answers connection questions plain RAG can't (#17)
 **Runs:** [`20261008-171553_baselines_offline`](../../experiments/results/20261008-171553_baselines_offline/) · [`20261008-171552_router_calibration_rules`](../../experiments/results/20261008-171552_router_calibration_rules/) · [`20261008-171554_tau_sweep_offline`](../../experiments/results/20261008-171554_tau_sweep_offline/) · **RQ:** RQ3, RQ1 · **Split:** dev · offline reasoner
 

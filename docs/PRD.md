@@ -195,7 +195,7 @@ About 100 attack cases: direct injections, injections hidden in documents, attem
 
 ## 10. Tech stack (all free and open source)
 
-> **Implementation status (code v0.1.0):** retrieval is SQLite FTS5 (BM25) for now. LanceDB vectors are next. The System-2 loop is a small hand-written plan → search → answer agent, with a LangGraph port planned. System 1 uses a rules engine as the baseline; SetFit and jeff engines are open issues. OCR (Docling) and Phoenix dashboards are not wired yet. See README "Status and roadmap".
+> **Implementation status (code v0.1.0):** retrieval is SQLite FTS5 (BM25) for now. LanceDB vectors are next. The System-2 agent is a LangGraph state machine whose tools are chosen by System 1 (#19). System 1 uses a rules engine as the baseline; SetFit and jeff engines are open issues. OCR (Docling) and Phoenix dashboards are not wired yet. See README "Status and roadmap".
 
 | Layer | Choice |
 |---|---|

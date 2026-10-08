@@ -60,7 +60,8 @@ Every answer has a `trace_id`, shown in the UI and CLI. Its full step list (Syst
 4. **Change one thing at a time.** Copy a config, change one setting, and give it a new `name`.
 5. **Negative results are results.** Log every run that informed a decision in [LOG.md](LOG.md), including failures.
 6. **No real personal data**, ever. Datasets are fictional or openly licensed.
-7. **Determinism.** LLM temperature is 0. Expect small run-to-run differences in latency, not in answers. If answers differ between runs, log it.
+7. **Equal starting conditions for latency.** The runner unloads and reloads the Ollama model before every LLM experiment, so each run starts with the model loaded and an empty prompt cache. Never compare latencies from runs made before this rule (2026-10-09) back-to-back on the same model.
+8. **Determinism.** LLM temperature is 0. Expect small run-to-run differences in latency, not in answers. If answers differ between runs, log it.
 
 ## 5. Current status (2026-10-07, dev split only)
 

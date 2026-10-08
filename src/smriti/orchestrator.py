@@ -38,6 +38,7 @@ class Orchestrator:
         self.settings, self.db, self.vault, self.engine, self.reasoner = settings, db, vault, engine, reasoner
         thr = settings.grounding_threshold
         self.grounder = Grounder(rule=settings.grounding, thresholds={settings.grounding: thr} if thr else {})
+        self._agents: dict[tuple, System2Agent] = {}
 
     def handle(self, question: str, *, mode: Mode = "ours", guardrails: bool = True,
                tau: float | None = None) -> Answer:
@@ -69,6 +70,15 @@ class Orchestrator:
             "intent": answer.intent, "confidence": answer.confidence, "latency_ms": answer.latency_ms,
             "llm_calls": answer.llm_calls, "llm_tokens": answer.llm_tokens, "steps": json.dumps(steps)})
 
+    def _agent(self, guardrails: bool) -> System2Agent:
+        """One compiled LangGraph agent per configuration, reused across requests."""
+        key = (guardrails, self.settings.agent_tools, self.settings.top_k, self.settings.max_agent_steps)
+        if key not in self._agents:
+            self._agents[key] = System2Agent(self.db, self.reasoner, self.engine, top_k=self.settings.top_k,
+                                             max_steps=self.settings.max_agent_steps, guard_chunks=guardrails,
+                                             use_tools=self.settings.agent_tools)
+        return self._agents[key]
+
     def _ground(self, text: str, chunks) -> GroundingResult:
         return ground_answer(text, chunks, self.grounder, policy=self.settings.grounding_policy,
                              threshold=self.settings.tau_grounding)
@@ -84,8 +94,7 @@ class Orchestrator:
         return self._fast_path(question, route.label, route.probability, tracer, tau=0.0)
 
     def _handle(self, question: str, mode: Mode, guardrails: bool, tracer: Tracer, tau: float) -> Answer:
-        agent = System2Agent(self.db, self.reasoner, self.engine, top_k=self.settings.top_k,
-                             max_steps=self.settings.max_agent_steps, guard_chunks=guardrails)
+        agent = self._agent(guardrails)
         if mode == "plain":
             draft = agent.plain_rag(question, tracer)
             return Answer(text=draft.text, citations=draft.citations, path="PLAIN")
