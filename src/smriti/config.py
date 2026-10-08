@@ -39,6 +39,8 @@ class Settings:
     tau_grounding: float = field(default_factory=lambda: float(_env("TAU_GROUNDING", "0.5")))
     top_k: int = field(default_factory=lambda: int(_env("TOP_K", "5")))
     max_agent_steps: int = field(default_factory=lambda: int(_env("MAX_AGENT_STEPS", "2")))
+    # System-2 tools chosen by System 1 per intent (#19). False = search only (+ graph for 'connect').
+    agent_tools: bool = field(default_factory=lambda: _env("AGENT_TOOLS", "1") not in ("0", "false", "no"))
     # Passphrase that unlocks the encrypted vault. Never commit it.
     passphrase: str | None = field(default_factory=lambda: os.environ.get("SMRITI_PASSPHRASE"))
     tracing: str = field(default_factory=lambda: _env("TRACING", "off"))  # "off" | "phoenix"

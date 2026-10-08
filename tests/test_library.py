@@ -30,7 +30,7 @@ def test_semester_and_topic_filters(demo_app):
 
 def test_agent_drops_semester_filter_when_it_finds_nothing(demo_app):
     a = demo_app.orchestrator.handle("Explain paging from my semester 3 notes", mode="agent")
-    searches = [s.detail for s in a.trace if s.name == "s2.tool.search"]
+    searches = [s.detail for s in a.trace if s.name.startswith("s2.tool.") and s.name.endswith("search")]
     assert "semester=3" in searches[0] and "all documents" in searches[-1]
     assert any(s.name == "s2.replan" for s in a.trace)
 

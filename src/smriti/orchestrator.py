@@ -85,7 +85,8 @@ class Orchestrator:
 
     def _handle(self, question: str, mode: Mode, guardrails: bool, tracer: Tracer, tau: float) -> Answer:
         agent = System2Agent(self.db, self.reasoner, self.engine, top_k=self.settings.top_k,
-                             max_steps=self.settings.max_agent_steps, guard_chunks=guardrails)
+                             max_steps=self.settings.max_agent_steps, guard_chunks=guardrails,
+                             use_tools=self.settings.agent_tools)
         if mode == "plain":
             draft = agent.plain_rag(question, tracer)
             return Answer(text=draft.text, citations=draft.citations, path="PLAIN")
