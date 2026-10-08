@@ -8,6 +8,7 @@ DOC_TYPES: dict[str, tuple[str, ...]] = {
     "timetable": ("timetable", "date sheet", "datesheet", "exam schedule", "end-term"),
     "past_paper": ("question paper", "past paper", "previous year", "attempt any", "max. marks"),
     "syllabus": ("syllabus", "course outcomes", "unit i", "unit 1:"),
+    "project": ("project", "built with", "deployed", "github", "repository"),
     "book": ("chapter", "isbn", "edition", "preface"),
     "notes": ("notes", "lecture", "unit"),
 }

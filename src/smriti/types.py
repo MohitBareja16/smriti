@@ -5,8 +5,8 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Literal
 
-Intent = Literal["fact_lookup", "fetch_doc", "explain", "compare", "exam_prep", "other"]
-INTENTS: tuple[str, ...] = ("fact_lookup", "fetch_doc", "explain", "compare", "exam_prep", "other")
+Intent = Literal["fact_lookup", "fetch_doc", "explain", "compare", "exam_prep", "connect", "other"]
+INTENTS: tuple[str, ...] = ("fact_lookup", "fetch_doc", "explain", "compare", "exam_prep", "connect", "other")
 
 
 @dataclass
@@ -20,10 +20,11 @@ class Chunk:
     kind: str = "library"  # "library" | "personal"
     score: float = 0.0
     topic: str | None = None
+    label: str | None = None  # custom citation, e.g. for knowledge-graph facts
 
     @property
     def ref(self) -> str:
-        return f"{self.doc_title} p.{self.page}"
+        return self.label or f"{self.doc_title} p.{self.page}"
 
 
 @dataclass

@@ -8,13 +8,13 @@ A small, **fully fictional** dataset for developing and evaluating Smriti:
 
 | File | Contents | Items | Split |
 |---|---|---|---|
-| `alex_demo/` | Documents of a fictional B.Tech student, "Alex Demo": 3 personal (exam timetable, grade card, certificates) and 5 study files (OS notes, DBMS notes, OS past papers, a Galvin chapter summary, a classmate's notes with a planted prompt injection). `manifest.json` lists each file's kind and course. | 8 docs | – |
-| `qa.jsonl` | Questions with gold answers (`expect_contains`), gold source (`expect_source`) and gold intent. `expect_idk: true` marks unanswerable questions. | 23 | dev |
+| `alex_demo/` | Documents of a fictional B.Tech student, "Alex Demo": 3 personal (exam timetable, grade card, certificates) and 6 study files (OS notes, DBMS notes, OS past papers, a Galvin chapter summary, a classmate's notes with a planted prompt injection, and two project write-ups). `manifest.json` lists each file's kind, course and semester. | 9 docs | – |
+| `qa.jsonl` | Questions with gold answers (`expect_contains`), gold source (`expect_source`) and gold intent. `expect_idk: true` marks unanswerable questions. Items `k1`–`k3` (added 2026-10-08) test knowledge-graph connection questions. | 26 | dev |
 | `redteam.jsonl` | `attack` (should be blocked), `indirect` / `leak` (answer must not contain `must_not_contain`), `benign` look-alikes (must **not** be blocked). | 11 | dev |
 | `router.jsonl` | Questions labelled only with their intent, for router accuracy and calibration. | 40 | dev |
 | `grounding.jsonl` | (answer sentence, evidence document, supported?) pairs for the grounding benchmark (#9). 33 supported (verbatim/paraphrase), 32 unsupported (contradiction, swapped fact, unsupported addition, off-topic). 23 come from real qwen2.5:3b / phi3 answers (`origin`), the rest were written. | 65 | dev |
 
-Intents: `fact_lookup`, `fetch_doc`, `explain`, `compare`, `exam_prep`, `other`.
+Intents: `fact_lookup`, `fetch_doc`, `explain`, `compare`, `exam_prep`, `connect`, `other`.
 
 ## How was it made?
 

@@ -21,3 +21,6 @@
 {"id": "u1", "question": "What was my GPA in semester 9?", "intent": "fact_lookup", "expect_idk": true, "split": "dev"}
 {"id": "u2", "question": "When is my Physics exam?", "intent": "fact_lookup", "expect_idk": true, "split": "dev"}
 {"id": "u3", "question": "Explain quantum entanglement", "intent": "explain", "expect_idk": true, "split": "dev"}
+{"id": "k1", "question": "Which skills from my DBMS course have I used in projects?", "intent": "connect", "expect_contains": ["normalization", "indexing"], "expect_source": "projects", "split": "dev"}
+{"id": "k2", "question": "Which of my certificates relate to my projects?", "intent": "connect", "expect_contains": ["AWS"], "expect_source": "certificates", "split": "dev"}
+{"id": "k3", "question": "Which OS topics did I use in my projects?", "intent": "connect", "expect_contains": ["concurrency"], "expect_source": "projects", "split": "dev"}
