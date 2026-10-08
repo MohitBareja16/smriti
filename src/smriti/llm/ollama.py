@@ -73,3 +73,28 @@ def ollama_status(model: str, url: str = "http://localhost:11434", timeout: floa
         return True, f"Using local model '{model}'."
     available = ", ".join(names) or "none"
     return False, f"Model '{model}' is not downloaded (run `ollama pull {model}`). Downloaded models: {available}."
+
+
+def warm_up(model: str, url: str = "http://localhost:11434", timeout: float = 600.0) -> float:
+    """Load a model into memory with a tiny request. Returns the seconds it took (cold-start time)."""
+    import time
+
+    payload = {"model": model, "prompt": "Reply with OK.", "stream": False, "options": {"num_predict": 2}}
+    req = urllib.request.Request(f"{url.rstrip('/')}/api/generate", data=json.dumps(payload).encode(),
+                                 headers={"Content-Type": "application/json"})
+    start = time.perf_counter()
+    with urllib.request.urlopen(req, timeout=timeout) as resp:
+        resp.read()
+    return time.perf_counter() - start
+
+
+def unload(model: str, url: str = "http://localhost:11434") -> None:
+    """Free the model's memory now (keep_alive=0) so the next model doesn't compete for RAM."""
+    payload = {"model": model, "keep_alive": 0}
+    req = urllib.request.Request(f"{url.rstrip('/')}/api/generate", data=json.dumps(payload).encode(),
+                                 headers={"Content-Type": "application/json"})
+    try:
+        with urllib.request.urlopen(req, timeout=60) as resp:
+            resp.read()
+    except (urllib.error.URLError, TimeoutError):
+        pass
