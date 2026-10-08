@@ -265,6 +265,17 @@ def cmd_eval(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_train_router(args: argparse.Namespace) -> int:
+    from smriti.decision.learned import EmbeddingRouter, default_model_path, training_data
+
+    questions, labels = training_data(Path(args.data))
+    print(f"Training the embedding router on {len(questions)} labelled questions ({args.model}) ...")
+    router = EmbeddingRouter(model=args.model).fit(questions, labels)
+    path = router.save(default_model_path())
+    print(f"✓ Saved to {path} (temperature {router.temperature}). Use it with: export SMRITI_S1_ENGINE=embedding")
+    return 0
+
+
 def cmd_experiment(args: argparse.Namespace) -> int:
     from smriti.research.experiments import load_config, run_experiment
 
@@ -351,6 +362,11 @@ def build_parser() -> argparse.ArgumentParser:
     p = sub.add_parser("demo", help="load the fictional demo student")
     p.add_argument("--reset", action="store_true", help="delete and rebuild the demo library")
     p.set_defaults(func=cmd_demo)
+
+    p = sub.add_parser("train-router", help="train the learned System-1 router (needs the ml extra)")
+    p.add_argument("--model", default="sentence-transformers/all-MiniLM-L6-v2", help="sentence-transformers model")
+    p.add_argument("--data", default=str(EVAL_DATA))
+    p.set_defaults(func=cmd_train_router)
 
     p = sub.add_parser("experiment", help="run a reproducible research experiment")
     p.add_argument("action", choices=["list", "run"])

@@ -1,0 +1,24 @@
+{
+  "name": "router_benchmark",
+  "type": "router_benchmark",
+  "research_questions": [
+    "RQ5",
+    "RQ1"
+  ],
+  "hypothesis": "A learned embedding router (MiniLM + logistic regression, cross-validated) routes paraphrases better than the rules engine and is better calibrated; a cascade (rules when confident, else embedding) beats both; zero-shot NLI is weakest.",
+  "dataset": "evals/data",
+  "split": "dev",
+  "settings": {
+    "llm_backend": "extractive"
+  },
+  "params": {
+    "engines": [
+      "rules",
+      "embedding",
+      "cascade",
+      "zeroshot"
+    ],
+    "folds": 5,
+    "seed": 0
+  }
+}

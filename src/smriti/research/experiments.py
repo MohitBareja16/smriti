@@ -210,11 +210,104 @@ def exp_grounding_benchmark(cfg: dict, data_dir: Path, settings: Settings) -> di
             "markdown": "\n".join(md) + "\n", "details": rows, "csv": {"grounding_table.csv": table}}
 
 
+def exp_router_benchmark(cfg: dict, data_dir: Path, settings: Settings) -> dict:
+    """RQ5: compare System-1 routers on accuracy, macro-F1, calibration (ECE) and speed.
+
+    Trainable engines are scored with stratified k-fold cross-validation, so no item is ever scored
+    by a model that saw it in training. Latency is measured on the real inference path.
+    """
+    from smriti.decision import RulesEngine
+    from smriti.decision.learned import (
+        CascadeRouter,
+        EmbeddingRouter,
+        ZeroShotRouter,
+        fold_indices,
+        sentence_embedder,
+    )
+    from smriti.decision.learned import training_data as router_data
+
+    p = cfg["params"]
+    questions, gold = router_data(data_dir, cfg["split"])
+    folds, seed = p.get("folds", 5), p.get("seed", 0)
+    engines = p.get("engines", ["rules", "embedding", "zeroshot"])
+    preds: dict[str, list] = {}
+    timing: dict[str, float] = {}
+    for name in engines:
+        if name == "rules":
+            r = RulesEngine()
+            preds[name] = [r.route(q) for q in questions]
+            engine = r
+        elif name == "zeroshot":
+            engine = ZeroShotRouter(model=p.get("nli_model", "cross-encoder/nli-deberta-v3-xsmall"))
+            preds[name] = [engine.route(q) for q in questions]
+        elif name.startswith("embedding") or name == "cascade":
+            model = p.get("embed_models", {}).get(name, "sentence-transformers/all-MiniLM-L6-v2")
+            real = sentence_embedder(model)
+            cache = dict(zip(questions, real(questions)))
+
+            def cached(texts, cache=cache):
+                return __import__("numpy").stack([cache[x] for x in texts])
+
+            out = [None] * len(questions)
+            for f in fold_indices(gold, folds, seed):
+                train = [i for i in range(len(questions)) if i not in set(f)]
+                router = EmbeddingRouter(embed=cached, model=model).fit(
+                    [questions[i] for i in train], [gold[i] for i in train], seed=seed)
+                fold_engine = CascadeRouter(router) if name == "cascade" else router
+                for i in f:
+                    out[i] = fold_engine.route(questions[i])
+            preds[name] = out
+            final = EmbeddingRouter(embed=real, model=model).fit(questions, gold, seed=seed)
+            engine = CascadeRouter(final) if name == "cascade" else final
+        else:
+            raise ValueError(f"unknown engine {name}")
+        t0 = time.perf_counter()
+        for q in questions[:30]:
+            engine.route(q)
+        timing[name] = (time.perf_counter() - t0) * 1000 / min(30, len(questions))
+
+    labels = sorted(set(gold))
+    rows, details = [], []
+    for name in engines:
+        ds = preds[name]
+        ok = [d.label == g for d, g in zip(ds, gold)]
+        f1s = []
+        for lab in labels:
+            tp = sum(d.label == lab and g == lab for d, g in zip(ds, gold))
+            fp = sum(d.label == lab and g != lab for d, g in zip(ds, gold))
+            fn = sum(d.label != lab and g == lab for d, g in zip(ds, gold))
+            f1s.append(2 * tp / (2 * tp + fp + fn) if tp else 0.0)
+        ece, bins = calibration([d.probability for d in ds], ok, p.get("bins", 10))
+        confident = [o for d, o in zip(ds, ok) if d.probability >= settings.tau_fast]
+        rows.append({"engine": name, "accuracy": round(sum(ok) / len(ok), 4),
+                     "macro_f1": round(sum(f1s) / len(f1s), 4), "ece": round(ece, 4),
+                     "confident_share": round(len(confident) / len(ok), 4),
+                     "confident_accuracy": round(sum(confident) / len(confident), 4) if confident else None,
+                     "ms_per_decision": round(timing[name], 2), "bins": [asdict(b) for b in bins]})
+    for i, q in enumerate(questions):
+        details.append({"question": q, "gold": gold[i], **{f"{n}": preds[n][i].label for n in engines},
+                        **{f"{n}_p": round(preds[n][i].probability, 4) for n in engines}})
+
+    md = [(f"{len(questions)} labelled questions ({cfg['split']}), {folds}-fold cross-validation for trained "
+           f"engines. 'Confident' = probability ≥ τ = {settings.tau_fast}.\n"),
+          "| Engine | Accuracy | Macro-F1 | ECE ↓ | Confident share | Accuracy when confident | ms/decision |",
+          "|---|---|---|---|---|---|---|"]
+    for r in rows:
+        ca = f"{r['confident_accuracy']:.0%}" if r["confident_accuracy"] is not None else "–"
+        md.append(f"| {r['engine']} | {r['accuracy']:.0%} | {r['macro_f1']:.2f} | {r['ece']:.3f} | "
+                  f"{r['confident_share']:.0%} | {ca} | {r['ms_per_decision']:.1f} |")
+    return {"summary": {"n": len(questions), "folds": folds, "engines": rows}, "markdown": "\n".join(md) + "\n",
+            "details": details, "csv": {"router_benchmark.csv": [{k: v for k, v in r.items() if k != "bins"}
+                                                                for r in rows]},
+            "plot": ("reliability.png", _plot_reliability_multi, rows)}
+
+
 EXPERIMENTS: dict[str, Callable[[dict, Path, Settings], dict]] = {
     "baselines": exp_baselines,
     "tau_sweep": exp_tau_sweep,
     "router_calibration": exp_router_calibration,
     "grounding_benchmark": exp_grounding_benchmark,
+    "router_benchmark": exp_router_benchmark,
 }
 
 
@@ -269,6 +362,28 @@ def _plot_reliability(bins, path: Path) -> bool:
     ax.set_ylim(0, 1.05)
     ax.legend(frameon=False, loc="upper left")
     ax.set_title("Reliability diagram")
+    fig.tight_layout()
+    fig.savefig(path, dpi=160)
+    plt.close(fig)
+    return True
+
+
+def _plot_reliability_multi(rows: list[dict], path: Path) -> bool:
+    plt = _plt()
+    if plt is None:
+        return False
+    fig, ax = plt.subplots(figsize=(5, 4.6))
+    ax.plot([0, 1], [0, 1], linestyle="--", color="#9AA8B5", label="Perfect calibration")
+    for r, color in zip(rows, ["#6B7682", "#2F6FB0", "#E9A23B", "#3A9D5D", "#B04A4A"]):
+        used = [b for b in r["bins"] if b["count"]]
+        ax.plot([b["mean_confidence"] for b in used], [b["accuracy"] for b in used], marker="o", color=color,
+                label=f"{r['engine']} (ECE {r['ece']:.3f})")
+    ax.set_xlabel("Router confidence")
+    ax.set_ylabel("Accuracy")
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1.05)
+    ax.legend(frameon=False, loc="lower right", fontsize=8)
+    ax.set_title("Router reliability (cross-validated)")
     fig.tight_layout()
     fig.savefig(path, dpi=160)
     plt.close(fig)

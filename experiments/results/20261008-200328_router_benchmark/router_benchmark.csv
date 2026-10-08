@@ -1,0 +1,5 @@
+engine,accuracy,macro_f1,ece,confident_share,confident_accuracy,ms_per_decision
+rules,0.8485,0.8445,0.1622,0.4242,1.0,0.02
+embedding,0.7121,0.6461,0.131,0.5152,0.8235,13.39
+cascade,0.8939,0.8873,0.1641,0.5,0.9394,2.51
+zeroshot,0.2424,0.1777,0.3434,0.197,0.6154,193.28
