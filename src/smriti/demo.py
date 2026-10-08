@@ -13,6 +13,7 @@ def load_manifest(dataset_dir: Path, app: App) -> list[IngestResult]:
     manifest = json.loads((dataset_dir / "manifest.json").read_text())
     return [
         ingest_file(dataset_dir / entry["path"], app.db, app.vault, course=entry.get("course"),
+                    semester=entry.get("semester"),
                     kind=entry.get("kind"))
         for entry in manifest["files"]
     ]

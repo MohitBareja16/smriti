@@ -117,7 +117,7 @@ def cmd_add(args: argparse.Namespace) -> int:
     app = build_app()
     for f in _files(args.paths):
         try:
-            r = ingest_file(f, app.db, app.vault, course=args.course, kind=args.kind)
+            r = ingest_file(f, app.db, app.vault, course=args.course, semester=args.semester, kind=args.kind)
         except (UnsupportedFileError, VaultLockedError, FileNotFoundError) as exc:
             print(f"✗ {f}: {exc}")
             continue
@@ -164,6 +164,15 @@ def cmd_docs(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_library(args: argparse.Namespace) -> int:
+    from smriti.library import build_tree, render_tree
+
+    rows = _app(args).db.library_tree()
+    print(render_tree(build_tree(rows), show_topics=not args.no_topics) if rows else
+          "Your library is empty. Add notes with: smriti add <folder> --course OS --semester 5")
+    return 0
+
+
 def cmd_facts(args: argparse.Namespace) -> int:
     for f in _app(args).db.all_facts():
         print(f"{f.attribute:<36} {f.value:<40} ({f.doc_title} p.{f.page})")
@@ -207,7 +216,12 @@ def cmd_trace(args: argparse.Namespace) -> int:
     return 0
 
 
-def cmd_demo(_: argparse.Namespace) -> int:
+def cmd_demo(args: argparse.Namespace) -> int:
+    if args.reset and DEMO_DIR.exists():
+        import shutil
+
+        shutil.rmtree(DEMO_DIR)
+        print(f"Removed the old demo library at {DEMO_DIR}.")
     _use_demo()
     print('\nDemo ready. Next:\n  smriti ui --demo\n  smriti ask --demo "When is my DBMS exam?" --trace')
     return 0
@@ -277,6 +291,7 @@ def build_parser() -> argparse.ArgumentParser:
     p = sub.add_parser("add", aliases=["ingest"], help="add your files or folders")
     p.add_argument("paths", nargs="+")
     p.add_argument("--course", help="course name, e.g. OS")
+    p.add_argument("--semester", type=int, help="semester number (auto-detected from paths like sem5/)")
     p.add_argument("--kind", choices=["library", "personal"],
                    help="library = notes/books, personal = marksheets/certificates (auto-detected)")
     p.set_defaults(func=cmd_add)
@@ -289,6 +304,9 @@ def build_parser() -> argparse.ArgumentParser:
     p.set_defaults(func=cmd_ask)
 
     sub.add_parser("docs", parents=[demo_flag], help="list your documents").set_defaults(func=cmd_docs)
+    p = sub.add_parser("library", parents=[demo_flag], help="your library: semester → course → topics")
+    p.add_argument("--no-topics", action="store_true")
+    p.set_defaults(func=cmd_library)
     sub.add_parser("facts", parents=[demo_flag], help="list facts used for fast answers"
                    ).set_defaults(func=cmd_facts)
     p = sub.add_parser("audit", parents=[demo_flag], help="show what Smriti did (audit log)")
@@ -302,7 +320,9 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("trace_id", help="trace id (or its first characters)")
     p.set_defaults(func=cmd_trace)
 
-    sub.add_parser("demo", help="load the fictional demo student").set_defaults(func=cmd_demo)
+    p = sub.add_parser("demo", help="load the fictional demo student")
+    p.add_argument("--reset", action="store_true", help="delete and rebuild the demo library")
+    p.set_defaults(func=cmd_demo)
 
     p = sub.add_parser("experiment", help="run a reproducible research experiment")
     p.add_argument("action", choices=["list", "run"])

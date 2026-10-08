@@ -7,10 +7,11 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from smriti.guardrails.pii import find_pii, redact
-from smriti.ingest.chunker import chunk_pages
+from smriti.ingest.chunker import chunk_with_topics
 from smriti.ingest.classify import classify_document
 from smriti.ingest.facts import extract_facts
 from smriti.ingest.parsers import parse
+from smriti.library import detect_semester
 from smriti.storage import Database
 from smriti.vault import Vault
 
@@ -30,6 +31,7 @@ class IngestResult:
 
 
 def ingest_file(path: Path, db: Database, vault: Vault, *, course: str | None = None,
+                semester: int | None = None,
                 kind: str | None = None) -> IngestResult:
     path = Path(path)
     raw = path.read_bytes()
@@ -54,8 +56,9 @@ def ingest_file(path: Path, db: Database, vault: Vault, *, course: str | None = 
 
     stored_path = path.name if sensitive else str(path.resolve())  # never keep paths of sensitive files
     doc_id = db.add_document(title=title, path=stored_path, sha256=sha, kind=kind, doc_type=doc_type,
-                             course=course, sensitive=sensitive, vault_file=vault_file)
-    chunks = chunk_pages(pages)
+                             course=course, sensitive=sensitive, vault_file=vault_file,
+                             semester=semester if semester is not None else detect_semester(str(path)))
+    chunks = chunk_with_topics(pages)
     db.add_chunks(doc_id, chunks)
     facts = extract_facts(pages) if kind == "personal" else []
     db.add_facts(doc_id, facts)

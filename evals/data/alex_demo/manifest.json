@@ -1,13 +1,49 @@
 {
   "description": "Alex Demo: a fictional student used for demos and reproducible evals. No real personal data.",
   "files": [
-    {"path": "personal/exam_timetable.md", "kind": "personal"},
-    {"path": "personal/marksheet_sem4.md", "kind": "personal"},
-    {"path": "personal/certificates.md", "kind": "personal"},
-    {"path": "library/os_notes.md", "kind": "library", "course": "OS"},
-    {"path": "library/galvin_memory_summary.md", "kind": "library", "course": "OS"},
-    {"path": "library/os_past_papers.md", "kind": "library", "course": "OS"},
-    {"path": "library/shared_threads_notes.md", "kind": "library", "course": "OS"},
-    {"path": "library/dbms_notes.md", "kind": "library", "course": "DBMS"}
+    {
+      "path": "personal/exam_timetable.md",
+      "kind": "personal",
+      "semester": 5
+    },
+    {
+      "path": "personal/marksheet_sem4.md",
+      "kind": "personal",
+      "semester": 4
+    },
+    {
+      "path": "personal/certificates.md",
+      "kind": "personal"
+    },
+    {
+      "path": "library/os_notes.md",
+      "kind": "library",
+      "course": "OS",
+      "semester": 5
+    },
+    {
+      "path": "library/galvin_memory_summary.md",
+      "kind": "library",
+      "course": "OS",
+      "semester": 5
+    },
+    {
+      "path": "library/os_past_papers.md",
+      "kind": "library",
+      "course": "OS",
+      "semester": 5
+    },
+    {
+      "path": "library/shared_threads_notes.md",
+      "kind": "library",
+      "course": "OS",
+      "semester": 5
+    },
+    {
+      "path": "library/dbms_notes.md",
+      "kind": "library",
+      "course": "DBMS",
+      "semester": 5
+    }
   ]
 }
