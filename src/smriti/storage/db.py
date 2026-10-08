@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS documents (
     kind TEXT NOT NULL,              -- 'library' | 'personal'
     doc_type TEXT NOT NULL,          -- notes | book | past_paper | marksheet | certificate | timetable | other
     course TEXT,
+    semester INTEGER,
     sensitive INTEGER NOT NULL DEFAULT 0,
     vault_file TEXT,                 -- encrypted original (sensitive docs only)
     created_at REAL NOT NULL
@@ -29,7 +30,8 @@ CREATE TABLE IF NOT EXISTS chunks (
     id INTEGER PRIMARY KEY,
     doc_id INTEGER NOT NULL REFERENCES documents(id) ON DELETE CASCADE,
     page INTEGER NOT NULL,
-    text TEXT NOT NULL               -- PII-redacted for sensitive docs
+    text TEXT NOT NULL,              -- PII-redacted for sensitive docs
+    topic TEXT                       -- nearest heading, e.g. "Deadlock"
 );
 CREATE VIRTUAL TABLE IF NOT EXISTS chunks_fts USING fts5(text, content='chunks', content_rowid='id',
     tokenize='porter unicode61');
@@ -93,6 +95,15 @@ class Database:
         self.conn.row_factory = sqlite3.Row
         self.conn.execute("PRAGMA foreign_keys = ON")
         self.conn.executescript(SCHEMA)
+        self._migrate()
+
+    def _migrate(self) -> None:
+        """Add columns introduced after a database was created (older ~/.smriti libraries)."""
+        for table, column, decl in [("documents", "semester", "INTEGER"), ("chunks", "topic", "TEXT")]:
+            cols = {r["name"] for r in self.conn.execute(f"PRAGMA table_info({table})")}
+            if column not in cols:
+                self.conn.execute(f"ALTER TABLE {table} ADD COLUMN {column} {decl}")
+        self.conn.commit()
 
     # ---- documents -------------------------------------------------------------------
     def find_by_hash(self, sha256: str) -> int | None:
@@ -100,11 +111,12 @@ class Database:
         return row["id"] if row else None
 
     def add_document(self, *, title: str, path: str, sha256: str, kind: str, doc_type: str,
-                     course: str | None, sensitive: bool, vault_file: str | None) -> int:
+                     course: str | None, sensitive: bool, vault_file: str | None,
+                     semester: int | None = None) -> int:
         cur = self.conn.execute(
-            "INSERT INTO documents (title, path, sha256, kind, doc_type, course, sensitive, vault_file, "
-            "created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-            (title, path, sha256, kind, doc_type, course, int(sensitive), vault_file, time.time()),
+            "INSERT INTO documents (title, path, sha256, kind, doc_type, course, semester, sensitive, "
+            "vault_file, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            (title, path, sha256, kind, doc_type, course, semester, int(sensitive), vault_file, time.time()),
         )
         self.conn.commit()
         return int(cur.lastrowid)
@@ -120,22 +132,24 @@ class Database:
         self.conn.commit()
 
     # ---- chunks + search -------------------------------------------------------------
-    def add_chunks(self, doc_id: int, pages_and_texts: list[tuple[int, str]]) -> None:
+    def add_chunks(self, doc_id: int, chunks: list[tuple]) -> None:
+        """chunks: (page, text) or (page, text, topic)."""
         self.conn.executemany(
-            "INSERT INTO chunks (doc_id, page, text) VALUES (?, ?, ?)",
-            [(doc_id, page, text) for page, text in pages_and_texts],
+            "INSERT INTO chunks (doc_id, page, text, topic) VALUES (?, ?, ?, ?)",
+            [(doc_id, c[0], c[1], c[2] if len(c) > 2 else None) for c in chunks],
         )
         self.conn.commit()
 
     def search(self, query: str, k: int = 5, *, course: str | None = None, kind: str | None = None,
-               doc_title: str | None = None) -> list[Chunk]:
+               doc_title: str | None = None, semester: int | None = None,
+               topic: str | None = None) -> list[Chunk]:
         """BM25 full-text search with optional metadata filters. Terms are OR-ed, ranked by BM25."""
         terms = content_tokens(query)
         if not terms:
             return []
         match = " OR ".join(f'"{t}"' for t in dict.fromkeys(terms))
         sql = (
-            "SELECT c.id, c.doc_id, c.page, c.text, d.title, d.course, d.kind, bm25(chunks_fts) AS rank "
+            "SELECT c.id, c.doc_id, c.page, c.text, c.topic, d.title, d.course, d.kind, bm25(chunks_fts) AS rank "
             "FROM chunks_fts JOIN chunks c ON c.id = chunks_fts.rowid JOIN documents d ON d.id = c.doc_id "
             "WHERE chunks_fts MATCH ?"
         )
@@ -149,14 +163,28 @@ class Database:
         if doc_title:
             sql += " AND lower(d.title) LIKE lower(?)"
             params.append(f"%{doc_title}%")
+        if semester is not None:
+            sql += " AND d.semester = ?"
+            params.append(semester)
+        if topic:
+            sql += " AND lower(c.topic) LIKE lower(?)"
+            params.append(f"%{topic}%")
         sql += " ORDER BY rank LIMIT ?"
         params.append(k)
         rows = self.conn.execute(sql, params).fetchall()
         return [
             Chunk(id=r["id"], doc_id=r["doc_id"], doc_title=r["title"], page=r["page"], text=r["text"],
-                  course=r["course"], kind=r["kind"], score=-float(r["rank"]))
+                  course=r["course"], kind=r["kind"], score=-float(r["rank"]), topic=r["topic"])
             for r in rows
         ]
+
+    def library_tree(self) -> list[sqlite3.Row]:
+        """One row per (document, topic) with semester and course, in reading order."""
+        return self.conn.execute(
+            "SELECT d.semester, d.course, d.title, d.kind, d.doc_type, c.topic, MIN(c.page) AS first_page, "
+            "COUNT(*) AS chunks, MIN(c.id) AS first_chunk FROM documents d JOIN chunks c ON c.doc_id = d.id "
+            "GROUP BY d.id, c.topic ORDER BY d.semester IS NULL, d.semester, d.course IS NULL, d.course, "
+            "d.title, first_chunk").fetchall()
 
     def courses(self) -> list[str]:
         rows = self.conn.execute("SELECT DISTINCT course FROM documents WHERE course IS NOT NULL").fetchall()

@@ -14,6 +14,17 @@ Newest first. Each entry links to its run folder in `experiments/results/`, whic
 
 ---
 
+## 2026-10-08: Topic-aware chunks improve retrieval (#15)
+**Runs:** [`20261008-170803_baselines_offline`](../../experiments/results/20261008-170803_baselines_offline/) · [`20261008-170803_tau_sweep_offline`](../../experiments/results/20261008-170803_tau_sweep_offline/) · **RQ:** RQ3 · **Split:** dev · offline reasoner
+
+**Change:** chunks now split at headings and carry their topic (Semester → Course → Topic library). The agent also filters by semester when the question names one, and broadens if nothing matches.
+
+**Hypothesis:** a regression check: no accuracy loss from the new chunk boundaries.
+
+**Result:** better than "no loss". Agent accuracy on answerable questions went from 80% to **85% (17/20)**, citation accuracy from 90% to **95%**, and the τ-sweep accuracy from 70% to 74% at every τ. The one changed item is c2 (*"Compare how my notes and Galvin explain paging"*): with heading-aligned chunks, the paging passages of both sources come back as clean, single-topic chunks. System-1 results are unchanged.
+
+**Interpretation:** structure-aware chunking helps comparison questions. One item on n = 20 is small, so recheck on the blind test set and with an LLM System 2.
+
 ## 2026-10-08: Grounding without over-abstention: trim policy + combined check (#9)
 **Runs:** [`grounding_benchmark`](../../experiments/results/20261008-162303_grounding_benchmark/) · [`tau_sweep_qwen_combined`](../../experiments/results/20261008-163012_tau_sweep_qwen_combined/) · [`tau_sweep_phi3_combined`](../../experiments/results/20261008-164800_tau_sweep_phi3_combined/) · intermediate: `*_trim`, `*_trim_embedding`, `*_adaptive` (20261007–08) · **RQ:** RQ4, RQ3, RQ1 · **Split:** dev
 

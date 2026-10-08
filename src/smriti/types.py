@@ -19,6 +19,7 @@ class Chunk:
     course: str | None = None
     kind: str = "library"  # "library" | "personal"
     score: float = 0.0
+    topic: str | None = None
 
     @property
     def ref(self) -> str:

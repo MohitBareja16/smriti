@@ -11,6 +11,7 @@ from dataclasses import dataclass, field
 
 from smriti.decision.base import DecisionEngine
 from smriti.guardrails import filter_chunks
+from smriti.library import detect_semester
 from smriti.llm.base import Reasoner
 from smriti.observability import Tracer
 from smriti.storage import Database
@@ -62,22 +63,25 @@ class System2Agent:
                 queries = [question]
             s["detail"] = " | ".join(queries)
 
-        course = None if widen else detect_course(question, self.db.courses())
+        filters = {} if widen else {"course": detect_course(question, self.db.courses()),
+                                    "semester": detect_semester(question)}
+        filters = {k: v for k, v in filters.items() if v is not None}
         k = self.top_k * (2 if widen else 1)
         pool: dict[int, Chunk] = {}
         verdicts: list[GuardVerdict] = []
         for step in range(1, self.max_steps + 1):
+            scope = ", ".join(f"{name}={value}" for name, value in filters.items()) or "all documents"
             for q in queries:
-                with tracer.span("s2.tool.search", query=q, course=course) as s:
-                    hits = self.db.search(q, k=k, course=course)
-                    s["detail"] = f"'{q}' course={course or 'any'} → {len(hits)} hits"
+                with tracer.span("s2.tool.search", query=q, **filters) as s:
+                    hits = self.db.search(q, k=k, **filters)
+                    s["detail"] = f"'{q}' [{scope}] → {len(hits)} hits"
                 for c in hits:
                     pool.setdefault(c.id, c)
-            if pool or course is None:
+            if pool or not filters:
                 break
-            course = None  # nothing found inside the course: broaden the search (agent's second step)
+            filters = {}  # nothing found inside the scope: broaden the search (agent's second step)
             with tracer.span("s2.replan") as s:
-                s["detail"] = f"step {step}: no results with course filter, searching all documents"
+                s["detail"] = f"step {step}: no results in [{scope}], searching all documents"
 
         chunks = sorted(pool.values(), key=lambda c: -c.score)[: k + 2]
         if self.guard_chunks:

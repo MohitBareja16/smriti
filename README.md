@@ -53,7 +53,7 @@ Press **Ctrl+C** in the terminal to stop the app. Next time, just run `source .v
 ## 📂 Use it with your own documents
 
 ```bash
-smriti add ~/Documents/notes/os --course OS     # a folder of notes or books
+smriti add ~/Documents/notes/os --course OS --semester 5   # a folder of notes or books
 smriti add ~/Downloads/marksheet.pdf            # personal documents are detected and encrypted
 smriti ui                                       # open the app with your documents
 ```
@@ -92,8 +92,9 @@ Click **"Thinking"** above any answer to see each step Smriti took and why.
 |---|---|
 | `smriti ui --demo` | Open the app with the fictional demo student |
 | `smriti ui` | Open the app with your own documents |
-| `smriti add <files or folders>` | Add documents (`--course OS` to group notes by subject) |
+| `smriti add <files or folders>` | Add documents (`--course OS --semester 5`; semesters are also detected from folder names like `sem5/`) |
 | `smriti ask "your question"` | Ask from the terminal (add `--trace` to see the steps, `--demo` for demo data) |
+| `smriti library` | Your library as semester → course → topics |
 | `smriti docs` | List your documents (🔒 = encrypted) |
 | `smriti facts` | List the facts used for fast answers |
 | `smriti audit` | Show a log of everything Smriti did |
@@ -109,6 +110,7 @@ Click **"Thinking"** above any answer to see each step Smriti took and why.
 | Port 8000 is already in use | Run `smriti ui --port 8001` |
 | The browser didn't open | Open http://localhost:8000 yourself |
 | "Offline mode" message | That's fine. Install Ollama and a model (see above) for better answers |
+| The demo looks outdated after an update | Run `smriti demo --reset` |
 | "Vault is locked" | Start Smriti with the passphrase you used when adding the documents |
 | Answers are slow | Local AI models are slow on laptops without a GPU (10–100 s). Fast answers stay instant |
 
