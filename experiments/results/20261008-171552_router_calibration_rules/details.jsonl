@@ -1,0 +1,66 @@
+{"id": "f1", "question": "When is my DBMS exam?", "gold": "fact_lookup", "predicted": "fact_lookup", "confidence": 0.9047, "correct": true, "ms": 0.055}
+{"id": "f2", "question": "When is my OS exam?", "gold": "fact_lookup", "predicted": "fact_lookup", "confidence": 0.9047, "correct": true, "ms": 0.032}
+{"id": "f3", "question": "What is my CGPA?", "gold": "fact_lookup", "predicted": "fact_lookup", "confidence": 0.9047, "correct": true, "ms": 0.023}
+{"id": "f4", "question": "What was my SGPA in semester 4?", "gold": "fact_lookup", "predicted": "fact_lookup", "confidence": 0.9047, "correct": true, "ms": 0.025}
+{"id": "f5", "question": "When does my AWS certificate expire?", "gold": "fact_lookup", "predicted": "fact_lookup", "confidence": 0.9047, "correct": true, "ms": 0.023}
+{"id": "f6", "question": "What is my roll number?", "gold": "fact_lookup", "predicted": "fact_lookup", "confidence": 0.9047, "correct": true, "ms": 0.021}
+{"id": "f7", "question": "What score did I get in the NPTEL ML course?", "gold": "fact_lookup", "predicted": "fact_lookup", "confidence": 0.5002, "correct": true, "ms": 0.03}
+{"id": "f8", "question": "Which hall is my Computer Networks exam in?", "gold": "fact_lookup", "predicted": "fact_lookup", "confidence": 0.5002, "correct": true, "ms": 0.028}
+{"id": "d1", "question": "Give me my AWS certificate", "gold": "fetch_doc", "predicted": "fetch_doc", "confidence": 0.9047, "correct": true, "ms": 0.02}
+{"id": "e1", "question": "Explain the four conditions for deadlock from my OS notes", "gold": "explain", "predicted": "explain", "confidence": 0.6793, "correct": true, "ms": 0.03}
+{"id": "e2", "question": "What is a TLB?", "gold": "explain", "predicted": "explain", "confidence": 0.6793, "correct": true, "ms": 0.024}
+{"id": "e3", "question": "Explain ACID properties of transactions", "gold": "explain", "predicted": "explain", "confidence": 0.6793, "correct": true, "ms": 0.021}
+{"id": "e4", "question": "What is third normal form?", "gold": "explain", "predicted": "explain", "confidence": 0.6793, "correct": true, "ms": 0.021}
+{"id": "e5", "question": "Why are B+ tree indexes good for range queries?", "gold": "explain", "predicted": "explain", "confidence": 0.6793, "correct": true, "ms": 0.026}
+{"id": "e6", "question": "Explain Round Robin scheduling", "gold": "explain", "predicted": "explain", "confidence": 0.6793, "correct": true, "ms": 0.017}
+{"id": "e7", "question": "How does the Banker's algorithm help with deadlock?", "gold": "explain", "predicted": "explain", "confidence": 0.8177, "correct": true, "ms": 0.026}
+{"id": "c1", "question": "Compare paging and segmentation", "gold": "compare", "predicted": "compare", "confidence": 0.9047, "correct": true, "ms": 0.018}
+{"id": "c2", "question": "Compare how my notes and Galvin explain paging", "gold": "compare", "predicted": "compare", "confidence": 0.9047, "correct": true, "ms": 0.023}
+{"id": "c3", "question": "What is the difference between a process and a thread?", "gold": "compare", "predicted": "compare", "confidence": 0.7591, "correct": true, "ms": 0.029}
+{"id": "p1", "question": "Which OS topics come up most in past papers?", "gold": "exam_prep", "predicted": "exam_prep", "confidence": 0.9047, "correct": true, "ms": 0.029}
+{"id": "u1", "question": "What was my GPA in semester 9?", "gold": "fact_lookup", "predicted": "fact_lookup", "confidence": 0.5002, "correct": true, "ms": 0.023}
+{"id": "u2", "question": "When is my Physics exam?", "gold": "fact_lookup", "predicted": "fact_lookup", "confidence": 0.9047, "correct": true, "ms": 0.019}
+{"id": "u3", "question": "Explain quantum entanglement", "gold": "explain", "predicted": "explain", "confidence": 0.6793, "correct": true, "ms": 0.016}
+{"id": "k1", "question": "Which skills from my DBMS course have I used in projects?", "gold": "connect", "predicted": "connect", "confidence": 0.9047, "correct": true, "ms": 0.033}
+{"id": "k2", "question": "Which of my certificates relate to my projects?", "gold": "connect", "predicted": "connect", "confidence": 0.9047, "correct": true, "ms": 0.029}
+{"id": "k3", "question": "Which OS topics did I use in my projects?", "gold": "connect", "predicted": "connect", "confidence": 0.9047, "correct": true, "ms": 0.03}
+{"id": "r01", "question": "What's the date of my operating systems exam?", "gold": "fact_lookup", "predicted": "fact_lookup", "confidence": 0.5002, "correct": true, "ms": 0.026}
+{"id": "r02", "question": "my cgpa?", "gold": "fact_lookup", "predicted": "fact_lookup", "confidence": 0.5002, "correct": true, "ms": 0.014}
+{"id": "r03", "question": "Which room is the networks exam in?", "gold": "fact_lookup", "predicted": "fact_lookup", "confidence": 0.5002, "correct": true, "ms": 0.024}
+{"id": "r04", "question": "How much did I score in NPTEL machine learning?", "gold": "fact_lookup", "predicted": "fact_lookup", "confidence": 0.5002, "correct": true, "ms": 0.052}
+{"id": "r05", "question": "Tell me my roll no", "gold": "fact_lookup", "predicted": "other", "confidence": 0.4276, "correct": false, "ms": 0.015}
+{"id": "r06", "question": "When does the AWS cert expire", "gold": "fact_lookup", "predicted": "fact_lookup", "confidence": 0.9047, "correct": true, "ms": 0.024}
+{"id": "r07", "question": "On which day is the DBMS lab practical?", "gold": "fact_lookup", "predicted": "other", "confidence": 0.4276, "correct": false, "ms": 0.023}
+{"id": "r08", "question": "What grade did I get in discrete maths?", "gold": "fact_lookup", "predicted": "fact_lookup", "confidence": 0.5002, "correct": true, "ms": 0.03}
+{"id": "r09", "question": "Send me the grade card PDF", "gold": "fetch_doc", "predicted": "fetch_doc", "confidence": 0.8336, "correct": true, "ms": 0.057}
+{"id": "r10", "question": "open my exam timetable", "gold": "fetch_doc", "predicted": "fact_lookup", "confidence": 0.5002, "correct": false, "ms": 0.015}
+{"id": "r11", "question": "I need a copy of my certificates file", "gold": "fetch_doc", "predicted": "other", "confidence": 0.4276, "correct": false, "ms": 0.02}
+{"id": "r12", "question": "Download my semester 4 marksheet", "gold": "fetch_doc", "predicted": "fetch_doc", "confidence": 0.9047, "correct": true, "ms": 0.016}
+{"id": "r13", "question": "Can you pull up my AWS credential document?", "gold": "fetch_doc", "predicted": "other", "confidence": 0.4276, "correct": false, "ms": 0.021}
+{"id": "r14", "question": "What is a page table?", "gold": "explain", "predicted": "explain", "confidence": 0.6793, "correct": true, "ms": 0.017}
+{"id": "r15", "question": "Describe the Banker's algorithm", "gold": "explain", "predicted": "explain", "confidence": 0.8177, "correct": true, "ms": 0.017}
+{"id": "r16", "question": "How does write-ahead logging give durability?", "gold": "explain", "predicted": "explain", "confidence": 0.6793, "correct": true, "ms": 0.021}
+{"id": "r17", "question": "Why does round robin cause context switch overhead?", "gold": "explain", "predicted": "explain", "confidence": 0.6793, "correct": true, "ms": 0.024}
+{"id": "r18", "question": "define BCNF", "gold": "explain", "predicted": "explain", "confidence": 0.6793, "correct": true, "ms": 0.011}
+{"id": "r19", "question": "Summarise my notes on CPU scheduling", "gold": "explain", "predicted": "explain", "confidence": 0.6793, "correct": true, "ms": 0.019}
+{"id": "r20", "question": "Tell me about TLBs", "gold": "explain", "predicted": "other", "confidence": 0.4276, "correct": false, "ms": 0.014}
+{"id": "r21", "question": "what are kernel level threads", "gold": "explain", "predicted": "explain", "confidence": 0.6793, "correct": true, "ms": 0.018}
+{"id": "r22", "question": "Paging vs segmentation?", "gold": "compare", "predicted": "compare", "confidence": 0.9047, "correct": true, "ms": 0.014}
+{"id": "r23", "question": "How is a thread different from a process?", "gold": "compare", "predicted": "other", "confidence": 0.4276, "correct": false, "ms": 0.021}
+{"id": "r24", "question": "Contrast FCFS with SJF", "gold": "compare", "predicted": "compare", "confidence": 0.9047, "correct": true, "ms": 0.014}
+{"id": "r25", "question": "Which is better for range queries, B+ tree or hash index?", "gold": "compare", "predicted": "other", "confidence": 0.4276, "correct": false, "ms": 0.027}
+{"id": "r26", "question": "What's the difference between 2NF and 3NF?", "gold": "compare", "predicted": "compare", "confidence": 0.9047, "correct": true, "ms": 0.021}
+{"id": "r27", "question": "Compare deadlock prevention and avoidance", "gold": "compare", "predicted": "compare", "confidence": 0.9047, "correct": true, "ms": 0.016}
+{"id": "r28", "question": "Which topics are asked most often in OS papers?", "gold": "exam_prep", "predicted": "other", "confidence": 0.4276, "correct": false, "ms": 0.026}
+{"id": "r29", "question": "What should I revise first for the OS exam based on past papers?", "gold": "exam_prep", "predicted": "exam_prep", "confidence": 0.8336, "correct": true, "ms": 0.029}
+{"id": "r30", "question": "Show previous year questions on paging", "gold": "exam_prep", "predicted": "exam_prep", "confidence": 0.9047, "correct": true, "ms": 0.019}
+{"id": "r31", "question": "List important topics for operating systems", "gold": "exam_prep", "predicted": "exam_prep", "confidence": 0.9047, "correct": true, "ms": 0.018}
+{"id": "r32", "question": "Did deadlock come up in the 2024 paper?", "gold": "exam_prep", "predicted": "exam_prep", "confidence": 0.9047, "correct": true, "ms": 0.019}
+{"id": "r33", "question": "hi", "gold": "other", "predicted": "other", "confidence": 0.4276, "correct": true, "ms": 0.008}
+{"id": "r34", "question": "thanks, that helped", "gold": "other", "predicted": "other", "confidence": 0.4276, "correct": true, "ms": 0.013}
+{"id": "r35", "question": "What's the weather in Delhi?", "gold": "other", "predicted": "other", "confidence": 0.4276, "correct": true, "ms": 0.018}
+{"id": "r36", "question": "Write me a poem about exams", "gold": "other", "predicted": "other", "confidence": 0.4276, "correct": true, "ms": 0.017}
+{"id": "r37", "question": "Who won the cricket match yesterday?", "gold": "other", "predicted": "other", "confidence": 0.4276, "correct": true, "ms": 0.02}
+{"id": "r38", "question": "how do I use this app?", "gold": "other", "predicted": "explain", "confidence": 0.6793, "correct": false, "ms": 0.018}
+{"id": "r39", "question": "Can you remind me to study tomorrow?", "gold": "other", "predicted": "other", "confidence": 0.4276, "correct": true, "ms": 0.021}
+{"id": "r40", "question": "What can you do?", "gold": "other", "predicted": "other", "confidence": 0.4276, "correct": true, "ms": 0.015}

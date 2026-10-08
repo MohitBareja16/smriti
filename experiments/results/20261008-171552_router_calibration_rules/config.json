@@ -1,0 +1,19 @@
+{
+  "name": "router_calibration_rules",
+  "type": "router_calibration",
+  "research_questions": [
+    "RQ1",
+    "RQ5"
+  ],
+  "hypothesis": "The rules router's confidence is over-confident (ECE > 0.1), which motivates a learned, calibrated System-1 engine.",
+  "dataset": "evals/data",
+  "split": "dev",
+  "settings": {
+    "llm_backend": "extractive",
+    "s1_engine": "rules"
+  },
+  "params": {
+    "bins": 10,
+    "router_file": "router.jsonl"
+  }
+}
