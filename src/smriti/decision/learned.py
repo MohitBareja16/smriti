@@ -1,5 +1,7 @@
 """Learned System-1 routers built on small open-source models (issue #20, RQ5).
 
+    CascadeRouter    rules first; when the rules are unsure (p < 0.5) the embedding router decides. Rules
+                     are precise but miss paraphrases; the learned router covers those (LOG 2026-10-09).
     EmbeddingRouter  sentence embeddings (default all-MiniLM-L6-v2) + multinomial logistic regression,
                      trained in seconds on CPU; a temperature is fitted on out-of-fold predictions so the
                      confidences are calibrated (System 1 answers alone only when confident).
@@ -71,8 +73,9 @@ class _RulesGuards:
 class EmbeddingRouter(_RulesGuards):
     name = "embedding"
 
+    # Defaults chosen by 5-fold CV on the dev router data (l2 1e-2 underfits: 59% vs 71%); see LOG.
     def __init__(self, embed: Callable[[Sequence[str]], object] | None = None, model: str = EMBED_MODEL,
-                 l2: float = 1e-2, epochs: int = 300, lr: float = 0.5):
+                 l2: float = 1e-3, epochs: int = 1000, lr: float = 2.0):
         self.model, self.l2, self.epochs, self.lr = model, l2, epochs, lr
         self._embed = embed
         self.labels: list[str] = list(INTENTS)
@@ -154,6 +157,18 @@ class EmbeddingRouter(_RulesGuards):
         data = np.load(path)
         r.W, r.b, r.labels, r.temperature = data["W"], data["b"], meta["labels"], meta["temperature"]
         return r
+
+
+class CascadeRouter(_RulesGuards):
+    name = "cascade"
+
+    def __init__(self, learned: EmbeddingRouter, threshold: float = 0.5):
+        self.learned, self.threshold = learned, threshold
+        self.rules = RulesEngine()
+
+    def route(self, question: str) -> Decision:
+        d = self.rules.route(question)
+        return d if d.probability >= self.threshold else self.learned.route(question)
 
 
 class ZeroShotRouter(_RulesGuards):

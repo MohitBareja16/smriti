@@ -217,7 +217,13 @@ def exp_router_benchmark(cfg: dict, data_dir: Path, settings: Settings) -> dict:
     by a model that saw it in training. Latency is measured on the real inference path.
     """
     from smriti.decision import RulesEngine
-    from smriti.decision.learned import EmbeddingRouter, ZeroShotRouter, fold_indices, sentence_embedder
+    from smriti.decision.learned import (
+        CascadeRouter,
+        EmbeddingRouter,
+        ZeroShotRouter,
+        fold_indices,
+        sentence_embedder,
+    )
     from smriti.decision.learned import training_data as router_data
 
     p = cfg["params"]
@@ -234,7 +240,7 @@ def exp_router_benchmark(cfg: dict, data_dir: Path, settings: Settings) -> dict:
         elif name == "zeroshot":
             engine = ZeroShotRouter(model=p.get("nli_model", "cross-encoder/nli-deberta-v3-xsmall"))
             preds[name] = [engine.route(q) for q in questions]
-        elif name.startswith("embedding"):
+        elif name.startswith("embedding") or name == "cascade":
             model = p.get("embed_models", {}).get(name, "sentence-transformers/all-MiniLM-L6-v2")
             real = sentence_embedder(model)
             cache = dict(zip(questions, real(questions)))
@@ -247,10 +253,12 @@ def exp_router_benchmark(cfg: dict, data_dir: Path, settings: Settings) -> dict:
                 train = [i for i in range(len(questions)) if i not in set(f)]
                 router = EmbeddingRouter(embed=cached, model=model).fit(
                     [questions[i] for i in train], [gold[i] for i in train], seed=seed)
+                fold_engine = CascadeRouter(router) if name == "cascade" else router
                 for i in f:
-                    out[i] = router.route(questions[i])
+                    out[i] = fold_engine.route(questions[i])
             preds[name] = out
-            engine = EmbeddingRouter(embed=real, model=model).fit(questions, gold, seed=seed)
+            final = EmbeddingRouter(embed=real, model=model).fit(questions, gold, seed=seed)
+            engine = CascadeRouter(final) if name == "cascade" else final
         else:
             raise ValueError(f"unknown engine {name}")
         t0 = time.perf_counter()

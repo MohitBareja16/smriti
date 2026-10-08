@@ -20,13 +20,20 @@ def _embedding_engine() -> DecisionEngine:
     return router
 
 
+def _cascade_engine() -> DecisionEngine:
+    from smriti.decision.learned import CascadeRouter
+
+    return CascadeRouter(_embedding_engine())
+
+
 def _zeroshot_engine() -> DecisionEngine:
     from smriti.decision.learned import ZeroShotRouter
 
     return ZeroShotRouter()
 
 
-ENGINES = {"rules": RulesEngine, "embedding": _embedding_engine, "zeroshot": _zeroshot_engine}
+ENGINES = {"rules": RulesEngine, "embedding": _embedding_engine, "cascade": _cascade_engine,
+           "zeroshot": _zeroshot_engine}
 
 
 def get_engine(name: str) -> DecisionEngine:
