@@ -14,6 +14,28 @@ Newest first. Each entry links to its run folder in `experiments/results/`, whic
 
 ---
 
+## 2026-10-08: Grounding without over-abstention: trim policy + combined check (#9)
+**Runs:** [`grounding_benchmark`](../../experiments/results/20261008-162303_grounding_benchmark/) · [`tau_sweep_qwen_combined`](../../experiments/results/20261008-163012_tau_sweep_qwen_combined/) · [`tau_sweep_phi3_combined`](../../experiments/results/20261008-164800_tau_sweep_phi3_combined/) · intermediate: `*_trim`, `*_trim_embedding`, `*_adaptive` (20261007–08) · **RQ:** RQ4, RQ3, RQ1 · **Split:** dev
+
+**Hypothesis (from #9):** the lexical grounding check wrongly rejects correct reworded answers. A model-based check should cut false rejections while catching at least as many unsupported sentences.
+
+**What we found, step by step:**
+1. **The sentence-level check was not the main problem.** On a labelled benchmark of 65 sentence/evidence pairs (23 from real qwen/phi3 answers), lexical@0.6 wrongly rejects only 3% of supported sentences. Tracing phi3's "What is a TLB?" showed its extra sentences were *genuinely not in the notes* (correct general knowledge). The check was right; the **all-or-nothing policy** then threw away the whole answer.
+2. **Policy.** `trim` (drop unsupported sentences, abstain only if none survive) raised phi3 System-2 accuracy from 65% to 83%. `adaptive` (keep the whole answer if ≥ 50% is supported, else trim) gave identical results to `trim` for both models, so we kept the simpler, stricter `trim`.
+3. **Check.** On the benchmark (false rejection ↓ / catch rate ↑): lexical@0.6 3% / 50%; **strict NLI** (deberta-v3-xsmall) 52% / 84%, so it rejects most paraphrases; **hybrid** (NLI + embedding) 64% / 84%, because the small NLI model finds spurious contradictions; embedding@0.7 9% / 75%; **combined** (lexical ≥ 0.7 OR embedding ≥ 0.7) **0% / 53%**. Lexical and embedding fail on *different* sentences (reworded vs short or technical), so either one accepting is strong evidence. We chose `combined` for **zero false rejections**: over-abstention was the observed harm. embedding@0.7 is the option if catching hallucinations matters more.
+4. **Bug found on the way:** the sentence splitter broke numbered lists ("1. Deadlock … 2. Paging"); fixed.
+
+**End-to-end result (System 2 alone / with System 1 at τ 0.6–0.9):**
+
+| | Before #9 (lexical, abstain) | After #9 (combined, trim) |
+|---|---|---|
+| phi3 | 65% / 74% | **83% / 96%** |
+| qwen2.5:3b | 100% / 100% | 96% / 96% |
+
+**Interpretation:** **supported for weak/verbose models, with a small cost for strong ones.** The one qwen loss (e3, ACID) comes from a single heavily compressed sentence ("atomic (all-or-nothing), consistent…") that scores just below both thresholds (lexical 0.50, embedding 0.62). The exact-string metric also expects "Atomicity", which the answer doesn't contain, so it is partly a measurement limit, which WP5 (LLM judge) addresses. LLM outputs also varied between runs despite temperature 0 (retries change the context), so single-item differences should not be over-read on n = 23.
+
+**Decision:** default `grounding=auto` (combined if the ml extra is installed, else lexical), `grounding_policy=trim`. **Next:** confirm on the blind test set (WP1); report the "abstained because nothing was grounded" rate as its own metric; try a larger NLI model on GPU machines (model matrix).
+
 ## 2026-10-08: Conflicting numbers no longer fool the fact matcher (#10)
 **Run:** [`20261007-194501_tau_sweep_offline`](../../experiments/results/20261007-194501_tau_sweep_offline/) · **RQ:** RQ1 · **Split:** dev · **PR:** fixes #10
 
