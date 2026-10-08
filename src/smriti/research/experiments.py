@@ -184,7 +184,7 @@ def exp_grounding_benchmark(cfg: dict, data_dir: Path, settings: Settings) -> di
 
     grid = cfg["params"].get("grid", {
         "lexical": [0.4, 0.5, 0.6, 0.7], "nli": [0.1, 0.3, 0.5, 0.7],
-        "embedding": [0.5, 0.6, 0.7, 0.8], "hybrid": [0.5, 0.6, 0.7]})
+        "embedding": [0.5, 0.6, 0.7, 0.8], "hybrid": [0.5, 0.6, 0.7], "combined": [0.6, 0.7, 0.75, 0.8]})
     pos = [r for r in rows if r["supported"]]
     neg = [r for r in rows if not r["supported"]]
     table = []

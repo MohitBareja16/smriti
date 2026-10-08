@@ -1,11 +1,14 @@
 """Grounding checks: is a sentence of the answer supported by the retrieved evidence? (issue #9)
 
-Four rules, compared in the `grounding_benchmark` experiment:
+Rules, compared in the `grounding_benchmark` experiment (docs/research/LOG.md):
 
     lexical    share of the sentence's content words found in the evidence >= t   (no model)
     nli        NLI entailment probability against the best evidence passage >= t
     embedding  cosine similarity to the most similar evidence sentence >= t
     hybrid     not contradicted by the evidence (NLI) AND on-topic (embedding similarity >= t)
+    combined   lexical >= t_lex OR embedding >= t: the two fail on different sentences (reworded
+               vs short/technical), so either one accepting is strong evidence. Best on the benchmark.
+    auto       `combined` if the ml extra is installed, else `lexical` (the default)
 
 `lexical` needs nothing extra. The others need `pip install -e ".[ml]"` and download small CPU
 models on first use: an NLI cross-encoder and a sentence-embedding model.
@@ -22,8 +25,22 @@ from smriti.types import Decision
 
 NLI_MODEL = "cross-encoder/nli-deberta-v3-xsmall"
 EMBED_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
-RULES = ("lexical", "nli", "embedding", "hybrid")
-DEFAULT_THRESHOLDS = {"lexical": 0.6, "nli": 0.5, "embedding": 0.6, "hybrid": 0.6, "hybrid_contradiction": 0.5}
+RULES = ("lexical", "nli", "embedding", "hybrid", "combined")
+DEFAULT_THRESHOLDS = {"lexical": 0.6, "nli": 0.5, "embedding": 0.6, "hybrid": 0.6, "hybrid_contradiction": 0.5,
+                      "combined": 0.7, "combined_lexical": 0.7}
+
+
+def ml_available() -> bool:
+    import importlib.util
+
+    return importlib.util.find_spec("sentence_transformers") is not None
+
+
+def resolve_rule(rule: str) -> str:
+    """'auto' -> 'combined' when sentence-transformers is installed, otherwise 'lexical'."""
+    if rule == "auto":
+        return "combined" if ml_available() else "lexical"
+    return rule
 
 _BOUNDARY = re.compile(r"[.!?]\s+")
 _LIST_NUMBER = re.compile(r"(?:^|\s)\d{1,2}$")  # "2." in "… (3 papers) 2. Paging" is a list marker
@@ -116,6 +133,7 @@ class Grounder:
     embed_model: str = EMBED_MODEL
 
     def __post_init__(self) -> None:
+        self.rule = resolve_rule(self.rule)
         if self.rule not in RULES:
             raise ValueError(f"grounding rule must be one of {RULES}")
         self.thresholds = {**DEFAULT_THRESHOLDS, **self.thresholds}
@@ -129,7 +147,7 @@ class Grounder:
         if self.rule in ("nli", "hybrid"):
             for s, n in zip(sig, nli_signals(claims, evidence, self.nli_model)):
                 s.update(n)
-        if self.rule in ("embedding", "hybrid"):
+        if self.rule in ("embedding", "hybrid", "combined"):
             for s, e in zip(sig, embedding_similarity(claims, evidence, self.embed_model)):
                 s["embedding"] = e
         return sig
@@ -145,6 +163,9 @@ class Grounder:
         elif self.rule == "embedding":
             score = signal["embedding"]
             ok = score >= t["embedding"]
+        elif self.rule == "combined":
+            score = max(signal["lexical"], signal["embedding"])
+            ok = signal["lexical"] >= t["combined_lexical"] or signal["embedding"] >= t["combined"]
         else:  # hybrid: on-topic and not contradicted
             score = signal["embedding"] * (1 - signal["contradict"])
             ok = signal["embedding"] >= t["hybrid"] and signal["contradict"] < t["hybrid_contradiction"]

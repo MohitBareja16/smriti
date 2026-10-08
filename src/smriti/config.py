@@ -27,8 +27,9 @@ class Settings:
     s1_engine: str = field(default_factory=lambda: _env("S1_ENGINE", "rules"))
     # Confidence threshold tau: System 1 answers alone only when p >= tau.
     tau_fast: float = field(default_factory=lambda: float(_env("TAU_FAST", "0.75")))
-    # G2 grounding check (issue #9). rule: lexical (no extra installs) | embedding | nli | hybrid.
-    grounding: str = field(default_factory=lambda: _env("GROUNDING", "lexical"))
+    # G2 grounding check (issue #9). auto = combined (lexical OR embedding) if the ml extra is
+    # installed, else lexical. Also: lexical | combined | embedding | nli | hybrid.
+    grounding: str = field(default_factory=lambda: _env("GROUNDING", "auto"))
     # Threshold for the rule; empty = the rule's default (lexical 0.6, embedding 0.6, nli 0.5).
     grounding_threshold: float | None = field(
         default_factory=lambda: float(_env("GROUNDING_THRESHOLD", "")) if _env("GROUNDING_THRESHOLD", "") else None)

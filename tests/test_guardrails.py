@@ -98,3 +98,19 @@ def test_adaptive_keeps_mostly_grounded_answers_whole_and_trims_the_rest():
     barely = "A TLB is a small fast cache of page-table entries. Aliens built it. Martians use it daily."
     r = ground_answer(barely, chunks, Grounder(), policy="adaptive", threshold=0.5)
     assert r.verdict.passed and "Aliens" not in r.text and "TLB" in r.text  # 1/3: trimmed
+
+
+def test_combined_accepts_if_either_signal_accepts():
+    g = Grounder(rule="combined")
+    assert g.decide({"lexical": 0.36, "embedding": 0.71}).label == "yes"  # reworded sentence
+    assert g.decide({"lexical": 0.91, "embedding": 0.68}).label == "yes"  # short technical sentence
+    assert g.decide({"lexical": 0.30, "embedding": 0.40}).label == "no"
+
+
+def test_auto_rule_falls_back_to_lexical_without_ml(monkeypatch):
+    from smriti.decision import grounding
+
+    monkeypatch.setattr(grounding, "ml_available", lambda: False)
+    assert Grounder(rule="auto").rule == "lexical"
+    monkeypatch.setattr(grounding, "ml_available", lambda: True)
+    assert Grounder(rule="auto").rule == "combined"
