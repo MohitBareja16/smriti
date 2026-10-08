@@ -1,0 +1,89 @@
+{
+  "curve": [
+    {
+      "tau": 0.5,
+      "accuracy": 1.0,
+      "s1_share": 0.3077,
+      "s1_precision": 1.0,
+      "mean_latency_ms": 43404.83,
+      "llm_calls_per_q": 1.115,
+      "llm_tokens_per_q": 532.3
+    },
+    {
+      "tau": 0.6,
+      "accuracy": 1.0,
+      "s1_share": 0.2692,
+      "s1_precision": 1.0,
+      "mean_latency_ms": 43887.77,
+      "llm_calls_per_q": 1.154,
+      "llm_tokens_per_q": 542.1
+    },
+    {
+      "tau": 0.7,
+      "accuracy": 1.0,
+      "s1_share": 0.2692,
+      "s1_precision": 1.0,
+      "mean_latency_ms": 43887.77,
+      "llm_calls_per_q": 1.154,
+      "llm_tokens_per_q": 542.1
+    },
+    {
+      "tau": 0.75,
+      "accuracy": 1.0,
+      "s1_share": 0.2692,
+      "s1_precision": 1.0,
+      "mean_latency_ms": 43887.77,
+      "llm_calls_per_q": 1.154,
+      "llm_tokens_per_q": 542.1
+    },
+    {
+      "tau": 0.8,
+      "accuracy": 1.0,
+      "s1_share": 0.2692,
+      "s1_precision": 1.0,
+      "mean_latency_ms": 43887.77,
+      "llm_calls_per_q": 1.154,
+      "llm_tokens_per_q": 542.1
+    },
+    {
+      "tau": 0.85,
+      "accuracy": 1.0,
+      "s1_share": 0.2692,
+      "s1_precision": 1.0,
+      "mean_latency_ms": 43887.77,
+      "llm_calls_per_q": 1.154,
+      "llm_tokens_per_q": 542.1
+    },
+    {
+      "tau": 0.9,
+      "accuracy": 1.0,
+      "s1_share": 0.2692,
+      "s1_precision": 1.0,
+      "mean_latency_ms": 43887.77,
+      "llm_calls_per_q": 1.154,
+      "llm_tokens_per_q": 542.1
+    },
+    {
+      "tau": 0.95,
+      "accuracy": 1.0,
+      "s1_share": 0.0,
+      "s1_precision": null,
+      "mean_latency_ms": 51410.26,
+      "llm_calls_per_q": 1.423,
+      "llm_tokens_per_q": 642.5
+    },
+    {
+      "tau": 1.0,
+      "accuracy": 1.0,
+      "s1_share": 0.0,
+      "s1_precision": null,
+      "mean_latency_ms": 51410.26,
+      "llm_calls_per_q": 1.423,
+      "llm_tokens_per_q": 642.5
+    }
+  ],
+  "always_system2": {
+    "accuracy": 1.0,
+    "mean_latency_ms": 51408.72
+  }
+}

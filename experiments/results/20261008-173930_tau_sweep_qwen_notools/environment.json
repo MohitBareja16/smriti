@@ -1,0 +1,27 @@
+{
+  "timestamp_utc": "2026-10-08T17:34:49Z",
+  "smriti_version": "0.1.0",
+  "git_commit": "2e0d6d2401b493c8383b0c69b4c3c6079760cd6c",
+  "git_dirty": false,
+  "python": "3.11.14",
+  "platform": "Linux-7.0.0-38-generic-x86_64-with-glibc2.43",
+  "processor": "x86_64",
+  "llm_model_digest": "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
+  "settings": {
+    "data_dir": "<temporary>",
+    "llm_backend": "ollama",
+    "llm_model": "qwen2.5:3b",
+    "ollama_url": "http://localhost:11434",
+    "s1_engine": "rules",
+    "tau_fast": 0.75,
+    "grounding": "combined",
+    "grounding_threshold": null,
+    "grounding_policy": "trim",
+    "tau_grounding": 0.5,
+    "top_k": 5,
+    "max_agent_steps": 2,
+    "agent_tools": false,
+    "tracing": "off"
+  },
+  "duration_s": 281.22
+}
