@@ -97,6 +97,7 @@ Click **"Thinking"** above any answer to see each step Smriti took and why.
 | `smriti docs` | List your documents (🔒 = encrypted) |
 | `smriti facts` | List the facts used for fast answers |
 | `smriti audit` | Show a log of everything Smriti did |
+| `smriti traces` · `smriti trace <id>` | Past answers, and every step behind one of them (the id is shown under each answer) |
 | `smriti --help` | Show all commands |
 
 ## ❓ Troubleshooting

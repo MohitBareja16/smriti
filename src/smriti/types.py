@@ -71,3 +71,4 @@ class Answer:
     llm_tokens: int = 0  # prompt + completion tokens reported by the LLM (0 for System 1)
     latency_ms: float = 0.0
     attachment: str | None = None  # path to a decrypted document for fetch_doc
+    trace_id: str = ""  # OpenTelemetry trace id when tracing is on, else a random id
