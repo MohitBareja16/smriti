@@ -44,6 +44,10 @@
       "kind": "library",
       "course": "DBMS",
       "semester": 5
+    },
+    {
+      "path": "library/projects.md",
+      "kind": "library"
     }
   ]
 }

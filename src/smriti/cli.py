@@ -173,6 +173,30 @@ def cmd_library(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_graph(args: argparse.Namespace) -> int:
+    from smriti.graph import KnowledgeGraph
+
+    g = KnowledgeGraph(_app(args).db)
+    if args.rebuild or not g.counts():
+        g.rebuild()
+    if not args.entity:
+        counts = g.counts()
+        print("Knowledge graph: " + ", ".join(f"{n} {t.lower()}{'s' if n != 1 else ''}" for t, n in counts.items()))
+        for type_ in ("Course", "Project", "Certification", "Skill"):
+            if counts.get(type_):
+                print(f"  {type_}s: {', '.join(g.names(type_))}")
+        print('\nInspect one: smriti graph "DBMS"')
+        return 0
+    rows = g.neighbors(args.entity)
+    if not rows:
+        print(f"Nothing called '{args.entity}' in the graph. Try: smriti graph")
+        return 1
+    for direction, rel, other, ref in rows:
+        arrow = f"–{rel}→" if direction == "out" else f"←{rel}–"
+        print(f"  {args.entity} {arrow} {other}   ({ref})")
+    return 0
+
+
 def cmd_facts(args: argparse.Namespace) -> int:
     for f in _app(args).db.all_facts():
         print(f"{f.attribute:<36} {f.value:<40} ({f.doc_title} p.{f.page})")
@@ -304,6 +328,10 @@ def build_parser() -> argparse.ArgumentParser:
     p.set_defaults(func=cmd_ask)
 
     sub.add_parser("docs", parents=[demo_flag], help="list your documents").set_defaults(func=cmd_docs)
+    p = sub.add_parser("graph", parents=[demo_flag], help="knowledge graph: courses, skills, projects")
+    p.add_argument("entity", nargs="?", help="show connections of one entity, e.g. DBMS")
+    p.add_argument("--rebuild", action="store_true")
+    p.set_defaults(func=cmd_graph)
     p = sub.add_parser("library", parents=[demo_flag], help="your library: semester → course → topics")
     p.add_argument("--no-topics", action="store_true")
     p.set_defaults(func=cmd_library)

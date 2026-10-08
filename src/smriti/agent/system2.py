@@ -10,6 +10,7 @@ import re
 from dataclasses import dataclass, field
 
 from smriti.decision.base import DecisionEngine
+from smriti.graph import KnowledgeGraph
 from smriti.guardrails import filter_chunks
 from smriti.library import detect_semester
 from smriti.llm.base import Reasoner
@@ -18,7 +19,7 @@ from smriti.storage import Database
 from smriti.types import Chunk, GuardVerdict
 
 _CITE = re.compile(r"\[(\d+)\]")
-MULTI_QUERY_INTENTS = {"compare", "exam_prep", "other"}
+MULTI_QUERY_INTENTS = {"compare", "exam_prep", "connect", "other"}
 
 
 @dataclass
@@ -84,6 +85,14 @@ class System2Agent:
                 s["detail"] = f"step {step}: no results in [{scope}], searching all documents"
 
         chunks = sorted(pool.values(), key=lambda c: -c.score)[: k + 2]
+        if intent == "connect":
+            with tracer.span("s2.tool.graph_lookup") as s:
+                facts = KnowledgeGraph(self.db).lookup(question)
+                graph_chunks = [Chunk(id=-i, doc_id=0, doc_title="knowledge graph", page=0, text=f.text,
+                                      label=f"knowledge graph ({', '.join(f.refs[:4])})" if f.refs
+                                      else "knowledge graph") for i, f in enumerate(facts, 1)]
+                chunks = graph_chunks + chunks
+                s["detail"] = f"{len(facts)} fact(s): " + " | ".join(f.text[:80] for f in facts)
         if self.guard_chunks:
             with tracer.span("s1.guard.chunks") as s:
                 chunks, verdict = filter_chunks(chunks, self.engine)

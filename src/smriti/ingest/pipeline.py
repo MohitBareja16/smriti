@@ -6,6 +6,7 @@ import hashlib
 from dataclasses import dataclass
 from pathlib import Path
 
+from smriti.graph import KnowledgeGraph
 from smriti.guardrails.pii import find_pii, redact
 from smriti.ingest.chunker import chunk_with_topics
 from smriti.ingest.classify import classify_document
@@ -62,5 +63,6 @@ def ingest_file(path: Path, db: Database, vault: Vault, *, course: str | None = 
     db.add_chunks(doc_id, chunks)
     facts = extract_facts(pages) if kind == "personal" else []
     db.add_facts(doc_id, facts)
+    KnowledgeGraph(db).rebuild()
     db.audit("ingest", f"{title} type={doc_type} kind={kind} sensitive={sensitive} chunks={len(chunks)}")
     return IngestResult(doc_id, title, doc_type, kind, sensitive, len(chunks), len(facts))

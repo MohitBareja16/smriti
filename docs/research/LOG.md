@@ -14,6 +14,22 @@ Newest first. Each entry links to its run folder in `experiments/results/`, whic
 
 ---
 
+## 2026-10-08: A knowledge graph answers connection questions plain RAG can't (#17)
+**Runs:** [`20261008-171553_baselines_offline`](../../experiments/results/20261008-171553_baselines_offline/) · [`20261008-171552_router_calibration_rules`](../../experiments/results/20261008-171552_router_calibration_rules/) · [`20261008-171554_tau_sweep_offline`](../../experiments/results/20261008-171554_tau_sweep_offline/) · **RQ:** RQ3, RQ1 · **Split:** dev · offline reasoner
+
+**Change:** a deterministic knowledge graph (courses, topics, skills, projects, certifications, exams, with cited edges) and a `graph_lookup` tool. A new System-1 intent `connect` routes questions like *"Which skills from my DBMS course have I used in projects?"* to it. **Dataset change:** Alex Demo gained a project write-up (`library/projects.md`) and `qa.jsonl` gained k1–k3 (26 items), so the dataset fingerprint changed and overall percentages are not directly comparable with earlier entries.
+
+**Hypothesis:** connection questions need facts spread over several documents, so the graph enables answers plain retrieval can't give, with no change on existing questions.
+
+**Result:**
+- Graph questions k1–k3: **plain RAG 0/3, agent 3/3** (System 2 alone and with System 1), each citing the graph facts' source pages.
+- **No item changed** on the original 23 questions (per-item diff against the previous run). Router predictions are identical on all 63 earlier router items; the 3 new items are routed to `connect`.
+- Router ECE rose from 0.144 to **0.162**: a 7th intent spreads the softmax, lowering confidences slightly.
+
+**Interpretation:** **supported** (on 3 items, written by us: small and optimistic). The graph turns multi-document reasoning into a lookup. Plain RAG retrieved relevant passages but never combined DBMS notes with project write-ups. The calibration drop is another argument for a learned, calibrated System-1 model.
+
+**Next:** LLM-based System 2 on k1–k3; blind graph questions in WP1; skill extraction is vocabulary-based, so its recall on real student documents is unknown (extendable `SKILLS`).
+
 ## 2026-10-08: Topic-aware chunks improve retrieval (#15)
 **Runs:** [`20261008-170803_baselines_offline`](../../experiments/results/20261008-170803_baselines_offline/) · [`20261008-170803_tau_sweep_offline`](../../experiments/results/20261008-170803_tau_sweep_offline/) · **RQ:** RQ3 · **Split:** dev · offline reasoner
 

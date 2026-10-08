@@ -32,6 +32,11 @@ ROUTE_PATTERNS: dict[str, list[tuple[re.Pattern[str], float]]] = {
         (re.compile(r"\b(past papers?|previous years?|pyqs?|frequently|most asked|important topics|"
                     r"come up)\b", _I), 3.0),
     ],
+    "connect": [
+        (re.compile(r"\b(which|what)\b[^?]*\b(skills?|courses?|projects?|certificates?|certifications?|topics?)\b"
+                    r"[^?]*\b(used|use|apply|applied|relates?|related|connect\w*|link\w*|in my projects)\b", _I), 3.0),
+        (re.compile(r"\b(where have i used|in common|overlap|link between|connection between)\b", _I), 3.0),
+    ],
     "explain": [
         (re.compile(r"^\s*(explain|describe|define|summari[sz]e|what (?:is|are) (?!my\b)|how (?:does|do)|why)",
                     _I), 2.0),
