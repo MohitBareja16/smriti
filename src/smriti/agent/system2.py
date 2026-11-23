@@ -81,7 +81,9 @@ def cited_refs(text: str, chunks: list[Chunk]) -> list[str]:
         i = int(n) - 1
         if 0 <= i < len(chunks) and chunks[i].ref not in refs:
             refs.append(chunks[i].ref)
-    return refs
+    # Lightweight local models can omit the requested inline [n] markers. The answer still
+    # passes the grounding check against these chunks, so expose the top retrieved source.
+    return refs or ([chunks[0].ref] if chunks else [])
 
 
 class AgentState(TypedDict, total=False):

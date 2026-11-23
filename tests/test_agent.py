@@ -1,9 +1,17 @@
 from smriti.agent.system2 import TOOL_PLANS, System2Agent, top_facts
 from smriti.observability import Tracer
+from smriti.types import Chunk
 
 
 def _tools(answer):
     return [s.name for s in answer.trace if s.name.startswith("s2.tool.")]
+
+
+def test_model_answer_without_inline_citation_uses_top_source():
+    from smriti.agent.system2 import cited_refs
+
+    source = Chunk(id=1, doc_id=1, doc_title="os_notes", page=2, text="Deadlock conditions")
+    assert cited_refs("Four conditions describe deadlock.", [source]) == ["os_notes p.2"]
 
 
 def test_agent_is_a_langgraph_state_machine(demo_app):

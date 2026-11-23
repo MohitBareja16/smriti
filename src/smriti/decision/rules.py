@@ -17,7 +17,8 @@ _I = re.IGNORECASE
 
 ROUTE_PATTERNS: dict[str, list[tuple[re.Pattern[str], float]]] = {
     "fetch_doc": [
-        (re.compile(r"\b(give|send|show|open|fetch|download|get)\b[^?]*\b(certificate|marksheet|grade card|"
+        (re.compile(r"\b(give|send|show|open|fetch|download|get)\b[^?]*\b(certificates?|certifications?|"
+                    r"marksheets?|grade cards?|"
                     r"document|pdf|file|copy|transcript|id card)\b", _I), 3.0),
     ],
     "fact_lookup": [

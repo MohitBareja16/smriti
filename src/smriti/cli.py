@@ -96,6 +96,9 @@ def cmd_ui(args: argparse.Namespace) -> int:
         _ask_passphrase()
     _choose_llm()
     env = dict(os.environ, CHAINLIT_APP_ROOT=str(UI_DIR))
+    # Chainlit treats DEBUG as its boolean debug flag. Some environments set
+    # DEBUG=release, which makes the CLI reject startup before loading the app.
+    env.pop("DEBUG", None)
     cmd = [sys.executable, "-m", "chainlit", "run", str(UI_DIR / "chainlit_app.py"), "--port", str(args.port)]
     if args.no_browser:
         cmd.append("--headless")
@@ -382,6 +385,10 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def main(argv: list[str] | None = None) -> int:
+    # CLI help and status messages include arrows and symbols; use UTF-8 in Windows consoles.
+    for stream in (sys.stdout, sys.stderr):
+        if hasattr(stream, "reconfigure"):
+            stream.reconfigure(encoding="utf-8", errors="replace")
     args = build_parser().parse_args(argv)
     return args.func(args)
 

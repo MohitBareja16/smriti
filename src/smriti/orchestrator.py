@@ -10,6 +10,7 @@
 from __future__ import annotations
 
 import json
+import re
 import time
 from pathlib import Path
 from typing import Literal
@@ -30,6 +31,9 @@ from smriti.vault import Vault, VaultLockedError
 
 Mode = Literal["ours", "agent", "plain"]
 BLOCKED_TEXT = "I can't help with that: the request looks like a prompt-injection or data-extraction attempt."
+_COUNT_DOCUMENTS = re.compile(
+    r"\b(?:how many|count|number of)\s+(?:documents?|docs?|files?)\b|"
+    r"\b(?:document|doc|file)\s+count\b", re.IGNORECASE)
 
 
 class Orchestrator:
@@ -107,6 +111,17 @@ class Orchestrator:
                 s["detail"] = f"{v.detail} (p_injection={v.score:.2f})"
             if not v.passed:
                 return Answer(text=BLOCKED_TEXT, path="BLOCKED", guard_verdicts=verdicts)
+
+        # Counts are database facts, not a question for semantic search or the LLM. Returning
+        # them directly avoids the model claiming it cannot tell how many indexed documents exist.
+        if mode == "ours" and _COUNT_DOCUMENTS.search(question):
+            docs = self.db.list_documents()
+            count = len(docs)
+            text = f"There {'is' if count == 1 else 'are'} {count} document{'s' if count != 1 else ''} in your Smriti library."
+            with tracer.span("s1.document_count") as s:
+                s["detail"] = f"counted {count} indexed document(s)"
+            return Answer(text=text, path="S1", intent="fact_lookup", confidence=1.0,
+                          guard_verdicts=verdicts)
 
         with tracer.span("s1.router") as s:
             route = self.engine.route(question)

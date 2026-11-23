@@ -9,6 +9,14 @@ def test_fact_question_answered_by_system1_without_llm(demo_app):
     assert [s.name for s in a.trace][:2] == ["s1.guard.input", "s1.router"]
 
 
+def test_document_count_comes_from_index_without_llm(demo_app):
+    expected = len(demo_app.db.list_documents())
+    a = demo_app.orchestrator.handle("How many documents are there?")
+    assert a.path == "S1" and a.llm_calls == 0
+    assert f"{expected} document" in a.text
+    assert any(s.name == "s1.document_count" for s in a.trace)
+
+
 def test_concept_question_escalates_to_system2_with_citations(demo_app):
     a = demo_app.orchestrator.handle("Explain the four conditions for deadlock from my OS notes")
     assert a.path == "S2"
@@ -36,6 +44,13 @@ def test_fetch_decrypts_vault_document(demo_app):
     a = demo_app.orchestrator.handle("Give me my AWS certificate")
     assert a.path == "S1" and a.attachment
     assert "AWS certificate expiry" in Path(a.attachment).read_text()
+
+
+def test_fetch_plural_certificates_returns_the_document(demo_app):
+    a = demo_app.orchestrator.handle("Fetch me my certificates")
+    assert a.path == "S1" and a.attachment
+    assert "certificates" in a.text.lower()
+    assert Path(a.attachment).exists()
 
 
 def test_answers_never_leak_raw_pii(demo_app):
