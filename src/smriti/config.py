@@ -21,7 +21,7 @@ class Settings:
     data_dir: Path = field(default_factory=lambda: Path(_env("DATA_DIR", str(HOME / "data"))).expanduser())
     # LLM used by System 2. "ollama" (local, default) or "extractive" (no model, offline fallback).
     llm_backend: str = field(default_factory=lambda: _env("LLM", "ollama"))
-    llm_model: str = field(default_factory=lambda: _env("LLM_MODEL", "qwen2.5:3b"))
+    llm_model: str = field(default_factory=lambda: _env("LLM_MODEL", "qwen2.5:0.5b"))
     ollama_url: str = field(default_factory=lambda: _env("OLLAMA_URL", "http://localhost:11434"))
     # System 1 engine: "rules" (zero-dependency baseline). More engines are pluggable (see decision/).
     s1_engine: str = field(default_factory=lambda: _env("S1_ENGINE", "rules"))

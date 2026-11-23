@@ -410,18 +410,19 @@ def run_experiment(config_path: Path, results_root: Path | None = None) -> Path:
     stamp = time.strftime("%Y%m%d-%H%M%S", time.gmtime())
     run_dir = (results_root or REPO_ROOT / "experiments" / "results") / f"{stamp}_{cfg['name']}"
     run_dir.mkdir(parents=True, exist_ok=False)
-    (run_dir / "config.json").write_text(json.dumps(cfg, indent=2) + "\n")
-    (run_dir / "environment.json").write_text(json.dumps(env, indent=2) + "\n")
-    (run_dir / "dataset.json").write_text(json.dumps(fingerprint(data_dir), indent=2) + "\n")
-    (run_dir / "summary.json").write_text(json.dumps(out["summary"], indent=2) + "\n")
+    (run_dir / "config.json").write_text(json.dumps(cfg, indent=2) + "\n", encoding="utf-8")
+    (run_dir / "environment.json").write_text(json.dumps(env, indent=2) + "\n", encoding="utf-8")
+    (run_dir / "dataset.json").write_text(json.dumps(fingerprint(data_dir), indent=2) + "\n", encoding="utf-8")
+    (run_dir / "summary.json").write_text(json.dumps(out["summary"], indent=2) + "\n", encoding="utf-8")
     header = (f"# {cfg['name']}\n\n**Research questions:** {', '.join(cfg['research_questions'])}  \n"
               f"**Hypothesis:** {cfg['hypothesis']}  \n**Split:** {cfg['split']} · "
               f"**System 2:** {settings.llm_backend}"
               f"{' (' + settings.llm_model + ')' if settings.llm_backend == 'ollama' else ''} · "
               f"**System 1:** {settings.s1_engine} · **Commit:** `{(env['git_commit'] or '?')[:8]}`"
               f"{' (uncommitted changes)' if env['git_dirty'] else ''}\n\n")
-    (run_dir / "summary.md").write_text(header + out["markdown"])
-    (run_dir / "details.jsonl").write_text("\n".join(json.dumps(r, ensure_ascii=False) for r in out["details"]) + "\n")
+    (run_dir / "summary.md").write_text(header + out["markdown"], encoding="utf-8")
+    (run_dir / "details.jsonl").write_text(
+        "\n".join(json.dumps(r, ensure_ascii=False) for r in out["details"]) + "\n", encoding="utf-8")
     for name, rows in out.get("csv", {}).items():
         with open(run_dir / name, "w", newline="") as f:
             w = csv.DictWriter(f, fieldnames=list(rows[0]))

@@ -1,9 +1,31 @@
 from smriti.agent.system2 import TOOL_PLANS, System2Agent, top_facts
 from smriti.observability import Tracer
+from smriti.types import Chunk
 
 
 def _tools(answer):
     return [s.name for s in answer.trace if s.name.startswith("s2.tool.")]
+
+
+def test_model_answer_without_inline_citation_uses_top_source():
+    from smriti.agent.system2 import cited_refs
+
+    unrelated = Chunk(id=1, doc_id=1, doc_title="exam_timetable", page=1, text="The exam is on 10 December.")
+    source = Chunk(id=2, doc_id=2, doc_title="os_notes", page=2,
+                   text="A deadlock requires four conditions: mutual exclusion, hold and wait, no preemption, and circular wait.")
+    assert cited_refs("Four conditions describe deadlock.", [unrelated, source]) == ["os_notes p.2"]
+    assert cited_refs("The answer is unsupported.", [unrelated]) == []
+
+
+def test_inline_citation_is_kept_only_when_its_source_supports_the_claim():
+    from smriti.agent.system2 import cited_refs
+
+    source = Chunk(id=1, doc_id=1, doc_title="os_notes", page=2,
+                   text="Deadlock requires mutual exclusion and circular wait.")
+    unrelated = Chunk(id=2, doc_id=2, doc_title="exam_timetable", page=1,
+                      text="The exam is on 10 December.")
+    assert cited_refs("Deadlock requires circular wait [1].", [source, unrelated]) == ["os_notes p.2"]
+    assert cited_refs("The exam is on 10 December [2].", [source, unrelated]) == ["exam_timetable p.1"]
 
 
 def test_agent_is_a_langgraph_state_machine(demo_app):

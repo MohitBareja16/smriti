@@ -54,7 +54,10 @@ def eval_app(data_dir: Path, settings: Settings | None = None) -> Iterator[App]:
         settings.passphrase = settings.passphrase or "eval-only-passphrase"
         app = build_app(settings)
         load_manifest(Path(data_dir) / "alex_demo", app)
-        yield app
+        try:
+            yield app
+        finally:
+            app.db.conn.close()
 
 
 def run_eval(data_dir: Path, settings: Settings | None = None, systems: list[str] | None = None,
@@ -119,10 +122,10 @@ def run_eval(data_dir: Path, settings: Settings | None = None, systems: list[str
     if out_dir:
         out_dir.mkdir(parents=True, exist_ok=True)
         (out_dir / "summary.json").write_text(json.dumps(
-            [{k: v for k, v in asdict(r).items() if k != "rows"} for r in results], indent=2))
+            [{k: v for k, v in asdict(r).items() if k != "rows"} for r in results], indent=2), encoding="utf-8")
         (out_dir / "details.jsonl").write_text(
-            "\n".join(json.dumps(row) for r in results for row in r.rows) + "\n")
-        (out_dir / "summary.md").write_text(to_markdown(results))
+            "\n".join(json.dumps(row) for r in results for row in r.rows) + "\n", encoding="utf-8")
+        (out_dir / "summary.md").write_text(to_markdown(results), encoding="utf-8")
     return results
 
 

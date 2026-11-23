@@ -88,7 +88,7 @@ def _app(args: argparse.Namespace):
 # ---- commands ------------------------------------------------------------------------------
 def cmd_ui(args: argparse.Namespace) -> int:
     if importlib.util.find_spec("chainlit") is None:
-        print("The chat UI isn't installed. Run:  pip install -e \".[ui]\"")
+        print("The chat UI isn't installed. Run:  pip install -e \".[ui,docx]\"")
         return 1
     if args.demo:
         _use_demo()
@@ -96,6 +96,9 @@ def cmd_ui(args: argparse.Namespace) -> int:
         _ask_passphrase()
     _choose_llm()
     env = dict(os.environ, CHAINLIT_APP_ROOT=str(UI_DIR))
+    # Chainlit treats DEBUG as its boolean debug flag. Some environments set
+    # DEBUG=release, which makes the CLI reject startup before loading the app.
+    env.pop("DEBUG", None)
     cmd = [sys.executable, "-m", "chainlit", "run", str(UI_DIR / "chainlit_app.py"), "--port", str(args.port)]
     if args.no_browser:
         cmd.append("--headless")
@@ -305,7 +308,7 @@ def cmd_experiment(args: argparse.Namespace) -> int:
     except LLMUnavailableError as exc:
         print(f"✗ {exc}")
         return 1
-    print((run_dir / "summary.md").read_text())
+    print((run_dir / "summary.md").read_text(encoding="utf-8"))
     print(f"Saved to {run_dir.relative_to(REPO_ROOT) if run_dir.is_relative_to(REPO_ROOT) else run_dir}/")
     return 0
 
@@ -382,6 +385,10 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def main(argv: list[str] | None = None) -> int:
+    # CLI help and status messages include arrows and symbols; use UTF-8 in Windows consoles.
+    for stream in (sys.stdout, sys.stderr):
+        if hasattr(stream, "reconfigure"):
+            stream.reconfigure(encoding="utf-8", errors="replace")
     args = build_parser().parse_args(argv)
     return args.func(args)
 
