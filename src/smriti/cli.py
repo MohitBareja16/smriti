@@ -88,7 +88,7 @@ def _app(args: argparse.Namespace):
 # ---- commands ------------------------------------------------------------------------------
 def cmd_ui(args: argparse.Namespace) -> int:
     if importlib.util.find_spec("chainlit") is None:
-        print("The chat UI isn't installed. Run:  pip install -e \".[ui]\"")
+        print("The chat UI isn't installed. Run:  pip install -e \".[ui,docx]\"")
         return 1
     if args.demo:
         _use_demo()
@@ -308,7 +308,7 @@ def cmd_experiment(args: argparse.Namespace) -> int:
     except LLMUnavailableError as exc:
         print(f"✗ {exc}")
         return 1
-    print((run_dir / "summary.md").read_text())
+    print((run_dir / "summary.md").read_text(encoding="utf-8"))
     print(f"Saved to {run_dir.relative_to(REPO_ROOT) if run_dir.is_relative_to(REPO_ROOT) else run_dir}/")
     return 0
 

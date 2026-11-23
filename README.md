@@ -34,17 +34,17 @@ Linux/macOS:
 ```bash
 python -m venv .venv
 source .venv/bin/activate
-python -m pip install -e ".[ui]"
+python -m pip install -e ".[ui,docx]"
 ```
 
 Windows PowerShell:
 ```powershell
 py -m venv .venv
 .\.venv\Scripts\Activate.ps1
-python -m pip install -e ".[ui]"
+python -m pip install -e ".[ui,docx]"
 ```
 
-Windows Command Prompt can activate with `.venv\Scripts\activate.bat` before running the same `python -m pip install -e ".[ui]"` command.
+Windows Command Prompt can activate with `.venv\Scripts\activate.bat` before running the same `python -m pip install -e ".[ui,docx]"` command.
 
 **3. Open the app with sample data**
 ```bash
@@ -119,7 +119,7 @@ Click **"Thinking"** above any answer to see each step Smriti took and why.
 | Problem | Fix |
 |---|---|
 | `smriti: command not found` | Activate the environment first: `source .venv/bin/activate` (Windows PowerShell: `.venv\Scripts\Activate.ps1`; Command Prompt: `.venv\Scripts\activate.bat`) |
-| "The chat UI isn't installed" | Run `pip install -e ".[ui]"` |
+| "The chat UI isn't installed" | Run `pip install -e ".[ui,docx]"` |
 | Port 8000 is already in use | Run `smriti ui --port 8001` |
 | The browser didn't open | Open http://localhost:8000 yourself |
 | "Offline mode" message | That's fine. Install Ollama and a model (see above) for better answers |

@@ -14,6 +14,7 @@ from langgraph.graph import END, StateGraph
 
 from smriti.decision.base import DecisionEngine
 from smriti.decision.facts_match import fact_score, qualifiers_conflict
+from smriti.decision.grounding import Grounder, split_sentences
 from smriti.decision.text import norm_set, overlap_f1
 from smriti.graph import KnowledgeGraph
 from smriti.guardrails import filter_chunks
@@ -77,13 +78,25 @@ def _scope(filters: dict) -> str:
 
 def cited_refs(text: str, chunks: list[Chunk]) -> list[str]:
     refs: list[str] = []
-    for n in _CITE.findall(text):
-        i = int(n) - 1
-        if 0 <= i < len(chunks) and chunks[i].ref not in refs:
-            refs.append(chunks[i].ref)
-    # Lightweight local models can omit the requested inline [n] markers. The answer still
-    # passes the grounding check against these chunks, so expose the top retrieved source.
-    return refs or ([chunks[0].ref] if chunks else [])
+    if not chunks or not text.strip():
+        return refs
+    grounder = Grounder(rule="lexical")
+    for sentence in split_sentences(text):
+        claim = _CITE.sub("", sentence).strip()
+        if len(claim) <= 3:
+            continue
+        cited = [int(n) - 1 for n in _CITE.findall(sentence)]
+        candidates = [i for i in cited if 0 <= i < len(chunks)] if cited else range(len(chunks))
+        for i in candidates:
+            if grounder.check([claim], [chunks[i].text])[0].label == "yes":
+                if chunks[i].ref not in refs:
+                    refs.append(chunks[i].ref)
+                # Keep a grounded inline citation; for an uncited answer, use the first
+                # source verified against the sentence instead of the top ranked chunk.
+                if cited:
+                    continue
+                break
+    return refs
 
 
 class AgentState(TypedDict, total=False):

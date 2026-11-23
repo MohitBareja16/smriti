@@ -17,6 +17,11 @@ def test_document_count_comes_from_index_without_llm(demo_app):
     assert any(s.name == "s1.document_count" for s in a.trace)
 
 
+def test_filtered_document_count_does_not_return_whole_library_count(demo_app):
+    a = demo_app.orchestrator.handle("How many documents mention deadlock?")
+    assert not any(s.name == "s1.document_count" for s in a.trace)
+
+
 def test_concept_question_escalates_to_system2_with_citations(demo_app):
     a = demo_app.orchestrator.handle("Explain the four conditions for deadlock from my OS notes")
     assert a.path == "S2"

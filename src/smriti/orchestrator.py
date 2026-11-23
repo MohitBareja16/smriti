@@ -25,7 +25,7 @@ from smriti.guardrails import IDK, GroundingResult, check_input, check_pii, grou
 from smriti.guardrails.pii import redact
 from smriti.llm.base import Reasoner
 from smriti.observability import Tracer
-from smriti.storage import Database
+from smriti.storage import Database, content_tokens
 from smriti.types import Answer
 from smriti.vault import Vault, VaultLockedError
 
@@ -34,6 +34,15 @@ BLOCKED_TEXT = "I can't help with that: the request looks like a prompt-injectio
 _COUNT_DOCUMENTS = re.compile(
     r"\b(?:how many|count|number of)\s+(?:documents?|docs?|files?)\b|"
     r"\b(?:document|doc|file)\s+count\b", re.IGNORECASE)
+_WHOLE_LIBRARY_COUNT_TERMS = {
+    "document", "documents", "doc", "docs", "file", "files", "there", "all", "total", "overall",
+    "indexed", "stored", "library", "vault", "smriti", "currently", "added", "have", "we", "i",
+    "many", "number", "count",
+}
+
+
+def _is_whole_library_count(question: str) -> bool:
+    return bool(_COUNT_DOCUMENTS.search(question)) and set(content_tokens(question)) <= _WHOLE_LIBRARY_COUNT_TERMS
 
 
 class Orchestrator:
@@ -114,7 +123,7 @@ class Orchestrator:
 
         # Counts are database facts, not a question for semantic search or the LLM. Returning
         # them directly avoids the model claiming it cannot tell how many indexed documents exist.
-        if mode == "ours" and _COUNT_DOCUMENTS.search(question):
+        if mode == "ours" and _is_whole_library_count(question):
             docs = self.db.list_documents()
             count = len(docs)
             text = f"There {'is' if count == 1 else 'are'} {count} document{'s' if count != 1 else ''} in your Smriti library."
