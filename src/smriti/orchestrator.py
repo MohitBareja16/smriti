@@ -39,10 +39,18 @@ _WHOLE_LIBRARY_COUNT_TERMS = {
     "indexed", "stored", "library", "vault", "smriti", "currently", "added", "have", "we", "i",
     "many", "number", "count",
 }
+_GREETING_PATTERN = re.compile(
+    r"^\s*(?:hey|hi|hello|namaste|hlo|heyy+|hii+|good\s+(?:morning|afternoon|evening)|who\s+are\s+you|what\s+can\s+you\s+do|help)\b[!.? ]*$",
+    re.IGNORECASE,
+)
 
 
 def _is_whole_library_count(question: str) -> bool:
     return bool(_COUNT_DOCUMENTS.search(question)) and set(content_tokens(question)) <= _WHOLE_LIBRARY_COUNT_TERMS
+
+
+def _is_greeting(question: str) -> bool:
+    return bool(_GREETING_PATTERN.match(question.strip()))
 
 
 class Orchestrator:
@@ -130,6 +138,17 @@ class Orchestrator:
             with tracer.span("s1.document_count") as s:
                 s["detail"] = f"counted {count} indexed document(s)"
             return Answer(text=text, path="S1", intent="fact_lookup", confidence=1.0,
+                          guard_verdicts=verdicts)
+
+        if mode == "ours" and _is_greeting(question):
+            text = (
+                "Namaste! I am **Smriti**, your private academic assistant.\n\n"
+                "I know your documents (exam datesheets, class timetables, marksheets, and past papers). "
+                "Ask me about your exam schedule, marks/SGPA, or question paper topics!"
+            )
+            with tracer.span("s1.greeting") as s:
+                s["detail"] = "conversational greeting handled directly by System 1"
+            return Answer(text=text, path="S1", intent="other", confidence=1.0,
                           guard_verdicts=verdicts)
 
         with tracer.span("s1.router") as s:
