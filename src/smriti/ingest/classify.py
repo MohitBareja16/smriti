@@ -5,8 +5,16 @@ from __future__ import annotations
 DOC_TYPES: dict[str, tuple[str, ...]] = {
     "marksheet": ("marksheet", "grade card", "sgpa", "cgpa", "result"),
     "certificate": ("certificate", "certified", "certification", "credential id"),
-    "timetable": ("timetable", "date sheet", "datesheet", "exam schedule", "end-term"),
-    "past_paper": ("question paper", "past paper", "previous year", "attempt any", "max. marks"),
+    "timetable": (
+        "timetable", "time table", "date sheet", "datesheet", "exam schedule",
+        "end-term", "theory date sheet", "time of exam", "morning session", "evening session",
+        "centre of exam"
+    ),
+    "past_paper": (
+        "question paper", "past paper", "previous year", "attempt any", "max. marks",
+        "pyq", "question-paper", "maximum marks", "examination", "roll no", "p.t.o",
+        "questions in all", "equal marks"
+    ),
     "syllabus": ("syllabus", "course outcomes", "unit i", "unit 1:"),
     "project": ("project", "built with", "deployed", "github", "repository"),
     "book": ("chapter", "isbn", "edition", "preface"),

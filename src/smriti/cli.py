@@ -61,6 +61,12 @@ def _choose_llm(quiet: bool = False) -> None:
     s = Settings()
     if s.llm_backend != "ollama":
         return
+    # Auto-upgrade to 3b if already pulled and user did not explicitly set LLM_MODEL
+    if not os.environ.get("SMRITI_LLM_MODEL") and s.llm_model == "qwen2.5:0.5b":
+        ok_3b, _ = ollama_status("qwen2.5:3b", s.ollama_url)
+        if ok_3b:
+            os.environ["SMRITI_LLM_MODEL"] = "qwen2.5:3b"
+            s = Settings()
     ok, msg = ollama_status(s.llm_model, s.ollama_url)
     if ok:
         if not quiet:

@@ -18,13 +18,13 @@ _I = re.IGNORECASE
 ROUTE_PATTERNS: dict[str, list[tuple[re.Pattern[str], float]]] = {
     "fetch_doc": [
         (re.compile(r"\b(give|send|show|open|fetch|download|get)\b[^?]*\b(certificates?|certifications?|"
-                    r"marksheets?|grade cards?|"
+                    r"marksheets?|grade cards?|datesheets?|date sheets?|timetables?|time tables?|schedules?|"
                     r"document|pdf|file|copy|transcript|id card)\b", _I), 3.0),
     ],
     "fact_lookup": [
-        (re.compile(r"^\s*(when|which date|how many|where is|what(?:'s| is| was| are) my)\b", _I), 1.5),
+        (re.compile(r"^\s*(when|which date|how many|where is|what(?:'s| is| was| are))\b", _I), 1.5),
         (re.compile(r"\b(exam|date|cgpa|sgpa|marks?|grade|deadline|expiry|expires?|expire|issued|"
-                    r"roll number|score|result|hall)\b", _I), 1.5),
+                    r"roll number|score|result|hall|timetable|datesheet|date sheet|schedule|contact|phone|mobile)\b", _I), 1.5),
     ],
     "compare": [
         (re.compile(r"\b(compare|comparison|difference|differ|versus|vs\.?|contrast)\b", _I), 3.0),
@@ -39,7 +39,7 @@ ROUTE_PATTERNS: dict[str, list[tuple[re.Pattern[str], float]]] = {
         (re.compile(r"\b(where have i used|in common|overlap|link between|connection between)\b", _I), 3.0),
     ],
     "explain": [
-        (re.compile(r"^\s*(explain|describe|define|summari[sz]e|what (?:is|are) (?!my\b)|how (?:does|do)|why)",
+        (re.compile(r"^\s*(explain|describe|define|summari[sz]e|what (?:is|are) (?!my\b|.*?\b(?:contact|phone|date|exam|cgpa|roll number|marks?|grade|timetable)\b)|how (?:does|do)|why)",
                     _I), 2.0),
         (re.compile(r"\b(concept|algorithm|meaning of)\b", _I), 0.5),
     ],

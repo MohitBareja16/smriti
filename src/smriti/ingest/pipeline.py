@@ -56,12 +56,15 @@ def ingest_file(path: Path, db: Database, vault: Vault, *, course: str | None = 
         pages = [(p, redact(t)) for p, t in pages]
 
     stored_path = path.name if sensitive else str(path.resolve())  # never keep paths of sensitive files
+    detected_sem = semester if semester is not None else detect_semester(str(path))
+    if detected_sem is None and full_text:
+        detected_sem = detect_semester(full_text[:500])
     doc_id = db.add_document(title=title, path=stored_path, sha256=sha, kind=kind, doc_type=doc_type,
                              course=course, sensitive=sensitive, vault_file=vault_file,
-                             semester=semester if semester is not None else detect_semester(str(path)))
+                             semester=detected_sem)
     chunks = chunk_with_topics(pages)
     db.add_chunks(doc_id, chunks)
-    facts = extract_facts(pages) if kind == "personal" else []
+    facts = extract_facts(pages, semester=detected_sem) if kind == "personal" else []
     db.add_facts(doc_id, facts)
     KnowledgeGraph(db).rebuild()
     db.audit("ingest", f"{title} type={doc_type} kind={kind} sensitive={sensitive} chunks={len(chunks)}")

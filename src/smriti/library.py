@@ -5,13 +5,28 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass, field
 
+_WORDS_TO_NUM = {
+    "first": 1, "1st": 1, "second": 2, "2nd": 2, "third": 3, "3rd": 3,
+    "fourth": 4, "4th": 4, "fifth": 5, "5th": 5, "sixth": 6, "6th": 6,
+    "seventh": 7, "7th": 7, "eighth": 8, "8th": 8,
+}
 _SEMESTER = re.compile(r"(?:^|[^a-z0-9])sem(?:ester)?[\s_-]*0?(\d{1,2})(?![0-9])", re.IGNORECASE)
+_WORD_SEMESTER_1 = re.compile(r"\b(" + "|".join(_WORDS_TO_NUM) + r")[\s_-]*sem(?:ester)?\b", re.IGNORECASE)
+_WORD_SEMESTER_2 = re.compile(r"\bsem(?:ester)?[\s_-]*(" + "|".join(_WORDS_TO_NUM) + r")\b", re.IGNORECASE)
 
 
 def detect_semester(text: str) -> int | None:
-    """'my sem 5 notes', 'semester-05/os.pdf', 'Sem4' -> the semester number; None if absent."""
+    """'my sem 5 notes', 'semester-05/os.pdf', 'first_sem_dmc', 'Fourth Semester' -> semester number."""
     m = _SEMESTER.search(text)
-    return int(m.group(1)) if m else None
+    if m:
+        return int(m.group(1))
+    m = _WORD_SEMESTER_1.search(text)
+    if m:
+        return _WORDS_TO_NUM[m.group(1).lower()]
+    m = _WORD_SEMESTER_2.search(text)
+    if m:
+        return _WORDS_TO_NUM[m.group(1).lower()]
+    return None
 
 
 @dataclass

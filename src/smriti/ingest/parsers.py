@@ -33,12 +33,35 @@ def parse_text(text: str) -> list[tuple[int, str]]:
 
 
 def _parse_pdf(path: Path) -> list[tuple[int, str]]:
+    import shutil
+    import subprocess
+    import tempfile
     from pypdf import PdfReader
 
     reader = PdfReader(str(path))
-    pages = [(i, (page.extract_text() or "").strip()) for i, page in enumerate(reader.pages, 1)]
-    # Scanned PDFs have no text layer; OCR (Docling/Tesseract) is a planned module.
-    return [(i, t) for i, t in pages if t]
+    has_tesseract = shutil.which("tesseract") is not None
+    out = []
+    for i, page in enumerate(reader.pages, 1):
+        text = (page.extract_text() or "").strip()
+        # Scanned PDFs have no text layer: run OCR fallback if tesseract is available
+        if len(text) < 20 and has_tesseract and page.images:
+            ocr_parts = []
+            for img in page.images:
+                try:
+                    with tempfile.NamedTemporaryFile(suffix=".png", delete=False) as tmp:
+                        tmp.write(img.data)
+                        tpath = tmp.name
+                    res = subprocess.run(["tesseract", tpath, "stdout"], capture_output=True, text=True, timeout=30)
+                    if res.stdout.strip():
+                        ocr_parts.append(res.stdout.strip())
+                    Path(tpath).unlink(missing_ok=True)
+                except Exception:
+                    pass
+            if ocr_parts:
+                text = "\n".join(ocr_parts)
+        if text:
+            out.append((i, text))
+    return out
 
 
 def _parse_docx(path: Path) -> list[tuple[int, str]]:

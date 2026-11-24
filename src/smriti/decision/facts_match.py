@@ -10,6 +10,7 @@ from smriti.types import Fact
 
 _PARENS = re.compile(r"\([^)]*\)")
 _NUMBER = re.compile(r"\d+(?:\.\d+)?")
+_SECTION = re.compile(r"\b(?:section|sec)\s*([a-z])\b", re.IGNORECASE)
 
 
 @dataclass
@@ -37,14 +38,28 @@ def numbers(text: str) -> set[str]:
     return {n.lstrip("0") or "0" for n in _NUMBER.findall(text)}
 
 
+def section(text: str) -> str | None:
+    """Section qualifier in a text ("Section A" -> "a")."""
+    m = _SECTION.search(text)
+    return m.group(1).lower() if m else None
+
+
+def section_conflicts(question: str, attribute: str) -> bool:
+    """True when both mention a section (A vs B) and they disagree."""
+    q_sec, a_sec = section(question), section(attribute)
+    return bool(q_sec and a_sec and q_sec != a_sec)
+
+
 def qualifiers_conflict(question: str, attribute: str) -> bool:
-    """True when both mention numbers and none agree, e.g. 'semester 9' vs 'CGPA (after Semester 4)'.
+    """True when both mention numbers or sections and none agree, e.g. 'semester 9' vs 'CGPA (after Semester 4)'.
 
     Word overlap alone can't see this, so without the check System 1 confidently answers with the
     wrong fact (docs/research/LOG.md, issue #10).
     """
     q, a = numbers(question), numbers(attribute)
-    return bool(q and a and not (q & a))
+    if bool(q and a and not (q & a)):
+        return True
+    return section_conflicts(question, attribute)
 
 
 def match_fact(question: str, facts: list[Fact]) -> FactMatch | None:
@@ -54,7 +69,7 @@ def match_fact(question: str, facts: list[Fact]) -> FactMatch | None:
     if not scored or scored[0][0] == 0:
         return None
     best_score, best = scored[0]
-    # Two facts that match equally well = ambiguous, so System 1 should not answer alone.
-    if len(scored) > 1 and scored[1][0] >= best_score - 1e-9:
+    # Two facts that match equally well with DIFFERENT values = ambiguous, so System 1 should not answer alone.
+    if any(score >= best_score - 1e-9 and f.value.strip().lower() != best.value.strip().lower() for score, f in scored[1:]):
         best_score *= 0.5
     return FactMatch(best, best_score)
