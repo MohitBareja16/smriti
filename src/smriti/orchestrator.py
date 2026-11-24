@@ -169,21 +169,30 @@ class Orchestrator:
         text, citations = draft.text, draft.citations
 
         if guardrails:
-            with tracer.span("s1.guard.grounding") as s:
-                g = self._ground(text, draft.chunks)
-                s["detail"] = f"{g.verdict.detail} (score={g.verdict.score:.2f})"
-            if not g.verdict.passed:
-                with tracer.span("s2.retry") as s:
-                    s["detail"] = "nothing grounded: searching wider and answering again"
-                draft = agent.run(question, tracer, intent=route.label, widen=True)
+            if draft.chunks:
                 with tracer.span("s1.guard.grounding") as s:
-                    g = self._ground(draft.text, draft.chunks)
+                    g = self._ground(text, draft.chunks)
                     s["detail"] = f"{g.verdict.detail} (score={g.verdict.score:.2f})"
-            if g.verdict.passed:
-                text, citations = g.text, cited_refs(g.text, draft.chunks)
+                if not g.verdict.passed:
+                    with tracer.span("s2.retry") as s:
+                        s["detail"] = "nothing grounded: searching wider and answering again"
+                    draft = agent.run(question, tracer, intent=route.label, widen=True)
+                    with tracer.span("s1.guard.grounding") as s:
+                        g = self._ground(draft.text, draft.chunks)
+                        s["detail"] = f"{g.verdict.detail} (score={g.verdict.score:.2f})"
+                if g.verdict.passed:
+                    text, citations = g.text, cited_refs(g.text, draft.chunks)
+                else:
+                    if hasattr(self.reasoner, "answer_general"):
+                        text = self.reasoner.answer_general(question)
+                        citations = []
+                    else:
+                        text, citations = IDK, []
+                verdicts.append(g.verdict)
             else:
-                text, citations = IDK, []
-            verdicts.append(g.verdict)
+                with tracer.span("s1.guard.grounding") as s:
+                    s["detail"] = "no matching documents (general knowledge fallback)"
+                citations = []
             with tracer.span("s1.guard.pii") as s:
                 text, p = check_pii(text, question)
                 verdicts.append(p)

@@ -236,8 +236,15 @@ class System2Agent:
 
     def _answer(self, s: AgentState) -> AgentState:
         with s["tracer"].span("s2.answer", sources=len(s["chunks"])) as span:
-            text = self.reasoner.answer(s["question"], s["chunks"])
-            span["detail"] = f"{len(s['chunks'])} sources"
+            if s["chunks"]:
+                text = self.reasoner.answer(s["question"], s["chunks"])
+                span["detail"] = f"{len(s['chunks'])} sources"
+            elif hasattr(self.reasoner, "answer_general"):
+                text = self.reasoner.answer_general(s["question"])
+                span["detail"] = "0 sources (general knowledge)"
+            else:
+                text = self.reasoner.answer(s["question"], s["chunks"])
+                span["detail"] = "0 sources"
         return {"text": text}
 
     def plain_rag(self, question: str, tracer: Tracer) -> Draft:

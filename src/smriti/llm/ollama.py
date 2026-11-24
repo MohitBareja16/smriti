@@ -6,7 +6,7 @@ import json
 import urllib.error
 import urllib.request
 
-from smriti.llm.base import ANSWER_SYSTEM, PLAN_SYSTEM, format_sources
+from smriti.llm.base import ANSWER_SYSTEM, GENERAL_SYSTEM, PLAN_SYSTEM, format_sources
 from smriti.types import Chunk
 
 
@@ -60,6 +60,9 @@ class OllamaReasoner:
             return IDK
         user = f"Sources:\n{format_sources(chunks)}\n\nQuestion: {question}"
         return self._chat(ANSWER_SYSTEM, user)
+
+    def answer_general(self, question: str) -> str:
+        return self._chat(GENERAL_SYSTEM, question)
 
 
 def ollama_status(model: str, url: str = "http://localhost:11434", timeout: float = 3.0) -> tuple[bool, str]:

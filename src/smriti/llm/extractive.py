@@ -45,3 +45,6 @@ class ExtractiveReasoner:
             return IDK
         picked = scored[: self.max_sentences]
         return " ".join(f"{s.rstrip('.')}. [{i}]" for _, i, s in picked)
+
+    def answer_general(self, question: str) -> str:
+        return IDK
