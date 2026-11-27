@@ -8,9 +8,12 @@ import json
 import re
 from collections import Counter
 from dataclasses import dataclass, field
-from zoneinfo import ZoneInfo
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
-_IST = ZoneInfo("Asia/Kolkata")
+try:
+    _IST: dt.tzinfo = ZoneInfo("Asia/Kolkata")
+except ZoneInfoNotFoundError:
+    _IST = dt.timezone(dt.timedelta(hours=5, minutes=30), name="IST")
 
 WEEKDAY_NAMES = ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
 WEEKDAY_SHORT = ("MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN")

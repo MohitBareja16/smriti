@@ -232,11 +232,10 @@ def test_coderabbit_hardening_regression(tmp_path, monkeypatch):
 
     # 4. Timetable guards missing start timestamps, renders Sunday when present, and escapes </script>
     import datetime as dt
-    from zoneinfo import ZoneInfo
 
     empty_fallback = build_timetable_report("23001", "Sem 7", [{"id": "old", "desc": "bad"}], current_class_ids={"cur"})
     assert empty_fallback.events == []
-    sun_ts = int(dt.datetime(2026, 8, 9, 10, 0, tzinfo=ZoneInfo("Asia/Kolkata")).timestamp())
+    sun_ts = int(dt.datetime(2026, 8, 9, 10, 0, tzinfo=dt.timezone(dt.timedelta(hours=5, minutes=30))).timestamp())
     sun_report = build_timetable_report(
         "23001",
         "Sem 7",

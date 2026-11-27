@@ -15,7 +15,7 @@ import urllib.request
 from concurrent.futures import ThreadPoolExecutor
 from html.parser import HTMLParser
 from pathlib import Path
-from zoneinfo import ZoneInfo
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from smriti.graph import KnowledgeGraph
 from smriti.guardrails.pii import redact
@@ -42,7 +42,10 @@ TIMETABLE_PATH = "/index.php/student-attendance/attendance/view-time-table"
 SAMARTH_CREDS_VAULT_NAME = "samarth_creds"
 SAMARTH_DOC_TITLE = "DCRUST Samarth Attendance"
 SAMARTH_TIMETABLE_DOC_TITLE = "DCRUST Samarth Timetable"
-_IST = ZoneInfo("Asia/Kolkata")
+try:
+    _IST: dt.tzinfo = ZoneInfo("Asia/Kolkata")
+except ZoneInfoNotFoundError:
+    _IST = dt.timezone(dt.timedelta(hours=5, minutes=30), name="IST")
 
 _COMMENTS = re.compile(r"<!--.*?-->", re.DOTALL)
 _DATE_YMD = re.compile(r"\b(\d{4})[-/](\d{2})[-/](\d{2})\b")

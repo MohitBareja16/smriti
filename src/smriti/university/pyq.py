@@ -20,9 +20,12 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import asdict, dataclass, field
 from difflib import SequenceMatcher
 from pathlib import Path
-from zoneinfo import ZoneInfo
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
-_IST = ZoneInfo("Asia/Kolkata")
+try:
+    _IST: dt.tzinfo = ZoneInfo("Asia/Kolkata")
+except ZoneInfoNotFoundError:
+    _IST = dt.timezone(dt.timedelta(hours=5, minutes=30), name="IST")
 _APPROVED_PYQ_HOSTS = {"dcrustedp.in", "www.dcrustedp.in"}
 
 
