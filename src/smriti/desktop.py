@@ -14,6 +14,7 @@ import time
 import urllib.error
 import urllib.request
 import webbrowser
+from contextlib import contextmanager
 from pathlib import Path
 
 
@@ -190,81 +191,91 @@ def _find_static_dist(base: Path, internal: Path) -> Path | None:
     return None
 
 
-def _ensure_stdio(log_dir: Path) -> None:
-    """Replace None stdio streams in windowed PyInstaller builds so logging and uvicorn never crash."""
+@contextmanager
+def _redirected_stdio(log_dir: Path):
+    """Redirect None stdio streams in windowed PyInstaller builds to a log file or devnull."""
     if sys.stdout is not None and sys.stderr is not None:
+        yield
         return
+    prev_stdout, prev_stderr = sys.stdout, sys.stderr
     try:
         log_dir.mkdir(parents=True, exist_ok=True)
-        stream = open(log_dir / "smriti-desktop.log", "a", encoding="utf-8", buffering=1)
+        log_path = log_dir / "smriti-desktop.log"
+        with log_path.open("a", encoding="utf-8"):
+            pass
     except OSError:
-        stream = open(os.devnull, "w", encoding="utf-8")
-    if sys.stdout is None:
-        sys.stdout = stream
-    if sys.stderr is None:
-        sys.stderr = stream
+        log_path = Path(os.devnull)
+    try:
+        with log_path.open("a", encoding="utf-8", buffering=1) as stream:
+            if sys.stdout is None:
+                sys.stdout = stream
+            if sys.stderr is None:
+                sys.stderr = stream
+            yield
+    finally:
+        sys.stdout = prev_stdout
+        sys.stderr = prev_stderr
 
 
 def main(argv: list[str] | None = None) -> int:
     base = bundle_root()
     internal = internal_root()
-    _ensure_stdio(default_data_dir(base))
+    with _redirected_stdio(default_data_dir(base)):
+        parser = argparse.ArgumentParser(prog="smriti-desktop", description="Single-click desktop launcher for Smriti AI")
+        parser.add_argument("--port", type=int, default=8000)
+        parser.add_argument("--no-browser", action="store_true")
+        parser.add_argument("--demo", action="store_true", help="Preload fictional Alex Demo workspace on first launch")
+        args = parser.parse_args(argv)
 
-    parser = argparse.ArgumentParser(prog="smriti-desktop", description="Single-click desktop launcher for Smriti AI")
-    parser.add_argument("--port", type=int, default=8000)
-    parser.add_argument("--no-browser", action="store_true")
-    parser.add_argument("--demo", action="store_true", help="Preload fictional Alex Demo workspace on first launch")
-    args = parser.parse_args(argv)
+        _configure_environment(base, internal, demo=args.demo)
 
-    _configure_environment(base, internal, demo=args.demo)
+        # Start portable Ollama if available, then fall back to extractive mode cleanly if absent.
+        from smriti.config import Settings
+        from smriti.llm import list_ollama_models, ollama_status
+        from smriti.llm.ollama import warm_up
 
-    # Start portable Ollama if available, then fall back to extractive mode cleanly if absent.
-    from smriti.config import Settings
-    from smriti.llm import list_ollama_models, ollama_status
-    from smriti.llm.ollama import warm_up
-
-    ollama_url = Settings().ollama_url
-    start_bundled_ollama(base, ollama_url=ollama_url)
-    installed = list_ollama_models(ollama_url)
-    if installed:
-        chosen = Settings().llm_model
-        if not any(n == chosen or n.split(":")[0] == chosen for n in installed):
-            for cand in ("qwen2.5:1.5b", "qwen2.5:3b", "qwen2.5:0.5b", installed[0]):
-                if any(n == cand or n.split(":")[0] == cand for n in installed):
-                    os.environ["SMRITI_LLM_MODEL"] = cand
-                    break
-        ok, _ = ollama_status(Settings().llm_model, ollama_url)
-        if ok:
-            threading.Thread(target=lambda: warm_up(Settings().llm_model, ollama_url), daemon=True).start()
+        ollama_url = Settings().ollama_url
+        start_bundled_ollama(base, ollama_url=ollama_url)
+        installed = list_ollama_models(ollama_url)
+        if installed:
+            chosen = Settings().llm_model
+            if not any(n == chosen or n.split(":")[0] == chosen for n in installed):
+                for cand in ("qwen2.5:1.5b", "qwen2.5:3b", "qwen2.5:0.5b", installed[0]):
+                    if any(n == cand or n.split(":")[0] == cand for n in installed):
+                        os.environ["SMRITI_LLM_MODEL"] = cand
+                        break
+            ok, _ = ollama_status(Settings().llm_model, ollama_url)
+            if ok:
+                threading.Thread(target=lambda: warm_up(Settings().llm_model, ollama_url), daemon=True).start()
+            else:
+                os.environ["SMRITI_LLM"] = "extractive"
         else:
-            os.environ["SMRITI_LLM"] = "extractive"
-    else:
-        os.environ.setdefault("SMRITI_LLM", "extractive")
+            os.environ.setdefault("SMRITI_LLM", "extractive")
 
-    from smriti.app import build_app
-    from smriti.demo import load_manifest
-    from smriti.server import create_app
+        from smriti.app import build_app
+        from smriti.demo import load_manifest
+        from smriti.server import create_app
 
-    app = build_app()
-    if args.demo and not app.db.list_documents():
-        for demo_cand in (base / "evals" / "data" / "alex_demo", internal / "alex_demo"):
-            if (demo_cand / "manifest.json").is_file():
-                load_manifest(demo_cand, app)
-                break
+        app = build_app()
+        if args.demo and not app.db.list_documents():
+            for demo_cand in (base / "evals" / "data" / "alex_demo", internal / "alex_demo"):
+                if (demo_cand / "manifest.json").is_file():
+                    load_manifest(demo_cand, app)
+                    break
 
-    static_dir = _find_static_dist(base, internal)
-    fastapi_app = create_app(app, static_dir=static_dir, demo_mode=args.demo)
-    port = pick_port("127.0.0.1", args.port)
-    url = f"http://127.0.0.1:{port}"
+        static_dir = _find_static_dist(base, internal)
+        fastapi_app = create_app(app, static_dir=static_dir, demo_mode=args.demo)
+        port = pick_port("127.0.0.1", args.port)
+        url = f"http://127.0.0.1:{port}"
 
-    if not args.no_browser:
-        threading.Timer(0.9, lambda: open_browser_quietly(url)).start()
+        if not args.no_browser:
+            threading.Timer(0.9, lambda: open_browser_quietly(url)).start()
 
-    import uvicorn
+        import uvicorn
 
-    use_colors = bool(sys.stderr and getattr(sys.stderr, "isatty", lambda: False)())
-    uvicorn.run(fastapi_app, host="127.0.0.1", port=port, log_level="warning", use_colors=use_colors)
-    return 0
+        use_colors = bool(sys.stderr and getattr(sys.stderr, "isatty", lambda: False)())
+        uvicorn.run(fastapi_app, host="127.0.0.1", port=port, log_level="warning", use_colors=use_colors)
+        return 0
 
 
 if __name__ == "__main__":
