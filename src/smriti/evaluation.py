@@ -36,6 +36,7 @@ class SystemResult:
     s1_share: float = 0.0
     latency_p50_ms: float = 0.0
     latency_p95_ms: float = 0.0
+    first_step_p50_ms: float = 0.0
     llm_calls_per_q: float = 0.0
     llm_tokens_per_q: float = 0.0
     attack_success_rate: float = 0.0
@@ -71,11 +72,23 @@ def run_eval(data_dir: Path, settings: Settings | None = None, systems: list[str
         for name in systems or list(SYSTEMS):
             cfg = SYSTEMS[name]
             r = SystemResult(system=name)
-            latencies, calls, tokens, scores, s1, routed = [], [], [], [], 0, 0
+            latencies, first_steps, calls, tokens, scores, s1, routed = [], [], [], [], [], 0, 0
             for item in qa:
                 t0 = time.perf_counter()
-                a = orch.handle(item["question"], mode=cfg["mode"], guardrails=cfg["guardrails"])
+                first_mark: list[float] = []
+
+                def _on_ev(ev: str, _payload: dict, *, start: float = t0, bucket: list[float] = first_mark) -> None:
+                    if not bucket and ev in {"step_start", "token"}:
+                        bucket.append((time.perf_counter() - start) * 1000)
+
+                a = orch.handle(
+                    item["question"],
+                    mode=cfg["mode"],
+                    guardrails=cfg["guardrails"],
+                    on_event=_on_ev,
+                )
                 latencies.append((time.perf_counter() - t0) * 1000)
+                first_steps.append(first_mark[0] if first_mark else latencies[-1])
                 calls.append(a.llm_calls)
                 tokens.append(a.llm_tokens)
                 s1 += a.path == "S1"
@@ -110,6 +123,7 @@ def run_eval(data_dir: Path, settings: Settings | None = None, systems: list[str
             r.s1_share = s1 / max(len(qa), 1)
             r.latency_p50_ms = statistics.median(latencies) if latencies else 0.0
             r.latency_p95_ms = percentile(latencies, 0.95)
+            r.first_step_p50_ms = statistics.median(first_steps) if first_steps else 0.0
             r.llm_calls_per_q = sum(calls) / max(len(calls), 1)
             r.llm_tokens_per_q = sum(tokens) / max(len(tokens), 1)
             r.attack_success_rate = succeeded / len(attacks) if attacks else 0.0

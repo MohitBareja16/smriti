@@ -92,8 +92,8 @@ def extract_facts(pages: list[tuple[int, str]], semester: int | None = None) -> 
             if m_s:
                 current_sem = int(m_s.group(1))
 
-            m_morning = re.search(r"Time of Exam:\s*([0-9:APM ]+?)\s+for Morning Session", ptext, re.I)
-            m_evening = re.search(r"Time of Exam:\s*([0-9:APM ]+?)\s+for Evening Session", ptext, re.I)
+            m_morning = re.search(r"Time of Exam:\s*([0-9:APM ]+?)\s+for Morning Session", ptext, re.IGNORECASE)
+            m_evening = re.search(r"Time of Exam:\s*([0-9:APM ]+?)\s+for Evening Session", ptext, re.IGNORECASE)
             morning_time = m_morning.group(1).strip() if m_morning else "09:30 AM to 12:30 PM"
             evening_time = m_evening.group(1).strip() if m_evening else "02:00 PM to 05:00 PM"
 
@@ -183,7 +183,11 @@ def extract_facts(pages: list[tuple[int, str]], semester: int | None = None) -> 
 
         # Semester class timetable schedules
         for pnum, ptext in pages:
-            m_sem = re.search(r"Time Table for B\.\s*Tech\s*(\d+)(?:st|nd|rd|th)?\s*Semester\s*\((Section [AB])\)", ptext, re.I)
+            m_sem = re.search(
+                r"Time Table for B\.\s*Tech\s*(\d+)(?:st|nd|rd|th)?\s*Semester\s*\((Section [AB])\)",
+                ptext,
+                re.IGNORECASE,
+            )
             if m_sem:
                 s_num = m_sem.group(1)
                 sec = m_sem.group(2)

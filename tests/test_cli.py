@@ -29,11 +29,19 @@ def test_demo_is_loaded_only_once(demo_env, capsys):
     assert "Loading" not in out and "exam_timetable" in out
 
 
-def test_ui_launches_chainlit_with_packaged_config(demo_env, monkeypatch):
+def test_ui_launches_web_app_and_legacy_chainlit(demo_env, monkeypatch):
+    import uvicorn
+
+    served = {}
+    monkeypatch.setattr(uvicorn, "run", lambda app, host, port, log_level: served.update(app=app, host=host, port=port))
+    assert cli.main(["ui", "--demo", "--no-browser", "--port", "8123"]) == 0
+    assert served["host"] == "127.0.0.1" and served["port"] == 8123
+    assert (cli.UI_DIR / "web" / "dist" / "index.html").is_file()
+
     pytest.importorskip("chainlit")
     calls = {}
     monkeypatch.setattr(cli.subprocess, "call", lambda cmd, env: calls.update(cmd=cmd, env=env) or 0)
-    assert cli.main(["ui", "--demo", "--no-browser", "--port", "8123"]) == 0
+    assert cli.main(["ui", "--legacy-chainlit", "--demo", "--no-browser", "--port", "8123"]) == 0
     assert calls["cmd"][1:4] == ["-m", "chainlit", "run"]
     assert "8123" in calls["cmd"] and "--headless" in calls["cmd"]
     assert calls["env"]["CHAINLIT_APP_ROOT"] == str(cli.UI_DIR)

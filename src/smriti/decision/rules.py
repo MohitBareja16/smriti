@@ -22,9 +22,10 @@ ROUTE_PATTERNS: dict[str, list[tuple[re.Pattern[str], float]]] = {
                     r"document|pdf|file|copy|transcript|id card)\b", _I), 3.0),
     ],
     "fact_lookup": [
-        (re.compile(r"^\s*(when|which date|how many|where is|what(?:'s| is| was| are))\b", _I), 1.5),
+        (re.compile(r"^\s*(when|which date|how many|where is|what(?:'s| is| was| are)|check|fetch|sync|show)\b", _I), 1.5),
         (re.compile(r"\b(exam|date|cgpa|sgpa|marks?|grade|deadline|expiry|expires?|expire|issued|"
-                    r"roll number|score|result|hall|timetable|datesheet|date sheet|schedule|contact|phone|mobile)\b", _I), 1.5),
+                    r"roll number|score|result|hall|timetable|datesheet|date sheet|schedule|contact|phone|mobile|"
+                    r"attendance|bunk|present|absent|samarth|esamarth|classes?)\b", _I), 1.5),
     ],
     "compare": [
         (re.compile(r"\b(compare|comparison|difference|differ|versus|vs\.?|contrast)\b", _I), 3.0),

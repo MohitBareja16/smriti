@@ -65,3 +65,14 @@ def redact(text: str, keep: set[str] | None = None) -> str:
 def requested_pii_kinds(question: str) -> set[str]:
     q = question.lower()
     return {kind for kind, words in PII_REQUEST_WORDS.items() if any(w in q for w in words)}
+
+
+_CRED_SECRET = re.compile(
+    r'(\b(?:password|passwd|pwd|pass)\s*(?:is|:|=)?\s*)(?:"[^"]+"|\'[^\']+\'|\S+)',
+    re.IGNORECASE,
+)
+
+
+def redact_credentials(text: str) -> str:
+    """Scrub inline passwords before writing questions or traces to SQLite."""
+    return _CRED_SECRET.sub(r"\1[REDACTED:password]", text)
