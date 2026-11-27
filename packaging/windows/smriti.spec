@@ -24,7 +24,7 @@ hiddenimports = [
     "smriti.ui",
 ]
 
-core_pkgs = ["langgraph", "langchain_core", "fastapi", "pydantic", "cryptography", "pypdf", "docx"]
+core_pkgs = ["langgraph", "langchain_core", "fastapi", "pydantic", "cryptography", "pypdf", "PIL", "docx"]
 optional_ml_pkgs = ["sentence_transformers", "transformers", "huggingface_hub", "tokenizers", "torch", "numpy"]
 
 for pkg in core_pkgs + [p for p in optional_ml_pkgs if importlib.util.find_spec(p) is not None]:

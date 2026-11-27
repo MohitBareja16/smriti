@@ -638,6 +638,16 @@ def test_pyq_analyzer_units_frequency_and_routing(tmp_path, monkeypatch):
     assert [s.name for s in ans_sum.trace] == ["s1.guard.input", "s1.pyq_analyze"]
     assert "Virtualization" in ans_sum.text and "Server Consolidation" in ans_sum.text
 
+    # Ordinal-word unit queries ("second unit PYQs") route to s1.pyq_analyze, NOT s1.pyq_lookup
+    ans_unit2 = app.orchestrator.handle("CSE423C second unit PYQs")
+    assert [s.name for s in ans_unit2.trace] == ["s1.guard.input", "s1.pyq_analyze"]
+    assert "Server Consolidation" in ans_unit2.text
+
+    # Papers exist, but requested unit has 0 questions -> explicit 0-question analysis, not fallback lookup
+    ans_unit4 = app.orchestrator.handle("CSE423C unit 4 PYQs")
+    assert [s.name for s in ans_unit4.trace] == ["s1.guard.input", "s1.pyq_analyze"]
+    assert ans_unit4.ui_element is None and "no Unit IV questions matched" in ans_unit4.text
+
     # Standard catalog lookup still works via s1.pyq_lookup
     ans_cat = app.orchestrator.handle("Show PYQs for CSE423C")
     assert [s.name for s in ans_cat.trace] == ["s1.guard.input", "s1.pyq_lookup"]

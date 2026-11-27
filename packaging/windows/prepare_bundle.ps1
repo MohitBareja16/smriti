@@ -11,6 +11,7 @@
 param(
     [string[]]$Models = @("qwen2.5:1.5b", "qwen2.5:3b"),
     [switch]$SkipUiBuild,
+    [switch]$SkipFreeze,
     [switch]$SkipEmbeddings,
     [switch]$SkipPdfAssets,
     [switch]$CreateZip,
@@ -18,9 +19,24 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
+$ProgressPreference = "SilentlyContinue"
 $RepoRoot = (Resolve-Path (Join-Path $PSScriptRoot "..\..")).Path
 Set-Location $RepoRoot
 
+$BundleDir = Join-Path $RepoRoot "dist\Start-Smriti"
+if ($SkipFreeze -and (Test-Path (Join-Path $BundleDir "Start-Smriti.exe"))) {
+    Write-Host "==> [1-3/8] Reusing existing .venv and Start-Smriti.exe (-SkipFreeze)..." -ForegroundColor Green
+    if (-not $SkipEmbeddings) {
+        $VenvPy = Join-Path $RepoRoot ".venv\Scripts\python.exe"
+        if (-not (Test-Path $VenvPy)) {
+            throw "Cannot use -SkipFreeze without -SkipEmbeddings: missing $VenvPy. Re-run without -SkipFreeze."
+        }
+        & $VenvPy -c "import sentence_transformers" 2>$null
+        if ($LASTEXITCODE -ne 0) {
+            throw "Cannot use -SkipFreeze without -SkipEmbeddings: sentence_transformers is not installed in .venv. Re-run without -SkipFreeze."
+        }
+    }
+} else {
 $DistIndex = Join-Path $RepoRoot "src\smriti\ui\web\dist\index.html"
 $HasNpm = $null -ne (Get-Command "npm" -ErrorAction SilentlyContinue)
 Write-Host "==> [1/8] Checking React Web UI..." -ForegroundColor Cyan
@@ -76,8 +92,8 @@ if (-not $SkipEmbeddings) {
 
 Write-Host "==> [3/8] Freezing Start-Smriti.exe via PyInstaller..." -ForegroundColor Cyan
 & ".\.venv\Scripts\pyinstaller.exe" --noconfirm --clean packaging\windows\smriti.spec
+}
 
-$BundleDir = Join-Path $RepoRoot "dist\Start-Smriti"
 New-Item -ItemType File -Path (Join-Path $BundleDir ".portable") -Force | Out-Null
 
 Write-Host "==> [4/8] Downloading portable Ollama for Windows..." -ForegroundColor Cyan
@@ -87,9 +103,24 @@ if (-not (Test-Path (Join-Path $OllamaDir "ollama.exe"))) {
     $OllamaZip = Join-Path $RepoRoot "build\ollama-windows-amd64.zip"
     New-Item -ItemType Directory -Path (Split-Path $OllamaZip) -Force | Out-Null
     if (-not (Test-Path $OllamaZip)) {
-        Invoke-WebRequest -Uri "https://ollama.com/download/ollama-windows-amd64.zip" -OutFile $OllamaZip
+        $OllamaZipPart = "$OllamaZip.part"
+        if (Test-Path $OllamaZipPart) { Remove-Item $OllamaZipPart -Force }
+        $CurlExe = Get-Command "curl.exe" -ErrorAction SilentlyContinue
+        if ($CurlExe) {
+            & $CurlExe.Source -fL --retry 3 -sS -o $OllamaZipPart "https://ollama.com/download/ollama-windows-amd64.zip"
+            if ($LASTEXITCODE -ne 0) { throw "curl.exe failed downloading ollama-windows-amd64.zip (exit $LASTEXITCODE)" }
+        } else {
+            Invoke-WebRequest -UseBasicParsing -Uri "https://ollama.com/download/ollama-windows-amd64.zip" -OutFile $OllamaZipPart
+        }
+        Move-Item $OllamaZipPart $OllamaZip -Force
     }
-    Expand-Archive -Path $OllamaZip -DestinationPath $OllamaDir -Force
+    $TarExe = Get-Command "tar.exe" -ErrorAction SilentlyContinue
+    if ($TarExe) {
+        & $TarExe.Source -xf $OllamaZip -C $OllamaDir
+        if ($LASTEXITCODE -ne 0) { throw "tar.exe failed extracting $OllamaZip (exit $LASTEXITCODE)" }
+    } else {
+        Expand-Archive -Path $OllamaZip -DestinationPath $OllamaDir -Force
+    }
 }
 
 Write-Host "==> [5/8] Pulling offline Qwen models ($($Models -join ', ')) into bundle\models..." -ForegroundColor Cyan
@@ -99,11 +130,19 @@ $env:OLLAMA_MODELS = $ModelsDir
 $env:OLLAMA_HOST = "127.0.0.1:11439"
 $OllamaExe = Join-Path $OllamaDir "ollama.exe"
 $srv = Start-Process -FilePath $OllamaExe -ArgumentList "serve" -WorkingDirectory $OllamaDir -WindowStyle Hidden -PassThru
-Start-Sleep -Seconds 3
+for ($i = 0; $i -lt 15; $i++) {
+    try {
+        $null = Invoke-RestMethod -Uri "http://127.0.0.1:11439/api/tags" -TimeoutSec 2
+        break
+    } catch {
+        Start-Sleep -Seconds 1
+    }
+}
 try {
     foreach ($m in $Models) {
         Write-Host "    Pulling $m ..."
         & $OllamaExe pull $m
+        if ($LASTEXITCODE -ne 0) { throw "ollama pull $m failed (exit $LASTEXITCODE)" }
     }
 }
 finally {
@@ -119,6 +158,9 @@ if (-not $SkipEmbeddings) {
     $env:HF_HOME = $HfCache
     $env:SENTENCE_TRANSFORMERS_HOME = $HfCache
     & ".\.venv\Scripts\python.exe" -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('all-MiniLM-L6-v2')"
+    if ($LASTEXITCODE -ne 0) {
+        throw "Failed to pre-cache all-MiniLM-L6-v2 embeddings (exit $LASTEXITCODE)"
+    }
 }
 
 Write-Host "==> [7/8] Bundling Tesseract OCR (if installed on build PC) for offline scanned PYQ OCR..." -ForegroundColor Cyan
@@ -155,7 +197,13 @@ if ($CreateZip) {
     $ZipOut = Join-Path $RepoRoot "dist\Smriti-Windows-Offline.zip"
     Write-Host "==> Creating pen-drive archive $ZipOut (use exFAT/NTFS pen drive for >4 GB files)..." -ForegroundColor Cyan
     if (Test-Path $ZipOut) { Remove-Item $ZipOut -Force }
-    Compress-Archive -Path $BundleDir -DestinationPath $ZipOut -CompressionLevel Optimal
+    $TarExe = Get-Command "tar.exe" -ErrorAction SilentlyContinue
+    if ($TarExe) {
+        & $TarExe.Source -a -c -f $ZipOut -C (Split-Path $BundleDir) (Split-Path $BundleDir -Leaf)
+        if ($LASTEXITCODE -ne 0) { throw "tar.exe failed creating $ZipOut (exit $LASTEXITCODE)" }
+    } else {
+        Compress-Archive -Path $BundleDir -DestinationPath $ZipOut -CompressionLevel Optimal
+    }
 }
 
 if ($BuildInstaller) {

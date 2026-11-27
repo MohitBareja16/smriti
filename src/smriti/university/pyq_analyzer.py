@@ -18,10 +18,18 @@ from smriti.university.pyq import (
     search_pyqs,
 )
 
-_UNIT_MAP = {"i": 1, "1": 1, "ii": 2, "2": 2, "iii": 3, "3": 3, "iv": 4, "4": 4}
+_UNIT_MAP = {
+    "i": 1, "1": 1, "1st": 1, "first": 1,
+    "ii": 2, "2": 2, "2nd": 2, "second": 2,
+    "iii": 3, "3": 3, "3rd": 3, "third": 3,
+    "iv": 4, "4": 4, "4th": 4, "fourth": 4,
+}
 _ROMAN = {0: "Compulsory", 1: "Unit I", 2: "Unit II", 3: "Unit III", 4: "Unit IV"}
 
-_UNIT_QUERY_RE = re.compile(r"\bunit\s*[-:]?\s*(iv|iii|ii|i|[1-4])\b", re.IGNORECASE)
+_UNIT_QUERY_RE = re.compile(
+    r"\b(?:(?:unit|chapter)\s*[-:]?\s*(iv|iii|ii|i|[1-4])|(1st|2nd|3rd|4th|first|second|third|fourth)\s+(?:unit|chapter))\b",
+    re.IGNORECASE,
+)
 _SESSION_QUERY_RE = re.compile(
     r"\b(jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|jun(?:e)?|jul(?:y)?|"
     r"aug(?:ust)?|sep(?:t(?:ember)?)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)"
@@ -41,7 +49,10 @@ _ANALYSIS_NOISE_RE = re.compile(
     re.IGNORECASE,
 )
 
-_UNIT_LINE_RE = re.compile(r"^\s*Unit\s*[-:]?\s*([A-Za-z0-9]{1,5})\s*$", re.IGNORECASE)
+_UNIT_LINE_RE = re.compile(
+    r"^\s*Unit\s*[-:—]?\s*([A-Za-z0-9]{1,5})\.?(?:\s*[:\-]|\s+\[?\(?\d+\s*(?:marks?)?\)?\]?)?\s*$",
+    re.IGNORECASE,
+)
 _OCR_UNIT_ALIASES: dict[str, int] = {
     "i": 1, "1": 1, "l": 1,
     "ii": 2, "2": 2, "ll": 2, "it": 2, "ii.": 2,
@@ -129,7 +140,8 @@ def extract_unit_filter(question: str) -> int | None:
     m = _UNIT_QUERY_RE.search(question)
     if not m:
         return None
-    return _UNIT_MAP.get(m.group(1).lower())
+    tok = (m.group(1) or m.group(2) or "").lower()
+    return _UNIT_MAP.get(tok)
 
 
 def extract_session_filter(question: str) -> int | None:
@@ -258,7 +270,7 @@ def parse_dcrust_paper(
     unit_at_idx = {pos: u for (pos, _), u in zip(unit_positions, resolved_units, strict=True)}
 
     out: list[ExtractedQuestion] = []
-    cur_unit = 0 if unit_positions else 1
+    cur_unit = 0
     cur_lines: list[str] = []
     cur_page = 1
     in_subparts = False
@@ -446,6 +458,11 @@ def _parse_entry_cached(
     return entry, qs
 
 
+def _md_cell(text: str) -> str:
+    """Sanitize a string for single-line GFM Markdown table cells."""
+    return " ".join(text.split()).replace("|", "\\|")
+
+
 def analyze_subject_pyqs(question: str, pyq_dir: Path) -> PyqAnalysisResult | None:
     """Analyze downloaded PYQ PDFs for a subject (unit-wise frequency ranking or session summary)."""
     grp = _resolve_subject_group(question, pyq_dir)
@@ -508,32 +525,36 @@ def analyze_subject_pyqs(question: str, pyq_dir: Path) -> PyqAnalysisResult | No
             if unit_filter is not None:
                 pqs = [q for q in pqs if q.unit == unit_filter]
             target_qs.extend(pqs)
+            unit_heading = f" · {_ROMAN.get(unit_filter, f'Unit {unit_filter}')}" if unit_filter is not None else ""
             lines.append(
-                f"### {grp.course_code} — {grp.subject_name} ({entry.session_label})\n"
+                f"### {grp.course_code} — {grp.subject_name} ({entry.session_label}){unit_heading}\n"
             )
-            # Key recurring topics from this paper across the full archive
             repeated = [
                 (q, freq_by_qtext.get((q.filename, q.text), 1))
                 for q in pqs
                 if freq_by_qtext.get((q.filename, q.text), 1) > 1
             ]
             if repeated:
-                lines.append("**Key Recurring Topics (also asked in other sessions):**")
+                lines.append("**Key Recurring Topics Across Papers:**\n")
+                lines.append("| Unit | Topic | Frequency |")
+                lines.append("| :--- | :--- | :---: |")
                 for q, cnt in sorted(repeated, key=lambda x: -x[1]):
-                    lines.append(f"- **{_pretty_topic_label(q.text)}** *(asked in {cnt}/{len(all_entries)} papers)* — {_ROMAN.get(q.unit, f'Unit {q.unit}')}")
+                    u_lbl = _ROMAN.get(q.unit, f"Unit {q.unit}")
+                    lines.append(
+                        f"| {u_lbl} | **{_md_cell(_pretty_topic_label(q.text))}** | **{cnt}×** ({cnt}/{len(all_entries)}) |"
+                    )
                 lines.append("")
 
-            lines.append("**Complete Questions Asked in This Paper:**")
-            by_unit: dict[int, list[ExtractedQuestion]] = {}
-            for q in pqs:
-                by_unit.setdefault(q.unit, []).append(q)
-            for u in sorted(by_unit):
-                lines.append(f"\n**{_ROMAN.get(u, f'Unit {u}')}**")
-                for q in by_unit[u]:
-                    marks_tag = f" `[{q.marks} marks]`" if q.marks else ""
-                    freq = freq_by_qtext.get((q.filename, q.text), 1)
-                    freq_tag = f" *(repeated {freq}×)*" if freq > 1 else ""
-                    lines.append(f"- {q.text}{marks_tag}{freq_tag}")
+            lines.append("**Questions Asked in This Paper:**\n")
+            lines.append("| Unit | Question | Marks | Freq |")
+            lines.append("| :--- | :--- | :---: | :---: |")
+            for q in sorted(pqs, key=lambda item: item.unit):
+                u_lbl = _ROMAN.get(q.unit, f"Unit {q.unit}")
+                marks_val = q.marks or "—"
+                freq = freq_by_qtext.get((q.filename, q.text), 1)
+                freq_val = f"**{freq}×**" if freq > 1 else "1×"
+                lines.append(f"| {u_lbl} | {_md_cell(q.text)} | {marks_val} | {freq_val} |")
+            lines.append("")
         return PyqAnalysisResult(
             markdown="\n".join(lines).strip(),
             citations=citations,
@@ -555,24 +576,71 @@ def analyze_subject_pyqs(question: str, pyq_dir: Path) -> PyqAnalysisResult | No
         if unit_filter is not None
         else list(target_questions)
     )
-    scoped_clusters = cluster_pyq_questions(scoped_qs, subject_name=grp.subject_name)
     unit_label = _ROMAN.get(unit_filter, "All Units") if unit_filter is not None else "All Units"
     sessions_span = ", ".join(e.session_label for e in target_entries)
     analyzed_count = sum(1 for e in target_entries if e.local_relpath in parsed_by_file)
+    if not scoped_qs:
+        return PyqAnalysisResult(
+            markdown=(
+                f"### {grp.course_code} — {grp.subject_name} · {unit_label} PYQ Analysis\n"
+                f"Analyzed **{analyzed_count} question papers** ({sessions_span}) — "
+                f"no {unit_label} questions matched in the analyzed papers."
+            ),
+            citations=citations,
+            attachments=attachments[:12],
+            subject_code=grp.course_code,
+            subject_name=grp.subject_name,
+            papers_analyzed=analyzed_count,
+            questions_extracted=0,
+        )
+    scoped_clusters = cluster_pyq_questions(scoped_qs, subject_name=grp.subject_name)
 
     out_lines: list[str] = [
         f"### {grp.course_code} — {grp.subject_name} · {unit_label} PYQ Analysis",
-        f"Analyzed **{analyzed_count} question papers** ({sessions_span}) — **{len(scoped_qs)} questions** grouped in order of frequency:\n",
+        f"Analyzed **{analyzed_count} question papers** ({sessions_span}) — **{len(scoped_qs)} questions** ({unit_label}) ranked by frequency:\n",
     ]
+    if unit_filter is None:
+        out_lines.append("| # | Unit | Topic | Frequency | Sessions |")
+        out_lines.append("| :---: | :--- | :--- | :---: | :--- |")
+    else:
+        out_lines.append("| # | Topic | Frequency | Sessions |")
+        out_lines.append("| :---: | :--- | :---: | :--- |")
+
     for rank, clus in enumerate(scoped_clusters, 1):
         cnt = clus.session_count
         freq_word = "time" if cnt == 1 else "times"
-        sessions = ", ".join(q.session_label for q in clus.questions)
-        u_tag = f" · {_ROMAN.get(clus.unit, f'Unit {clus.unit}')}" if unit_filter is None else ""
-        out_lines.append(f"**{rank}. {clus.topic_label}** — asked **{cnt} {freq_word}** ({sessions}){u_tag}")
+        sessions = ", ".join(dict.fromkeys(q.session_label for q in clus.questions))
+        if unit_filter is None:
+            u_lbl = _ROMAN.get(clus.unit, f"Unit {clus.unit}")
+            out_lines.append(
+                f"| {rank} | {u_lbl} | **{_md_cell(clus.topic_label)}** | **{cnt} {freq_word}** ({cnt}/{analyzed_count}) | {_md_cell(sessions)} |"
+            )
+        else:
+            out_lines.append(
+                f"| {rank} | **{_md_cell(clus.topic_label)}** | **{cnt} {freq_word}** ({cnt}/{analyzed_count}) | {_md_cell(sessions)} |"
+            )
+
+    out_lines.extend(["", f"**All {unit_label} Questions (ordered by frequency):**\n"])
+    if unit_filter is None:
+        out_lines.append("| # | Freq | Unit | Session | Question | Marks |")
+        out_lines.append("| :---: | :---: | :--- | :--- | :--- | :---: |")
+    else:
+        out_lines.append("| # | Freq | Session | Question | Marks |")
+        out_lines.append("| :---: | :---: | :--- | :--- | :---: |")
+
+    for rank, clus in enumerate(scoped_clusters, 1):
+        cnt = clus.session_count
         for q in clus.questions:
-            marks_tag = f" `[{q.marks} marks]`" if q.marks else ""
-            out_lines.append(f"   - *{q.session_label}* (`{q.filename}` p.{q.page}): {q.text}{marks_tag}")
+            marks_val = q.marks or "—"
+            if unit_filter is None:
+                u_lbl = _ROMAN.get(q.unit, f"Unit {q.unit}")
+                out_lines.append(
+                    f"| {rank} | **{cnt}×** | {u_lbl} | {_md_cell(q.session_label)} | {_md_cell(q.text)} | {marks_val} |"
+                )
+            else:
+                out_lines.append(
+                    f"| {rank} | **{cnt}×** | {_md_cell(q.session_label)} | {_md_cell(q.text)} | {marks_val} |"
+                )
 
     return PyqAnalysisResult(
         markdown="\n".join(out_lines),

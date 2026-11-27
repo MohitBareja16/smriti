@@ -76,6 +76,7 @@ export function LibraryExplorerPage({
   const [indexingMap, setIndexingMap] = useState<Record<string, "busy" | "done" | "err">>({});
   const [indexErr, setIndexErr] = useState<string | null>(null);
   const [batchStatus, setBatchStatus] = useState<Record<string, string>>({});
+  const [unitBySubject, setUnitBySubject] = useState<Record<string, string>>({});
 
   useEffect(() => {
     if (tab !== "pyqs") return;
@@ -278,17 +279,39 @@ export function LibraryExplorerPage({
                           <Sparkles className="h-3 w-3" /> Index All
                         </button>
                       ) : null}
-                      <button
-                        type="button"
-                        onClick={() =>
-                          onAskInChat(
-                            `Analyze the PYQ of ${grp.courseCode} and give me all the PYQs asked from unit 1 in order of most frequently asked`
-                          )
-                        }
-                        className="inline-flex items-center gap-1 rounded-lg border border-[#5B8FC7]/40 bg-[#5B8FC7]/15 px-2.5 py-1 text-xs font-semibold text-[#a8c7e8] hover:bg-[#5B8FC7]/25"
-                      >
-                        <Sparkles className="h-3 w-3" /> Analyze Unit 1 PYQs
-                      </button>
+                      {(() => {
+                        const selectedUnit = unitBySubject[grp.courseCode] || "1";
+                        const unitLabel = selectedUnit === "all" ? "All Units" : `Unit ${selectedUnit}`;
+                        const prompt =
+                          selectedUnit === "all"
+                            ? `Analyze the PYQ of ${grp.courseCode} and give me all the PYQs in order of most frequently asked`
+                            : `Analyze the PYQ of ${grp.courseCode} and give me all the PYQs asked from unit ${selectedUnit} in order of most frequently asked`;
+                        return (
+                          <div className="inline-flex items-center overflow-hidden rounded-lg border border-[#5B8FC7]/40 bg-[#5B8FC7]/15">
+                            <select
+                              aria-label={`Select unit for ${grp.courseCode}`}
+                              value={selectedUnit}
+                              onChange={(e) =>
+                                setUnitBySubject((prev) => ({ ...prev, [grp.courseCode]: e.target.value }))
+                              }
+                              className="bg-transparent px-2 py-1 text-xs font-semibold text-[#a8c7e8] outline-none hover:bg-[#5B8FC7]/20"
+                            >
+                              <option value="1" className="bg-[#242424] text-neutral-100">Unit 1</option>
+                              <option value="2" className="bg-[#242424] text-neutral-100">Unit 2</option>
+                              <option value="3" className="bg-[#242424] text-neutral-100">Unit 3</option>
+                              <option value="4" className="bg-[#242424] text-neutral-100">Unit 4</option>
+                              <option value="all" className="bg-[#242424] text-neutral-100">All Units</option>
+                            </select>
+                            <button
+                              type="button"
+                              onClick={() => onAskInChat(prompt)}
+                              className="inline-flex items-center gap-1 border-l border-[#5B8FC7]/35 px-2.5 py-1 text-xs font-semibold text-[#a8c7e8] hover:bg-[#5B8FC7]/25"
+                            >
+                              <Sparkles className="h-3 w-3" /> Analyze {unitLabel}
+                            </button>
+                          </div>
+                        );
+                      })()}
                     </div>
                   </div>
 

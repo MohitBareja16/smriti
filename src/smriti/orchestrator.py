@@ -98,17 +98,21 @@ _PYQ_MENTION = re.compile(
     r"past\s+papers?|question\s+papers?)\b",
     re.IGNORECASE,
 )
+_UNIT_HINT_SRC = (
+    r"(?:unit|chapter)\s*[-:]?\s*(?:iv|iii|ii|i|[1-4])"
+    r"|(?:1st|2nd|3rd|4th|first|second|third|fourth)\s+(?:unit|chapter)"
+)
 _PYQ_CONTENT_EXCLUSION = re.compile(
-    r"\b(?:topics?|repeated(?:ly)?|come\s+up|most\s+(?:frequently\s+)?asked|frequently|important|"
-    r"revise|study|prepare|asked\s+(?:about|from|in)|questions?\s+asked|what\s+was\s+asked|"
-    r"analy[sz]e|analysis|unit\s*[-:]?\s*(?:iv|iii|ii|i|[1-4])|order\s+of|summari[sz]e|"
-    r"explain|solve|solutions?|answers?|syllabus|weightage|compare|pattern|trend)\b",
+    rf"\b(?:topics?|repeated(?:ly)?|come\s+up|most\s+(?:frequently\s+)?asked|frequently|important|"
+    rf"revise|study|prepare|asked\s+(?:about|from|in)|questions?\s+asked|what\s+was\s+asked|"
+    rf"analy[sz]e|analysis|{_UNIT_HINT_SRC}|order\s+of|summari[sz]e|"
+    rf"explain|solve|solutions?|answers?|syllabus|weightage|compare|pattern|trend)\b",
     re.IGNORECASE,
 )
 _PYQ_ANALYSIS_HINT = re.compile(
-    r"\b(?:analy[sz]e|analysis|unit\s*[-:]?\s*(?:iv|iii|ii|i|[1-4])|most\s+(?:frequently\s+)?asked|"
-    r"frequently|repeated(?:ly)?|important\s+questions?|key\s+topics?|questions?\s+asked|"
-    r"asked\s+(?:from|in)|what\s+was\s+asked|order\s+of|summari[sz]e|weightage|pattern|trend)\b",
+    rf"\b(?:analy[sz]e|analysis|{_UNIT_HINT_SRC}|most\s+(?:frequently\s+)?asked|"
+    rf"frequently|repeated(?:ly)?|important\s+questions?|key\s+topics?|questions?\s+asked|"
+    rf"asked\s+(?:from|in)|what\s+was\s+asked|order\s+of|summari[sz]e|weightage|pattern|trend)\b",
     re.IGNORECASE,
 )
 _COURSE_OR_SESSION_HINT = re.compile(
