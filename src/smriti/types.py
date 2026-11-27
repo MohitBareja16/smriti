@@ -73,4 +73,7 @@ class Answer:
     llm_tokens: int = 0  # prompt + completion tokens reported by the LLM (0 for System 1)
     latency_ms: float = 0.0
     attachment: str | None = None  # path to a decrypted document for fetch_doc
+    attachments: list[str] = field(default_factory=list)  # multiple local file paths (e.g. PYQ PDFs)
     trace_id: str = ""  # OpenTelemetry trace id when tracing is on, else a random id
+    thread_id: str = ""  # conversation thread id when multi-turn memory is active
+    ui_element: dict | None = None  # optional {"name": ..., "props": ...} for Chainlit CustomElement

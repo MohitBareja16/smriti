@@ -35,6 +35,25 @@ class Vault:
     def unlocked(self) -> bool:
         return self._key is not None
 
+    def unlock(self, passphrase: str) -> None:
+        """Derive and verify vault encryption key in memory."""
+        if not passphrase:
+            raise VaultLockedError("Passphrase cannot be empty.")
+        candidate = self._derive_key(passphrase)
+        samples = sorted(self.dir.glob("*.enc"))
+        if samples:
+            prev = self._key
+            self._key = candidate
+            try:
+                self.decrypt_bytes(samples[0].read_bytes())
+            except WrongPassphraseError:
+                self._key = prev
+                raise
+        self._key = candidate
+
+    def lock(self) -> None:
+        self._key = None
+
     def _salt(self) -> bytes:
         salt_file = self.dir / "salt"
         if not salt_file.exists():

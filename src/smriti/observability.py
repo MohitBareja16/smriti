@@ -4,14 +4,16 @@ OpenTelemetry spans to Arize Phoenix (`SMRITI_TRACING=phoenix`, needs the `traci
 
 from __future__ import annotations
 
+import logging
 import time
 import uuid
-from collections.abc import Iterator
+from collections.abc import Callable, Iterator
 from contextlib import contextmanager
 from typing import Any
 
 from smriti.types import TraceStep
 
+_log = logging.getLogger(__name__)
 _otel_tracer = None
 
 
@@ -41,9 +43,18 @@ class Tracer:
     """Collects the steps of one request. Use `request()` once around the whole request so every
     step becomes a child of one root span (one trace per question in Phoenix)."""
 
-    def __init__(self) -> None:
+    def __init__(self, on_event: Callable[[str, dict[str, Any]], None] | None = None) -> None:
         self.steps: list[TraceStep] = []
         self.trace_id: str = uuid.uuid4().hex
+        self._on_event = on_event
+
+    def _emit(self, event: str, payload: dict[str, Any]) -> None:
+        if self._on_event is None:
+            return
+        try:
+            self._on_event(event, payload)
+        except (RuntimeError, OSError, ValueError):
+            _log.debug("stream callback failed for event %s", event, exc_info=True)
 
     @contextmanager
     def request(self, name: str = "smriti.request", **attrs: Any) -> Iterator[dict[str, Any]]:
@@ -64,12 +75,18 @@ class Tracer:
     def span(self, name: str, **attrs: Any) -> Iterator[dict[str, Any]]:
         record: dict[str, Any] = {"detail": ""}
         start = time.perf_counter()
-        if _otel_tracer is None:
-            yield record
-        else:
-            with _otel_tracer.start_as_current_span(name) as otel_span:
-                for k, v in attrs.items():
-                    otel_span.set_attribute(f"smriti.{k}", str(v))
+        self._emit("step_start", {"name": name, "detail": ""})
+        try:
+            if _otel_tracer is None:
                 yield record
-                otel_span.set_attribute("smriti.detail", str(record["detail"]))
-        self.steps.append(TraceStep(name, str(record["detail"]), (time.perf_counter() - start) * 1000))
+            else:
+                with _otel_tracer.start_as_current_span(name) as otel_span:
+                    for k, v in attrs.items():
+                        otel_span.set_attribute(f"smriti.{k}", str(v))
+                    yield record
+                    otel_span.set_attribute("smriti.detail", str(record["detail"]))
+        finally:
+            ms = (time.perf_counter() - start) * 1000
+            step = TraceStep(name, str(record["detail"]), ms)
+            self.steps.append(step)
+            self._emit("step", {"name": step.name, "detail": step.detail, "ms": round(step.ms, 2)})

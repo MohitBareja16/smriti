@@ -114,7 +114,7 @@ reaction_on_message_received = false
 
 [UI]
 # Name of the assistant.
-name = "Smriti"
+name = "Smriti · DCRUST AI"
 
 default_theme = "dark"
 
@@ -122,7 +122,7 @@ default_theme = "dark"
 # If not set, the browser's language will be used
 # language = "en-US"
 
-# layout = "wide"
+layout = "wide"
 
 # default_sidebar_state = "open"  # Options: "open", "closed", "hidden"
 
@@ -136,14 +136,14 @@ default_theme = "dark"
 confirm_new_chat = true
 
 # Description of the assistant. This is used for HTML tags.
-# description = ""
+description = "Smriti: private local-first agentic RAG & DCRUST Samarth academic assistant."
 
 # Chain of Thought (CoT) display mode. Can be "hidden", "tool_call" or "full".
 cot = "full"
 
 # Specify a CSS file that can be used to customize the user interface.
 # The CSS file can be served from the public directory or via an external link.
-# custom_css = "/public/test.css"
+custom_css = "/public/custom.css"
 
 # Specify additional attributes for a custom CSS file
 # custom_css_attributes = "media=\"print\""

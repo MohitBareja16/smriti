@@ -5,7 +5,7 @@ from __future__ import annotations
 from smriti.storage import content_tokens
 
 GENERIC = frozenset({"notes", "note", "book", "books", "slides", "chapter", "page", "pdf", "document",
-                     "documents", "file", "course", "get", "got", "find", "need"})
+                     "documents", "file", "course", "get", "got", "find", "need", "many"})
 
 
 SYNONYMS = {"sem": "semester", "exams": "exam", "dob": "birth", "gpa": "cgpa"}

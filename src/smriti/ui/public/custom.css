@@ -1,0 +1,21 @@
+/* Smriti UI/UX refinements */
+.step-container, [data-testid="step"] {
+  border-radius: 0.75rem;
+}
+
+.inline-custom {
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Crisp tables inside assistant replies */
+.prose table {
+  border-radius: 0.75rem;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.prose th {
+  background: rgba(99, 102, 241, 0.12);
+  font-weight: 700;
+}

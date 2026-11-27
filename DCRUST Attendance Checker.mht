@@ -1,0 +1,2120 @@
+From: <Saved by Blink>
+Snapshot-Content-Location: https://a10dance.com/
+Subject: DCRUST Attendance Checker
+Date: Thu, 26 Nov 2026 18:11:24 GMT
+MIME-Version: 1.0
+Content-Type: multipart/related;
+	type="text/html";
+	boundary="----MultipartBoundary--YpZ71HW6n4oNrLASBbqRwWxYkyPMnRrQyGE6K5207b----"
+
+
+------MultipartBoundary--YpZ71HW6n4oNrLASBbqRwWxYkyPMnRrQyGE6K5207b----
+Content-Type: text/html
+Content-ID: <frame-3B89C92D91F492AE0553F090EC420272@mhtml.blink>
+Content-Transfer-Encoding: binary
+Content-Location: https://a10dance.com/
+
+<!DOCTYPE html><html lang="en" class="dark"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><link rel="stylesheet" type="text/css" href="cid:css-901d408d-9313-41d0-afcd-47387d8d4794@mhtml.blink" />
+    
+    <meta name="description" content="Instantly check your DCRUST attendance from your Samarth portal account.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://a10dance.com/">
+    <meta property="og:title" content="DCRUST Attendance Checker">
+    <meta property="og:description" content="Instantly check your DCRUST attendance from your Samarth portal account.">
+    <meta property="og:image" content="https://a10dance.com/favicon/android-chrome-192x192.png">
+    <link rel="canonical" href="https://a10dance.com/">
+    <meta property="twitter:card" content="summary">
+    <meta property="twitter:url" content="https://a10dance.com/">
+    <meta property="twitter:title" content="DCRUST Attendance Checker">
+    <meta property="twitter:description" content="Instantly check your DCRUST attendance from your Samarth portal account.">
+    <meta property="twitter:image" content="https://a10dance.com/favicon/android-chrome-192x192.png">
+    <!-- <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png"> -->
+    <link rel="icon" type="image/png" sizes="32x32" href="https://a10dance.com/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://a10dance.com/favicon/favicon-16x16.png">
+    <link rel="manifest" href="https://a10dance.com/favicon/site.webmanifest">
+    <link rel="shortcut icon" href="https://a10dance.com/favicon/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noai, noimageai">
+    
+    <title>DCRUST Attendance Checker</title>
+    <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5274501507899270"
+        crossorigin="anonymous"></script> -->
+    
+</head>
+
+<body>
+    <div class="promo-popup" id="promoPopup">
+        <div class="popup-content">
+            <span class="close-btn">✖</span>
+            <h3>🚀 Promote Your Project!</h3>
+            <p>Reach out to thousands of students by advertising your app, event, or project right here.</p>
+            <button class="popup-btn">Contact on WhatsApp</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1>DCRUST Attendance Checker v20.6</h1>
+
+        <div id="ad-banner-container" class="ad-banner"></div>
+        
+        <form id="attendance-form">
+            <div>
+                <label for="username">Roll No.</label>
+                <input type="text" id="username" name="username" placeholder="e.g. 21001901001" required="">
+            </div>
+            <div>
+                <label for="password">Samarth Portal Password</label>
+                <div class="password-wrapper">
+                    <input type="text" id="password" name="password" placeholder="••••••••" required="">
+                    <button type="button" id="togglePasswordBtn" class="toggle-password-btn" aria-label="Hide password">
+                        <svg id="eye-open-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="hidden">
+                            <path d="M12 15a3 3 0 100-6 3 3 0 000 6z"></path>
+                            <path fill-rule="evenodd" d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 010-1.113zM17.25 12a5.25 5.25 0 11-10.5 0 5.25 5.25 0 0110.5 0z" clip-rule="evenodd"></path>
+                        </svg>
+                        <svg id="eye-closed-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="">
+                            <path d="M3.53 2.47a.75.75 0 00-1.06 1.06l18 18a.75.75 0 101.06-1.06l-18-18zM22.676 12.553a11.249 11.249 0 01-2.631 4.31l-3.099-3.099a5.25 5.25 0 00-6.71-6.71L7.759 4.577a11.217 11.217 0 014.242-.827c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113z"></path>
+                            <path d="M15.75 12c0 .18-.013.357-.037.53l-1.5-1.5A3.752 3.752 0 0012 10.5c-1.148 0-2.166.52-2.824 1.332l-1.5-1.5a5.25 5.25 0 019.074 4.166l-1.5-1.5a3.733 3.733 0 00-.53-1.467z"></path>
+                            <path d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c.75 0 1.49.097 2.207.284l-1.5 1.5A5.25 5.25 0 0012 7.5c-2.926 0-5.25 2.363-5.25 5.25 0 .39.043.77.125 1.134l-1.5 1.5c-.14-.3-.25-.61-.33-.935a1.762 1.762 0 010-1.113z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="forgot-password-container">
+                <a id="forgot-password-link" href="https://dcrustm.samarth.edu.in/index.php/studentlogin/registration/reset-password" target="_blank" rel="noopener noreferrer" class="forgot-password-link">Forgot password?</a>
+            </div>
+            <div class="tos-container">
+                <input type="checkbox" id="tos-checkbox" name="tos-checkbox" required="">
+                <label for="tos-checkbox">I agree to the <a href="https://a10dance.com/tos.html" target="_blank" rel="noopener noreferrer">Terms of Service</a>.</label>
+            </div>
+            <button type="submit" id="submit-btn">Get Attendance</button>
+        </form>
+
+        <a href="https://wa.me/?text=https://a10dance.com/" target="_blank" class="forgot-password-link" style="display:block; text-align:center; margin-bottom: 1rem;">Share on WhatsApp</a>
+        
+        <div id="results-container">
+            <div id="quick-search-container" class="quick-search-banner hidden" style="margin-bottom: 1rem;"><p>1 check/day on Free 😬 Unlimited for ~₹1/day. That's literally pocket change. 🤑</p>
+                <p><button type="button" class="buy-btn">7 Days - ₹9 only ⚡ Buy Now</button></p>
+                <p><button type="button" class="buy-btn">30 Days - ₹29 only ⚡ Buy Now!</button></p>
+                <p><button type="button" class="buy-btn">Full Semester Pack (Up to 6 Months) - ₹75 only ⚡ Buy Now!</button></p>
+                <p id="buy-status" style="min-height:1.2em"></p>
+                <p>Subscription will be activated instantly</p></div>
+            <div id="loading" class="loading-container hidden"><p>Fetching attendance data...</p></div>
+            <div id="error-message" class="hidden error-message"></div>
+            <div id="results-table" class="results-table-container">
+                <p><a href="https://chat.whatsapp.com/HbfcFZmUQnDKcOwpXPFtcW" target="_blank" rel="noopener noreferrer">URGENT- Click Here to Join Whatsapp group for Updates/Issues/New Tools</a></p><p style="text-align: center; color: var(--text-muted-color); font-size: 0.85rem;">No updates since last check.</p>
+                <div class="results-container-div">
+                    <div class="sem-header">
+                        <div class="page-sem">Odd Sem 2026</div>
+                        <div class="page-date">Thu, Nov 26</div>
+                    </div>
+            
+                <div class="subject-list-item ">
+                    
+                    
+                    <div class="sl-main">
+                        <div class="sl-left">
+                            <div class="sl-code-row">
+                                <span class="sl-dot" style="background: var(--success); box-shadow: 0 0 6px var(--success);"></span>
+                                <span class="sl-code">BSC-07-A-L</span>
+                            </div>
+                            <div class="sl-name">BT221C : BIOLOGY FOR ENGINEERS</div>
+                        </div>
+                        <div class="sl-right">
+                            <div class="sl-perc" style="color: var(--success)">84.21%</div>
+                            <div class="sl-ratio">32 / 38</div>
+                        </div>
+                    </div>
+                    <div class="sl-prediction" style="color: var(--success)">
+                <details style="margin-top: 4px; margin-bottom: 6px; font-size: 0.75rem;">
+                    <summary style="color: var(--accent-color); font-weight: 600; cursor: pointer; user-select: none;">📄 View Previous Year Papers</summary>
+                    <div><div style="margin-top: 4px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center;"><span style="font-size:0.75rem; color:var(--text-muted-color);">Previous Paper(Partial Match):</span> <a href="https://www.dcrustedp.in/dcrustpqp/dec2024/BME209C.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: BME209C">⬇ BIOLOGY-I (2024)</a><a href="https://www.dcrustedp.in/dcrustpqp/dec2024/BT201C.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: BT201C">⬇ CELL BIOLOGY &amp; GENETICS (2024)</a><a href="https://www.dcrustedp.in/dcrustpqp/dec2024/BT221C.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: BT221C">⬇ BIOLOGY FOR ENGINEERS (2024)</a><a href="https://www.dcrustedp.in/dcrustpqp/dec2024/BT505MSC.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: BT505MSC">⬇ CELL AND MOLECULAR BIOLOGY (2024)</a><a href="https://www.dcrustedp.in/dcrustpqp/dec2024/DBT101.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: DBT101">⬇ BASICS OF CELL BIOLOGY (2024)</a><a href="https://www.dcrustedp.in/dcrustpqp/dec2024/dbt328.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: dbt328">⬇ DEVELOPMENTAL BIOLOGY (2024)</a><a href="https://www.dcrustedp.in/dcrustpqp/june2024/BT202C.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: BT202C">⬇ MOLECULAR BIOLOGY (2024)</a><a href="https://www.dcrustedp.in/dcrustpqp/june2024/BT221C.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: BT221C">⬇ BIOLOGY FOR ENGINEERS (2024)</a><a href="https://www.dcrustedp.in/dcrustpqp/june2024/BT504C.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: BT504C">⬇ PLANT MOLECULAR BIOLOGY (2024)</a><a href="https://www.dcrustedp.in/dcrustpqp/june2024/DBT202.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: DBT202">⬇ INTRODUCTION TO GENETICS &amp; MOLECULAR BIOLOGY (2024)</a><a href="https://www.dcrustedp.in/dcrustpqp/june2024/DBT328.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: DBT328">⬇ DEVELOPMENTAL BIOLOGY (2024)</a><a href="https://www.dcrustedp.in/dcrustpqp/june2024/DBT402.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: DBT402">⬇ MOLECULAR BIOLOGY-II (2024)</a><a href="https://www.dcrustedp.in/dcrustpqp/dec2023/BME209C.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: BME209C">⬇ BIOLOGY-I (2023)</a><a href="https://www.dcrustedp.in/dcrustpqp/dec2023/BT201C.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: BT201C">⬇ CELL BIOLOGY &amp; GENETICS (2023)</a><a href="https://www.dcrustedp.in/dcrustpqp/dec2023/BT221C.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: BT221C">⬇ BIOLOGY FOR ENGINEERS (2023)</a></div></div>
+                </details>
+            Safe to bunk 4 classes</div>
+                    
+                    <div class="sl-meta">
+                        <div style="margin-bottom: 4px; font-size: 0.8rem;">Today's Schedule: <strong style="color:var(--text-color)"><span style="opacity: 0.5; font-weight: normal;">No class today</span></strong></div>
+                        <div>Last attendance marked on: <strong style="color:var(--text-color)">2026-11-18</strong></div>
+                        
+                    </div>
+
+                    <div class="sl-progress-container">
+                        <div class="sl-progress-track">
+                            <div class="sl-progress-fill" style="width:84%; background:var(--success)"></div>
+                        </div>
+                    </div>
+
+                    <div id="details-0" class="subject-details-container">
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-11-18</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">14:00 - 15:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-11-17</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">15:00 - 16:00</div>
+                                <div class="status-absent">
+                                    ○ ABSENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-11-16</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">11:00 - 12:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-11-11</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">14:00 - 15:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-11-10</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">15:00 - 16:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-11-04</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">14:00 - 15:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-11-03</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">15:00 - 16:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-11-02</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">11:00 - 12:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-10-28</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">14:00 - 15:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-10-27</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">15:00 - 16:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-10-21</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">14:00 - 15:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-10-19</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">11:00 - 12:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-10-14</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">14:00 - 15:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-10-13</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">15:00 - 16:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-10-12</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">11:00 - 12:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-10-07</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">14:00 - 15:00</div>
+                                <div class="status-absent">
+                                    ○ ABSENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-10-06</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">15:00 - 16:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-10-05</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">11:00 - 12:00</div>
+                                <div class="status-absent">
+                                    ○ ABSENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-09-30</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">14:00 - 15:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-09-29</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">15:00 - 16:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-09-28</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">11:00 - 12:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-09-22</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">15:00 - 16:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-09-21</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">11:00 - 12:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-09-16</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">14:00 - 15:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-09-15</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">15:00 - 16:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-09-14</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">11:00 - 12:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-09-09</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">14:00 - 15:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-09-08</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">15:00 - 16:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-09-07</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">11:00 - 12:00</div>
+                                <div class="status-absent">
+                                    ○ ABSENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-09-02</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">14:00 - 15:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-09-01</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">15:00 - 16:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-08-31</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">11:00 - 12:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-08-26</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">14:00 - 15:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-08-25</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">15:00 - 16:00</div>
+                                <div class="status-absent">
+                                    ○ ABSENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-08-24</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">11:00 - 12:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-08-19</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">14:00 - 15:00</div>
+                                <div class="status-absent">
+                                    ○ ABSENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-08-18</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">15:00 - 16:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-08-17</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">11:00 - 12:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                    </div>
+                </div>
+                <div class="subject-list-item ">
+                    
+                    
+                    <div class="sl-main">
+                        <div class="sl-left">
+                            <div class="sl-code-row">
+                                <span class="sl-dot" style="background: var(--warning); box-shadow: 0 0 6px var(--warning);"></span>
+                                <span class="sl-code">CSE405C-07-A-L</span>
+                            </div>
+                            <div class="sl-name">CSE405C : SOFTWARE DESIGN AND ENTERPRISE COMPUTING</div>
+                        </div>
+                        <div class="sl-right">
+                            <div class="sl-perc" style="color: var(--warning)">70.59%</div>
+                            <div class="sl-ratio">24 / 34</div>
+                        </div>
+                    </div>
+                    <div class="sl-prediction" style="color: var(--warning)">
+                <details style="margin-top: 4px; margin-bottom: 6px; font-size: 0.75rem;">
+                    <summary style="color: var(--accent-color); font-weight: 600; cursor: pointer; user-select: none;">📄 View Previous Year Papers</summary>
+                    <div><div style="margin-top: 6px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center;">Previous Papers(Exact Match): <a href="https://www.dcrustedp.in/dcrustpqp/dec2024/CSE405C.pdf" target="_blank" style="color:var(--accent-color); text-decoration:none; border:1px solid var(--border-color); padding:2px 8px; border-radius:4px; font-size:0.75rem;">⬇ Dec 2024</a><a href="https://www.dcrustedp.in/dcrustpqp/june2024/CSE405C.pdf" target="_blank" style="color:var(--accent-color); text-decoration:none; border:1px solid var(--border-color); padding:2px 8px; border-radius:4px; font-size:0.75rem;">⬇ June 2024</a><a href="https://www.dcrustedp.in/dcrustpqp/dec2023/cse405c.pdf" target="_blank" style="color:var(--accent-color); text-decoration:none; border:1px solid var(--border-color); padding:2px 8px; border-radius:4px; font-size:0.75rem;">⬇ Dec 2023</a><a href="https://www.dcrustedp.in/dcrustpqp/jan2023/cse405c.pdf" target="_blank" style="color:var(--accent-color); text-decoration:none; border:1px solid var(--border-color); padding:2px 8px; border-radius:4px; font-size:0.75rem;">⬇ Jan 2023</a><a href="https://www.dcrustedp.in/dcrustpqp/june2023/CSE405C.pdf" target="_blank" style="color:var(--accent-color); text-decoration:none; border:1px solid var(--border-color); padding:2px 8px; border-radius:4px; font-size:0.75rem;">⬇ June 2023</a><a href="https://www.dcrustedp.in/dcrustpqp/june2022/CSE405C.pdf" target="_blank" style="color:var(--accent-color); text-decoration:none; border:1px solid var(--border-color); padding:2px 8px; border-radius:4px; font-size:0.75rem;">⬇ June 2022</a></div></div>
+                </details>
+            Attend next 6 classes for 75%</div>
+                    
+                    <div class="sl-meta">
+                        <div style="margin-bottom: 4px; font-size: 0.8rem;">Today's Schedule: <strong style="color:var(--text-color)"><span style="opacity: 0.5; font-weight: normal;">No class today</span></strong></div>
+                        <div>Last attendance marked on: <strong style="color:var(--text-color)">2026-11-18</strong></div>
+                        
+                    </div>
+
+                    <div class="sl-progress-container">
+                        <div class="sl-progress-track">
+                            <div class="sl-progress-fill" style="width:70%; background:var(--warning)"></div>
+                        </div>
+                    </div>
+
+                    <div id="details-1" class="subject-details-container">
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-11-18</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">12:00 - 13:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-11-17</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">10:00 - 11:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-11-13</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">12:00 - 13:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-11-11</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">12:00 - 13:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-11-10</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">10:00 - 11:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-11-03</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">10:00 - 11:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-10-30</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">12:00 - 13:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-10-27</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">10:00 - 11:00</div>
+                                <div class="status-absent">
+                                    ○ ABSENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-10-21</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">12:00 - 13:00</div>
+                                <div class="status-absent">
+                                    ○ ABSENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-10-16</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">12:00 - 13:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-10-14</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">12:00 - 13:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-10-13</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">10:00 - 11:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-10-07</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">12:00 - 13:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-10-06</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">10:00 - 11:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-09-25</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">12:00 - 13:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-09-22</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">10:00 - 11:00</div>
+                                <div class="status-absent">
+                                    ○ ABSENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-09-18</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">12:00 - 13:00</div>
+                                <div class="status-absent">
+                                    ○ ABSENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-09-11</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">12:00 - 13:00</div>
+                                <div class="status-absent">
+                                    ○ ABSENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-09-09</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">12:00 - 13:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-09-08</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">10:00 - 11:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-09-02</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">12:00 - 13:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-09-01</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">10:00 - 11:00</div>
+                                <div class="status-absent">
+                                    ○ ABSENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-08-26</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">12:00 - 13:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-08-25</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">10:00 - 11:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-08-21</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">12:00 - 13:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-08-19</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">12:00 - 13:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-08-18</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">10:00 - 11:00</div>
+                                <div class="status-absent">
+                                    ○ ABSENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-08-14</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">12:00 - 13:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-08-12</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">12:00 - 13:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-08-11</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">10:00 - 11:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-08-07</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">12:00 - 13:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-08-05</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">12:00 - 13:00</div>
+                                <div class="status-absent">
+                                    ○ ABSENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-07-29</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">12:00 - 13:00</div>
+                                <div class="status-absent">
+                                    ○ ABSENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-07-28</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">10:00 - 11:00</div>
+                                <div class="status-absent">
+                                    ○ ABSENT
+                                </div>
+                            </div>
+                        
+                    </div>
+                </div>
+                <div class="subject-list-item ">
+                    
+                    
+                    <div class="sl-main">
+                        <div class="sl-left">
+                            <div class="sl-code-row">
+                                <span class="sl-dot" style="background: var(--success); box-shadow: 0 0 6px var(--success);"></span>
+                                <span class="sl-code">CSE423-07-A-L</span>
+                            </div>
+                            <div class="sl-name">CSE423C : GREEN COMPUTING</div>
+                        </div>
+                        <div class="sl-right">
+                            <div class="sl-perc" style="color: var(--success)">94.87%</div>
+                            <div class="sl-ratio">37 / 39</div>
+                        </div>
+                    </div>
+                    <div class="sl-prediction" style="color: var(--success)">
+                <details style="margin-top: 4px; margin-bottom: 6px; font-size: 0.75rem;">
+                    <summary style="color: var(--accent-color); font-weight: 600; cursor: pointer; user-select: none;">📄 View Previous Year Papers</summary>
+                    <div><div style="margin-top: 4px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center;"><span style="font-size:0.75rem; color:var(--text-muted-color);">Previous Paper(Partial Match):</span> <a href="https://www.dcrustedp.in/dcrustpqp/dec2024/CSE423C.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: CSE423C">⬇ GREEN COMPUTING (2024)</a><a href="https://www.dcrustedp.in/dcrustpqp/june2024/CSE423C.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: CSE423C">⬇ GREEN COMPUTING (2024)</a><a href="https://www.dcrustedp.in/dcrustpqp/dec2023/CSE423C.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: CSE423C">⬇ GREEN COMPUTING (2023)</a><a href="https://www.dcrustedp.in/dcrustpqp/jan2023/CSE423C.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: CSE423C">⬇ GREEN COMPUTING (2023)</a><a href="https://www.dcrustedp.in/dcrustpqp/jan2023/CSE460B.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: CSE460B">⬇ GREEN COMPUTING (2023)</a><a href="https://www.dcrustedp.in/dcrustpqp/june2023/cse423C.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: cse423C">⬇ GREEN COMPUTING (2023)</a><a href="https://www.dcrustedp.in/dcrustpqp/june2022/CSE423C.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: CSE423C">⬇ GREEN COMPUTING (2022)</a><a href="https://www.dcrustedp.in/dcrustpqp/dec2019/CSE460B.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: CSE460B">⬇ GREEN COMPUTING (2019)</a><a href="https://www.dcrustedp.in/dcrustpqp/dec2019/cse560b.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: cse560b">⬇ GREEN COMPUTING (2019)</a><a href="https://www.dcrustedp.in/dcrustpqp/may2019/CSE460B.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: CSE460B">⬇ GREEN COMPUTING (2019)</a><a href="https://www.dcrustedp.in/dcrustpqp/may2019/CSE560B.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: CSE560B">⬇ GREEN COMPUTING (2019)</a><a href="https://www.dcrustedp.in/dcrustpqp/dec2018/CSE560B.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: CSE560B">⬇ GREEN COMPUTING (2018)</a><a href="https://www.dcrustedp.in/dcrustpqp/dec2018/cse460b.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: cse460b">⬇ GREEN COMPUTING (2018)</a><a href="https://www.dcrustedp.in/dcrustpqp/dec2023/MARC602C.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: MARC602C">⬇ ENERGY EFFICIENT AND GREEN BUILDING DESIGN PRINCIPLES (2023)</a><a href="https://www.dcrustedp.in/dcrustpqp/dec2023/MARC701C.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: MARC701C">⬇ GREEN BUILDING RATING SYSTEMS (2023)</a></div></div>
+                </details>
+            Safe to bunk 10 classes</div>
+                    
+                    <div class="sl-meta">
+                        <div style="margin-bottom: 4px; font-size: 0.8rem;">Today's Schedule: <strong style="color:var(--text-color)"><span style="opacity: 0.5; font-weight: normal;">No class today</span></strong></div>
+                        <div>Last attendance marked on: <strong style="color:var(--text-color)">2026-11-20</strong></div>
+                        
+                    </div>
+
+                    <div class="sl-progress-container">
+                        <div class="sl-progress-track">
+                            <div class="sl-progress-fill" style="width:94%; background:var(--success)"></div>
+                        </div>
+                    </div>
+
+                    <div id="details-2" class="subject-details-container">
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-11-20</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">10:00 - 11:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-11-18</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">10:00 - 11:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-11-17</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">09:00 - 10:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-11-13</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">10:00 - 11:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-11-03</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">09:00 - 10:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-10-30</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">10:00 - 11:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-10-28</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">10:00 - 11:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-10-27</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">09:00 - 10:00</div>
+                                <div class="status-absent">
+                                    ○ ABSENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-10-23</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">10:00 - 11:00</div>
+                                <div class="status-absent">
+                                    ○ ABSENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-10-21</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">10:00 - 11:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-10-16</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">10:00 - 11:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-10-14</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">10:00 - 11:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-10-13</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">09:00 - 10:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-10-09</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">10:00 - 11:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-10-07</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">10:00 - 11:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-10-06</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">09:00 - 10:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-09-30</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">10:00 - 11:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-09-29</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">09:00 - 10:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-09-25</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">10:00 - 11:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-09-22</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">09:00 - 10:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-09-18</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">10:00 - 11:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-09-11</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">10:00 - 11:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-09-09</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">10:00 - 11:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-09-08</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">09:00 - 10:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-09-02</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">10:00 - 11:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-09-01</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">09:00 - 10:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-08-26</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">10:00 - 11:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-08-25</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">09:00 - 10:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-08-21</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">10:00 - 11:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-08-19</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">10:00 - 11:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-08-18</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">09:00 - 10:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-08-14</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">10:00 - 11:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-08-12</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">10:00 - 11:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-08-11</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">09:00 - 10:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-08-07</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">10:00 - 11:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-08-05</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">10:00 - 11:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-08-04</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">09:00 - 10:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-07-29</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">10:00 - 11:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-07-28</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">09:00 - 10:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                    </div>
+                </div>
+                <div class="subject-list-item ">
+                    
+                    
+                    <div class="sl-main">
+                        <div class="sl-left">
+                            <div class="sl-code-row">
+                                <span class="sl-dot" style="background: var(--success); box-shadow: 0 0 6px var(--success);"></span>
+                                <span class="sl-code">CSE443-07-A-L</span>
+                            </div>
+                            <div class="sl-name">CSE443C : SOFT COMPUTING</div>
+                        </div>
+                        <div class="sl-right">
+                            <div class="sl-perc" style="color: var(--success)">97.5%</div>
+                            <div class="sl-ratio">39 / 40</div>
+                        </div>
+                    </div>
+                    <div class="sl-prediction" style="color: var(--success)">
+                <details style="margin-top: 4px; margin-bottom: 6px; font-size: 0.75rem;">
+                    <summary style="color: var(--accent-color); font-weight: 600; cursor: pointer; user-select: none;">📄 View Previous Year Papers</summary>
+                    <div><div style="margin-top: 4px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center;"><span style="font-size:0.75rem; color:var(--text-muted-color);">Previous Paper(Partial Match):</span> <a href="https://www.dcrustedp.in/dcrustpqp/dec2024/CSE443C.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: CSE443C">⬇ SOFT COMPUTING (2024)</a><a href="https://www.dcrustedp.in/dcrustpqp/dec2024/MTCSE504C.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: MTCSE504C">⬇ SOFT COMPUTING (2024)</a><a href="https://www.dcrustedp.in/dcrustpqp/dec2024/bca371C.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: bca371C">⬇ SOFT COMPUTING (2024)</a><a href="https://www.dcrustedp.in/dcrustpqp/june2024/BCA371C.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: BCA371C">⬇ SOFT COMPUTING (2024)</a><a href="https://www.dcrustedp.in/dcrustpqp/june2024/CSE443C.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: CSE443C">⬇ SOFT COMPUTING (2024)</a><a href="https://www.dcrustedp.in/dcrustpqp/june2024/MTCSE504C.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: MTCSE504C">⬇ SOFT COMPUTING (2024)</a><a href="https://www.dcrustedp.in/dcrustpqp/dec2023/BCA371C.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: BCA371C">⬇ SOFT COMPUTING (2023)</a><a href="https://www.dcrustedp.in/dcrustpqp/dec2023/CSE443C.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: CSE443C">⬇ SOFT COMPUTING (2023)</a><a href="https://www.dcrustedp.in/dcrustpqp/dec2023/MTCSE504C.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: MTCSE504C">⬇ SOFT COMPUTING (2023)</a><a href="https://www.dcrustedp.in/dcrustpqp/jan2023/CSE452B.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: CSE452B">⬇ SOFT COMPUTING (2023)</a><a href="https://www.dcrustedp.in/dcrustpqp/jan2023/MTCSE504C.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: MTCSE504C">⬇ SOFT COMPUTING (2023)</a><a href="https://www.dcrustedp.in/dcrustpqp/jan2023/bca371c.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: bca371c">⬇ SOFT COMPUTING (2023)</a><a href="https://www.dcrustedp.in/dcrustpqp/jan2023/cse443c.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: cse443c">⬇ SOFT COMPUTING (2023)</a><a href="https://www.dcrustedp.in/dcrustpqp/june2023/BCA371C.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: BCA371C">⬇ SOFT COMPUTING (2023)</a><a href="https://www.dcrustedp.in/dcrustpqp/june2023/CSE443C.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: CSE443C">⬇ SOFT COMPUTING (2023)</a></div></div>
+                </details>
+            Safe to bunk 12 classes</div>
+                    
+                    <div class="sl-meta">
+                        <div style="margin-bottom: 4px; font-size: 0.8rem;">Today's Schedule: <strong style="color:var(--text-color)"><span style="opacity: 0.5; font-weight: normal;">No class today</span></strong></div>
+                        <div>Last attendance marked on: <strong style="color:var(--text-color)">2026-11-20</strong></div>
+                        
+                    </div>
+
+                    <div class="sl-progress-container">
+                        <div class="sl-progress-track">
+                            <div class="sl-progress-fill" style="width:97%; background:var(--success)"></div>
+                        </div>
+                    </div>
+
+                    <div id="details-3" class="subject-details-container">
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-11-20</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">13:00 - 14:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-11-20</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">11:00 - 12:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-11-18</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">11:00 - 12:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-11-17</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">11:00 - 12:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-11-13</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">11:00 - 12:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-11-11</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">11:00 - 12:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-11-10</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">11:00 - 12:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-11-06</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">11:00 - 12:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-11-03</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">11:00 - 12:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-10-30</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">11:00 - 12:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-10-28</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">11:00 - 12:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-10-27</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">11:00 - 12:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-10-21</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">11:00 - 12:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-10-16</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">11:00 - 12:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-10-14</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">11:00 - 12:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-10-13</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">11:00 - 12:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-10-07</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">11:00 - 12:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-10-06</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">11:00 - 12:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-09-30</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">11:00 - 12:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-09-29</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">11:00 - 12:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-09-25</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">11:00 - 12:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-09-22</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">11:00 - 12:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-09-18</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">11:00 - 12:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-09-15</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">11:00 - 12:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-09-11</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">11:00 - 12:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-09-09</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">11:00 - 12:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-09-08</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">11:00 - 12:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-09-02</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">11:00 - 12:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-09-01</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">11:00 - 12:00</div>
+                                <div class="status-absent">
+                                    ○ ABSENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-08-26</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">11:00 - 12:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-08-25</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">11:00 - 12:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-08-21</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">11:00 - 12:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-08-19</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">11:00 - 12:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-08-18</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">11:00 - 12:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-08-14</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">11:00 - 12:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-08-12</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">11:00 - 12:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-08-11</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">11:00 - 12:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-08-05</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">11:00 - 12:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-08-04</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">11:00 - 12:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-07-28</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">11:00 - 12:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                    </div>
+                </div>
+                <div class="subject-list-item ">
+                    
+                    
+                    <div class="sl-main">
+                        <div class="sl-left">
+                            <div class="sl-code-row">
+                                <span class="sl-dot" style="background: var(--danger); box-shadow: 0 0 6px var(--danger);"></span>
+                                <span class="sl-code">CSE481C-07-3A</span>
+                            </div>
+                            <div class="sl-name">CSE481C : PROFESSIONAL TRAINING SEMINAR</div>
+                        </div>
+                        <div class="sl-right">
+                            <div class="sl-perc" style="color: var(--danger)">60%</div>
+                            <div class="sl-ratio">9 / 15</div>
+                        </div>
+                    </div>
+                    <div class="sl-prediction" style="color: var(--danger)">
+                <details style="margin-top: 4px; margin-bottom: 6px; font-size: 0.75rem;">
+                    <summary style="color: var(--accent-color); font-weight: 600; cursor: pointer; user-select: none;">📄 View Previous Year Papers</summary>
+                    <div><div style="margin-top: 4px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center;"><span style="font-size:0.75rem; color:var(--text-muted-color);">Previous Paper(Partial Match):</span> <a href="https://www.dcrustedp.in/dcrustpqp/dec2024/HRM07C.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: HRM07C">⬇ TRAINING AND DEVELOPMENT (2024)</a><a href="https://www.dcrustedp.in/dcrustpqp/june2024/HRM07C.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: HRM07C">⬇ TRAINING AND DEVELOPMENT (2024)</a><a href="https://www.dcrustedp.in/dcrustpqp/june2024/MBADHRM05B.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: MBADHRM05B">⬇ TRAINING AND DEVELOPMENT (2024)</a><a href="https://www.dcrustedp.in/dcrustpqp/jan2023/HRM07C.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: HRM07C">⬇ TRAINING AND DEVELOPMENT (2023)</a><a href="https://www.dcrustedp.in/dcrustpqp/june2023/HRM07C.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: HRM07C">⬇ TRAINING AND DEVELOPMENT (2023)</a><a href="https://www.dcrustedp.in/dcrustpqp/june2023/MBADHRM05B.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: MBADHRM05B">⬇ TRAINING AND DEVELOPMENT (2023)</a><a href="https://www.dcrustedp.in/dcrustpqp/june2022/HRM07C.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: HRM07C">⬇ TRAINING AND DEVELOPMENT (2022)</a><a href="https://www.dcrustedp.in/dcrustpqp/june2022/MBADHRM05B.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: MBADHRM05B">⬇ TRAINING AND DEVELOPMENT (2022)</a><a href="https://www.dcrustedp.in/dcrustpqp/june2022/MBIHRM06.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: MBIHRM06">⬇ Training and Development (2022)</a><a href="https://www.dcrustedp.in/dcrustpqp/dec2019/HRM07C.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: HRM07C">⬇ TRAINING AND DEVELOPMENT (2019)</a><a href="https://www.dcrustedp.in/dcrustpqp/may2019/HRM07C.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: HRM07C">⬇ TRAINING AND DEVELOPMENT (2019)</a><a href="https://www.dcrustedp.in/dcrustpqp/may2019/MBIHRM06.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: MBIHRM06">⬇ Training and Development (2019)</a><a href="https://www.dcrustedp.in/dcrustpqp/dec2018/hrm06.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: hrm06">⬇ TRAINING AND DEVELOPMENT (2018)</a><a href="https://www.dcrustedp.in/dcrustpqp/may2018/HRM06.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: HRM06">⬇ TRAINING AND DEVELOPMENT (2018)</a><a href="https://www.dcrustedp.in/dcrustpqp/may2018/mbihrm06.pdf" target="_blank" style="color:var(--warning); text-decoration:none; border:1px solid rgba(255, 214, 10, 0.4); padding:2px 8px; border-radius:4px; font-size:0.75rem;" title="Subject Code: mbihrm06">⬇ Training and Development (2018)</a></div></div>
+                </details>
+            Attend next 9 classes for 75%</div>
+                    
+                    <div class="sl-meta">
+                        <div style="margin-bottom: 4px; font-size: 0.8rem;">Today's Schedule: <strong style="color:var(--text-color)"><span style="opacity: 0.5; font-weight: normal;">No class today</span></strong></div>
+                        <div>Last attendance marked on: <strong style="color:var(--text-color)">2026-11-16</strong></div>
+                        
+                    </div>
+
+                    <div class="sl-progress-container">
+                        <div class="sl-progress-track">
+                            <div class="sl-progress-fill" style="width:60%; background:var(--danger)"></div>
+                        </div>
+                    </div>
+
+                    <div id="details-4" class="subject-details-container">
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-11-16</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">09:00 - 11:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-11-02</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">09:00 - 11:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-10-19</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">09:00 - 11:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-10-12</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">09:00 - 11:00</div>
+                                <div class="status-absent">
+                                    ○ ABSENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-10-05</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">09:00 - 11:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-09-28</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">09:00 - 11:00</div>
+                                <div class="status-absent">
+                                    ○ ABSENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-09-21</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">09:00 - 11:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-09-14</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">09:00 - 11:00</div>
+                                <div class="status-absent">
+                                    ○ ABSENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-09-07</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">09:00 - 11:00</div>
+                                <div class="status-absent">
+                                    ○ ABSENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-08-31</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">09:00 - 11:00</div>
+                                <div class="status-absent">
+                                    ○ ABSENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-08-24</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">09:00 - 11:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-08-17</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">09:00 - 11:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-08-10</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">09:00 - 11:00</div>
+                                <div class="status-absent">
+                                    ○ ABSENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-08-03</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">09:00 - 11:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-07-27</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">09:00 - 11:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                    </div>
+                </div>
+                <div class="subject-list-item ">
+                    
+                    
+                    <div class="sl-main">
+                        <div class="sl-left">
+                            <div class="sl-code-row">
+                                <span class="sl-dot" style="background: var(--success); box-shadow: 0 0 6px var(--success);"></span>
+                                <span class="sl-code">MGT401C-07-A-L</span>
+                            </div>
+                            <div class="sl-name">MGT401C : ENTREPRENEURSHIP</div>
+                        </div>
+                        <div class="sl-right">
+                            <div class="sl-perc" style="color: var(--success)">87.1%</div>
+                            <div class="sl-ratio">27 / 31</div>
+                        </div>
+                    </div>
+                    <div class="sl-prediction" style="color: var(--success)">
+                <details style="margin-top: 4px; margin-bottom: 6px; font-size: 0.75rem;">
+                    <summary style="color: var(--accent-color); font-weight: 600; cursor: pointer; user-select: none;">📄 View Previous Year Papers</summary>
+                    <div><div style="margin-top: 6px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center;">Previous Papers(Exact Match): <a href="https://www.dcrustedp.in/dcrustpqp/dec2024/mgt401c.pdf" target="_blank" style="color:var(--accent-color); text-decoration:none; border:1px solid var(--border-color); padding:2px 8px; border-radius:4px; font-size:0.75rem;">⬇ Dec 2024</a><a href="https://www.dcrustedp.in/dcrustpqp/dec2023/MGT401C.pdf" target="_blank" style="color:var(--accent-color); text-decoration:none; border:1px solid var(--border-color); padding:2px 8px; border-radius:4px; font-size:0.75rem;">⬇ Dec 2023</a><a href="https://www.dcrustedp.in/dcrustpqp/jan2023/MGT401C.pdf" target="_blank" style="color:var(--accent-color); text-decoration:none; border:1px solid var(--border-color); padding:2px 8px; border-radius:4px; font-size:0.75rem;">⬇ Jan 2023</a><a href="https://www.dcrustedp.in/dcrustpqp/june2023/MGT401C.pdf" target="_blank" style="color:var(--accent-color); text-decoration:none; border:1px solid var(--border-color); padding:2px 8px; border-radius:4px; font-size:0.75rem;">⬇ June 2023</a></div></div>
+                </details>
+            Safe to bunk 5 classes</div>
+                    
+                    <div class="sl-meta">
+                        <div style="margin-bottom: 4px; font-size: 0.8rem;">Today's Schedule: <strong style="color:var(--text-color)"><span style="opacity: 0.5; font-weight: normal;">No class today</span></strong></div>
+                        <div>Last attendance marked on: <strong style="color:var(--text-color)">2026-11-20</strong></div>
+                        
+                    </div>
+
+                    <div class="sl-progress-container">
+                        <div class="sl-progress-track">
+                            <div class="sl-progress-fill" style="width:87%; background:var(--success)"></div>
+                        </div>
+                    </div>
+
+                    <div id="details-5" class="subject-details-container">
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-11-20</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">09:00 - 10:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-11-16</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">12:00 - 13:00</div>
+                                <div class="status-absent">
+                                    ○ ABSENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-11-13</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">09:00 - 10:00</div>
+                                <div class="status-absent">
+                                    ○ ABSENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-11-03</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">16:00 - 17:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-11-02</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">12:00 - 13:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-10-30</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">09:00 - 10:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-10-27</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">16:00 - 17:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-10-16</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">09:00 - 10:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-10-12</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">12:00 - 13:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-10-09</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">09:00 - 10:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-10-06</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">16:00 - 17:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-10-05</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">12:00 - 13:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-09-29</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">16:00 - 17:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-09-28</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">12:00 - 13:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-09-25</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">09:00 - 10:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-09-22</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">16:00 - 17:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-09-21</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">12:00 - 13:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-09-11</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">09:00 - 10:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-09-08</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">16:00 - 17:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-09-07</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">12:00 - 13:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-09-01</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">16:00 - 17:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-08-25</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">16:00 - 17:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-08-24</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">12:00 - 13:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-08-18</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">16:00 - 17:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-08-17</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">12:00 - 13:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-08-14</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">09:00 - 10:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-08-11</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">16:00 - 17:00</div>
+                                <div class="status-absent">
+                                    ○ ABSENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-08-10</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">12:00 - 13:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-08-07</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">09:00 - 10:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-08-04</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">16:00 - 17:00</div>
+                                <div class="status-present">
+                                    ● PRESENT
+                                </div>
+                            </div>
+                        
+                            <div class="inner-details-row">
+                                <div style="color:var(--text-color);">2026-08-03</div>
+                                <div style="color:var(--text-muted-color); font-size: 0.75rem;">12:00 - 13:00</div>
+                                <div class="status-absent">
+                                    ○ ABSENT
+                                </div>
+                            </div>
+                        
+                    </div>
+                </div></div></div>
+        </div>
+        
+        <footer>
+            <div class="stats-container">
+                <div class="stat-item">
+                    <span id="unique-users-count">2,486</span>
+                    <label>Users</label>
+                </div>
+                <div class="stat-item">
+                    <span id="total-lookups-count">133,833</span>
+                    <label>Times Checked</label>
+                </div>
+            </div>
+            <p class="stats-since">Stats since Oct 10, 2025</p>
+            <p>Co-founders - <a href="https://a10dance.com/#" class="cryptedmail" data-name="25001901002arun" data-domain="dcrustm" data-tld="org">Arun</a>, <a href="https://wa.me/917303053593" target="_blank" rel="noopener noreferrer">Priyanshu</a> at BH4-367/369 in 2025</p>
+            <p>Thanks <a href="https://www.instagram.com/siwachrehan" target="_blank" rel="noopener">Rehan Siwach</a> for 75% feature</p>
+        </footer>
+    </div>
+<!--
+                                    <p><a href="https://book.dcrust.aruns.co.in/library.html" target="_blank" rel="noopener noreferrer">📚 Quick Library Book Search 🔍</a></p>
+                                    <p><a href='https://result.dcrust.aruns.co.in' target="_blank" rel="noopener noreferrer">🎓 Quick Result Check! - Check your DCRUST Sem results instantly 🏎️</a></p>
+                                    <p>Remaining Class and Today's class timetable data is pulled from <a href='https://dcrustm.samarth.edu.in/index.php/student-attendance/attendance/view-time-table'>Samarth Portal</a> and it can be wrong</p>
+    -->
+    
+
+
+    
+
+
+</body></html>
+------MultipartBoundary--YpZ71HW6n4oNrLASBbqRwWxYkyPMnRrQyGE6K5207b----
+Content-Type: text/css
+Content-Transfer-Encoding: binary
+Content-Location: cid:css-901d408d-9313-41d0-afcd-47387d8d4794@mhtml.blink
+
+@charset "utf-8";
+
+:root { --bg-color: #0d0d10; --card-bg-color: rgba(30, 30, 35, 0.6); --text-color: #ffffff; --text-muted-color: rgba(235, 235, 245, 0.6); --border-color: rgba(255, 255, 255, 0.15); --input-bg-color: rgba(255, 255, 255, 0.08); --accent-color: #0A84FF; --accent-hover-color: #0071e3; --library-accent: #34C759; --error-text-color: #FF453A; --error-bg-color: rgba(255, 69, 58, 0.15); --present-text-color: #34C759; --absent-text-color: #FF453A; --danger: #FF453A; --success: #30D158; --warning: #FFD60A; --accent-color-rgb: 10, 132, 255; --background-rgb: 13, 13, 16; }
+
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: var(--bg-color); background-image: radial-gradient(circle at 50% 10%, #1c1c24 0%, var(--bg-color) 100%); color: var(--text-color); margin: 0px; display: flex; align-items: flex-start; justify-content: center; min-height: 100vh; padding: 1rem; }
+
+.container { width: 100%; max-width: 42rem; background-color: var(--card-bg-color); backdrop-filter: blur(15px) saturate(180%); border: 1px solid var(--border-color); border-radius: 1.5rem; box-shadow: rgba(0, 0, 0, 0.5) 0px 10px 30px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset; padding: 0.5rem 1.5rem; }
+
+h1, h2 { color: var(--text-color); text-shadow: rgba(0, 0, 0, 0.5) 0px 1px 2px; }
+
+label { font-size: 0.875rem; color: var(--text-muted-color); padding-left: 0.25rem; }
+
+input { width: 100%; padding: 0.75rem; background-color: var(--input-bg-color); color: var(--text-color); box-sizing: border-box; border: 1px solid var(--border-color); border-radius: 0.5rem; box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 4px inset, rgba(255, 255, 255, 0.1) 0px 1px 1px inset; transition: border-color 0.2s; }
+
+input:focus { outline: none; border-color: var(--accent-color); box-shadow: rgba(10, 132, 255, 0.4) 0px 0px 0px 3px, rgba(0, 0, 0, 0.2) 0px 2px 4px inset; }
+
+button:not(.toggle-password-btn, .details-btn, .popup-btn) { background: linear-gradient(145deg, var(--accent-color), var(--accent-hover-color)); box-shadow: rgba(0, 0, 0, 0.4) 0px 4px 8px; padding: 0.75rem 1rem; font-weight: 600; color: var(--text-color); border-width: medium; border-style: none; border-color: currentcolor; border-image: none; border-radius: 0.5rem; cursor: pointer; transition: transform 0.1s; }
+
+button:active:not(:disabled) { transform: translateY(1px); }
+
+button:disabled { background: rgba(55, 65, 81, 0.5); color: rgba(255, 255, 255, 0.4); cursor: not-allowed; box-shadow: none; }
+
+.password-wrapper { position: relative; }
+
+#password { padding-right: 3rem; }
+
+.toggle-password-btn { position: absolute; top: 0px; right: 0px; bottom: 0px; width: 3rem; display: flex; align-items: center; justify-content: center; background: transparent; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; cursor: pointer; color: var(--text-muted-color); }
+
+.toggle-password-btn svg { width: 1.25rem; height: 1.25rem; }
+
+.quick-search-banner { background-color: var(--card-bg-color); backdrop-filter: blur(10px) saturate(180%); border: 1px solid var(--library-accent); box-shadow: rgba(52, 199, 89, 0.6) 0px 0px 15px; padding: 0.5rem; border-radius: 1rem; text-align: center; }
+
+.quick-search-banner a { color: var(--library-accent); text-decoration: none; font-weight: 600; }
+
+.ad-banner { padding: 0.1rem 0.5rem; text-align: center; font-size: 0.875rem; }
+
+.ad-banner a { font-weight: 500; text-decoration: none; color: var(--accent-color); }
+
+.stats-container { display: flex; justify-content: center; gap: 3rem; width: 100%; margin-bottom: 0.5rem; }
+
+.stat-item { text-align: center; }
+
+.stat-item span { display: block; font-size: 1.5rem; font-weight: bold; color: var(--text-color); }
+
+.stat-item label { font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted-color); }
+
+.results-container-div { margin-top: 1rem; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color); border-radius: 1rem; overflow: hidden; }
+
+.sem-header { display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.25rem; border-bottom: 1px solid var(--border-color); background: rgba(0, 0, 0, 0.2); }
+
+.page-sem { font-weight: 800; font-size: 1.1rem; }
+
+.page-date { opacity: 0.5; font-size: 0.85rem; }
+
+.subject-list-item { padding: 1rem 0px 0.75rem; border-bottom: 1px solid rgba(255, 255, 255, 0.06); cursor: pointer; transition: background 0.2s; position: relative; }
+
+.subject-list-item:hover { background: rgba(255, 255, 255, 0.04); }
+
+.subject-list-item:last-child { border-bottom-width: medium; border-bottom-style: none; border-bottom-color: currentcolor; }
+
+.sl-main { display: flex; justify-content: space-between; align-items: flex-start; padding: 0px 1.25rem; margin-bottom: 0.5rem; }
+
+.sl-left { display: flex; flex-direction: column; gap: 4px; flex: 1 1 0%; min-width: 0px; padding-right: 1rem; }
+
+.sl-code-row { display: flex; align-items: center; gap: 8px; }
+
+.sl-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+.sl-code { font-size: 0.75rem; color: var(--text-muted-color); font-family: "JetBrains Mono", monospace; letter-spacing: 0.5px; }
+
+.sl-name { font-size: 0.95rem; font-weight: 600; color: var(--text-color); line-height: 1.3; }
+
+.sl-right { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; min-width: 60px; }
+
+.sl-perc { font-size: 1.2rem; font-weight: 800; }
+
+.sl-ratio { font-size: 0.75rem; color: var(--text-muted-color); font-weight: 600; }
+
+.sl-prediction { font-size: 0.75rem; font-weight: 600; padding: 0px 1.25rem; margin-bottom: 0.5rem; }
+
+.sl-meta { font-size: 0.75rem; color: var(--text-muted-color); padding: 0px 1.25rem; margin-bottom: 0.75rem; display: flex; flex-direction: column; gap: 3px; }
+
+.sl-progress-container { padding: 0px 1.25rem; }
+
+.sl-progress-track { height: 4px; background: rgba(255, 255, 255, 0.1); border-radius: 4px; overflow: hidden; width: 100%; }
+
+.sl-progress-fill { height: 100%; border-radius: 4px; transition: width 1s ease-in-out; }
+
+.subject-details-container { background-color: rgba(0, 0, 0, 0.2); overflow: hidden; max-height: 0px; transition: max-height 0.3s ease-out; }
+
+.subject-details-container.open { max-height: 1500px; border-top: 1px solid rgba(255, 255, 255, 0.05); margin-top: 0.75rem; }
+
+.inner-details-row { display: grid; grid-template-columns: 1fr 1fr 1fr; padding: 0.6rem 1.25rem; border-bottom: 1px solid rgba(255, 255, 255, 0.03); font-size: 0.8rem; }
+
+.inner-details-row:last-child { border-bottom-width: medium; border-bottom-style: none; border-bottom-color: currentcolor; }
+
+.status-present { color: var(--present-text-color); font-weight: 600; text-align: right; }
+
+.status-absent { color: var(--absent-text-color); font-weight: 600; text-align: right; }
+
+.upd-badge { position: absolute; top: 0px; right: 0px; background: var(--accent-color); color: white; font-size: 9px; font-weight: 900; padding: 3px 10px; border-radius: 0px 0px 0px 10px; box-shadow: rgba(0, 0, 0, 0.3) -2px 2px 10px; }
+
+.live-dot { width: 8px; height: 8px; background: rgb(255, 69, 58); border-radius: 50%; display: inline-block; margin-left: 6px; box-shadow: rgb(255, 69, 58) 0px 0px 8px; animation: 1.5s ease 0s infinite normal none running pulse-red; }
+
+@keyframes pulse-red { 
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.3); opacity: 0.6; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.changed { animation: 2s ease-in-out 0s infinite normal none running item-highlight; }
+
+@keyframes item-highlight { 
+  0%, 100% { background: transparent; }
+  50% { background: rgba(10, 132, 255, 0.1); }
+}
+
+.tos-container { display: flex; align-items: center; gap: 0.75rem; font-size: 0.875rem; color: var(--text-muted-color); margin-bottom: 1rem; }
+
+.tos-container input[type="checkbox"] { width: auto; accent-color: var(--accent-color); }
+
+.tos-container a, .forgot-password-link { color: var(--accent-color); text-decoration: none; }
+
+.forgot-password-container { text-align: right; margin-top: -0.5rem; margin-bottom: 1rem; }
+
+footer { display: flex; flex-direction: column; align-items: center; gap: 1rem; font-size: 0.875rem; color: var(--text-muted-color); margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color); width: 100%; text-align: center; }
+
+footer a { color: var(--accent-color); text-decoration: none; }
+
+.buy-btn { cursor: pointer; padding: 0.5rem 0.9rem; border-radius: 0.375rem; border: 1px solid; background: transparent; color: inherit; font: inherit; }
+
+.loading-container, .error-message { text-align: center; padding: 1rem; }
+
+.error-message { background-color: var(--error-bg-color); color: var(--error-text-color); border-radius: 0.375rem; margin-bottom: 1.5rem; }
+
+.hidden { display: none; }
+
+form { display: flex; flex-direction: column; margin-bottom: 1.5rem; gap: 1rem; }
+
+.promo-popup { position: fixed; top: 0px; left: 0px; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(5px); display: none; justify-content: center; align-items: center; z-index: 9999; }
+
+.popup-content { background: rgb(26, 26, 46); padding: 20px; border-radius: 12px; border: 1px solid rgb(255, 170, 0); text-align: center; max-width: 350px; position: relative; color: white; box-shadow: rgba(255, 170, 0, 0.3) 0px 4px 15px; animation: 0.3s ease-in-out 0s 1 normal none running fadeIn; }
+
+.popup-content h3 { margin-top: 0px; color: rgb(255, 204, 0); font-size: 20px; }
+
+.popup-content p { font-size: 15px; margin-bottom: 15px; color: rgb(221, 221, 221); }
+
+.popup-content button.popup-btn { padding: 12px 20px; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; background: rgb(37, 211, 102); color: rgb(255, 255, 255); font-weight: bold; border-radius: 8px; cursor: pointer; transition: 0.3s; }
+
+.popup-content button.popup-btn:hover { background: rgb(30, 190, 93); }
+
+.close-btn { position: absolute; right: 15px; top: 10px; cursor: pointer; font-size: 18px; }
+
+@keyframes fadeIn { 
+  0% { transform: translateY(30px); opacity: 0; }
+  100% { transform: translateY(0px); opacity: 1; }
+}
+
+@media screen and (max-width: 600px) {
+  body { padding: 0.01rem; }
+  .container { padding: 1rem; border-radius: 0px; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; }
+  .stats-container { gap: 1rem; }
+  .popup-content { padding: 15px; font-size: 14px; }
+}
+------MultipartBoundary--YpZ71HW6n4oNrLASBbqRwWxYkyPMnRrQyGE6K5207b------

@@ -16,6 +16,7 @@ venv/
 
 # Node
 node_modules/
+src/smriti/ui/web/node_modules/
 .next/
 
 # Editors / OS
@@ -29,9 +30,14 @@ node_modules/
 .files/
 .ruff_cache/
 *.egg-info/
+*.tsbuildinfo
+/build/
+/dist/
 evals/results/
 /data-demo/
 /smriti-demo/
+/pyqs/
+/syllabus/
 
 # Private, local-only documents (synopsis, deck, archives)
 docs/SYNOPSIS.md

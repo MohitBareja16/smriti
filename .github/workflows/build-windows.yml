@@ -1,0 +1,42 @@
+name: Build Windows Bundle
+
+on:
+  workflow_dispatch:
+    inputs:
+      model:
+        description: "Default Ollama model to bundle"
+        required: false
+        default: "qwen2.5:1.5b"
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Build portable Windows bundle (skip PDF assets on CI runner)
+        shell: pwsh
+        run: |
+          packaging/windows/prepare_bundle.ps1 -Model "${{ inputs.model }}" -SkipPdfAssets
+
+      - name: Install Inno Setup & build Smriti-Setup.exe
+        shell: pwsh
+        run: |
+          choco install innosetup -y
+          & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" packaging\windows\SmritiSetup.iss
+
+      - name: Upload Windows installer artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: smriti-windows-installer
+          path: |
+            dist/installer/*
+          retention-days: 14
