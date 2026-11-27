@@ -190,15 +190,32 @@ def _find_static_dist(base: Path, internal: Path) -> Path | None:
     return None
 
 
+def _ensure_stdio(log_dir: Path) -> None:
+    """Replace None stdio streams in windowed PyInstaller builds so logging and uvicorn never crash."""
+    if sys.stdout is not None and sys.stderr is not None:
+        return
+    try:
+        log_dir.mkdir(parents=True, exist_ok=True)
+        stream = open(log_dir / "smriti-desktop.log", "a", encoding="utf-8", buffering=1)
+    except OSError:
+        stream = open(os.devnull, "w", encoding="utf-8")
+    if sys.stdout is None:
+        sys.stdout = stream
+    if sys.stderr is None:
+        sys.stderr = stream
+
+
 def main(argv: list[str] | None = None) -> int:
+    base = bundle_root()
+    internal = internal_root()
+    _ensure_stdio(default_data_dir(base))
+
     parser = argparse.ArgumentParser(prog="smriti-desktop", description="Single-click desktop launcher for Smriti AI")
     parser.add_argument("--port", type=int, default=8000)
     parser.add_argument("--no-browser", action="store_true")
     parser.add_argument("--demo", action="store_true", help="Preload fictional Alex Demo workspace on first launch")
     args = parser.parse_args(argv)
 
-    base = bundle_root()
-    internal = internal_root()
     _configure_environment(base, internal, demo=args.demo)
 
     # Start portable Ollama if available, then fall back to extractive mode cleanly if absent.
@@ -243,25 +260,10 @@ def main(argv: list[str] | None = None) -> int:
     if not args.no_browser:
         threading.Timer(0.9, lambda: open_browser_quietly(url)).start()
 
-    # Windowed PyInstaller binaries on Windows run with console=False, leaving
-    # sys.stdout / sys.stderr as None; uvicorn's formatter crashes on .isatty().
-    import os as _os
-    import sys as _sys
-    from contextlib import ExitStack
-
     import uvicorn
 
-    prev_stdout, prev_stderr = _sys.stdout, _sys.stderr
-    try:
-        with ExitStack() as stack:
-            if _sys.stdout is None:
-                _sys.stdout = stack.enter_context(open(_os.devnull, "w", encoding="utf-8"))
-            if _sys.stderr is None:
-                _sys.stderr = stack.enter_context(open(_os.devnull, "w", encoding="utf-8"))
-            uvicorn.run(fastapi_app, host="127.0.0.1", port=port, log_level="warning")
-    finally:
-        _sys.stdout = prev_stdout
-        _sys.stderr = prev_stderr
+    use_colors = bool(sys.stderr and getattr(sys.stderr, "isatty", lambda: False)())
+    uvicorn.run(fastapi_app, host="127.0.0.1", port=port, log_level="warning", use_colors=use_colors)
     return 0
 
 

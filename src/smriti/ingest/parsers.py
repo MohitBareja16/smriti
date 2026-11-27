@@ -48,11 +48,19 @@ def _parse_pdf(path: Path) -> list[tuple[int, str]]:
     for i, page in enumerate(reader.pages, 1):
         text = (page.extract_text() or "").strip()
         # Scanned PDFs have no text layer: run OCR fallback if tesseract is available
-        if len(text) < 20 and has_tesseract and page.images:
+        if len(text) < 20 and has_tesseract:
             ocr_parts = []
-            for img in page.images:
+            try:
+                images = list(page.images)
+            except (ImportError, KeyError, OSError, ValueError, TypeError):
+                _log.debug("Image extraction skipped for %s page %s", path.name, i, exc_info=True)
+                images = []
+            creationflags = getattr(subprocess, "CREATE_NO_WINDOW", 0)
+            for img in images:
+                tpath: str | None = None
                 try:
-                    with tempfile.NamedTemporaryFile(suffix=".png", delete=False) as tmp:
+                    suffix = Path(getattr(img, "name", "") or "page.png").suffix or ".png"
+                    with tempfile.NamedTemporaryFile(suffix=suffix, delete=False) as tmp:
                         tmp.write(img.data)
                         tpath = tmp.name
                     res = subprocess.run(
@@ -61,12 +69,15 @@ def _parse_pdf(path: Path) -> list[tuple[int, str]]:
                         text=True,
                         timeout=30,
                         check=False,
+                        creationflags=creationflags,
                     )
                     if res.stdout.strip():
                         ocr_parts.append(res.stdout.strip())
-                    Path(tpath).unlink(missing_ok=True)
                 except (OSError, subprocess.SubprocessError, ValueError):
                     _log.debug("OCR fallback skipped for %s page %s", path.name, i, exc_info=True)
+                finally:
+                    if tpath:
+                        Path(tpath).unlink(missing_ok=True)
             if ocr_parts:
                 text = "\n".join(ocr_parts)
         if text:

@@ -9,6 +9,7 @@ authors = [{ name = "Smriti contributors" }]
 dependencies = [
     "cryptography>=42",
     "langgraph>=0.2",
+    "pillow>=10",
     "pypdf>=4",
 ]
 

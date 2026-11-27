@@ -395,6 +395,9 @@ def create_app(
                 except (RuntimeError, OSError, ValueError) as exc:
                     yield _sse_frame("error", {"status": 500, "detail": str(exc)})
                     return
+                except Exception as exc:  # noqa: BLE001 — never drop an SSE stream without an error frame
+                    yield _sse_frame("error", {"status": 500, "detail": f"{type(exc).__name__}: {exc}"})
+                    return
 
                 if resp is None:
                     return
