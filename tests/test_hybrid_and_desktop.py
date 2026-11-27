@@ -124,8 +124,10 @@ def test_system2_skips_llm_planning_on_simple_queries(tmp_path):
 
 
 def test_desktop_bundle_helpers(tmp_path, monkeypatch):
+    import os
     import shutil
     import subprocess
+    import sys
 
     port = pick_port("127.0.0.1", preferred=48100, max_tries=10)
     assert 48100 <= port < 48110
@@ -134,6 +136,7 @@ def test_desktop_bundle_helpers(tmp_path, monkeypatch):
     assert d == tmp_path / "data" and d.is_dir()
 
     spawned = {}
+    monkeypatch.setattr(sys, "platform", "linux")
     monkeypatch.setattr(shutil, "which", lambda _name: "/usr/bin/xdg-open")
     monkeypatch.setattr(
         subprocess,
@@ -143,6 +146,12 @@ def test_desktop_bundle_helpers(tmp_path, monkeypatch):
     open_browser_quietly("http://127.0.0.1:8000")
     assert spawned["cmd"] == ["/usr/bin/xdg-open", "http://127.0.0.1:8000"]
     assert spawned["stdout"] is subprocess.DEVNULL and spawned["stderr"] is subprocess.DEVNULL
+
+    opened_win: list[str] = []
+    monkeypatch.setattr(sys, "platform", "win32")
+    monkeypatch.setattr(os, "startfile", lambda url: opened_win.append(url), raising=False)
+    open_browser_quietly("http://127.0.0.1:8000")
+    assert opened_win == ["http://127.0.0.1:8000"]
 
     # Bundled offline tools (portable ollama.exe, models, hf_cache, tesseract) configure offline env cleanly
     (tmp_path / "ollama").mkdir()
@@ -161,3 +170,111 @@ def test_desktop_bundle_helpers(tmp_path, monkeypatch):
     assert os.environ["SENTENCE_TRANSFORMERS_HOME"] == str(tmp_path / "hf_cache")
     assert os.environ["TESSDATA_PREFIX"] == str(tmp_path / "tesseract" / "tessdata")
     assert str(tmp_path / "tesseract") in os.environ["PATH"]
+
+
+def test_coderabbit_hardening_regression(tmp_path, monkeypatch):
+    import io
+
+    from smriti.app import Settings, build_app
+    from smriti.ingest import ingest_file
+    from smriti.llm import LLMUnavailableError
+    from smriti.llm.ollama import OllamaReasoner
+    from smriti.university.pyq import (
+        DcrustPyqClient,
+        PyqCatalog,
+        PyqEntry,
+        parse_exam_sessions,
+        save_pyq_catalog,
+        sync_dcrust_pyqs,
+    )
+    from smriti.university.syllabus import SyllabusCatalog, classify_syllabus_item, search_syllabus
+    from smriti.university.timetable import (
+        build_timetable_report,
+        format_timetable_html,
+        timetable_to_ui_props,
+    )
+
+    # 1. Embeddings inference failure degrades cleanly instead of crashing
+    broken = LocalEmbedder(encode_fn=lambda _texts: (_ for _ in ()).throw(RuntimeError("oom")))
+    assert broken.encode_many(["paging"]) == []
+    assert broken.encode_one("paging") is None
+
+    # 2. Ollama stream rejects error frames and incomplete EOF streams without done=True
+    class _FakeResp(io.BytesIO):
+        def __enter__(self):
+            return self
+        def __exit__(self, *args):
+            return False
+
+    reasoner = OllamaReasoner(model="qwen2.5:1.5b")
+    monkeypatch.setattr(
+        "urllib.request.urlopen",
+        lambda *_a, **_kw: _FakeResp(b'{"message":{"content":"partial"}}\n'),
+    )
+    with pytest.raises(LLMUnavailableError):
+        reasoner._chat("sys", "hi", on_token=lambda _t: None)
+
+    monkeypatch.setattr(
+        "urllib.request.urlopen",
+        lambda *_a, **_kw: _FakeResp(b'{"error":"model killed"}\n'),
+    )
+    with pytest.raises(LLMUnavailableError):
+        reasoner._chat("sys", "hi", on_token=lambda _t: None)
+
+    # 3. Redacted PAN / sensitive strings must not leak into DB `course` metadata
+    pan_doc = tmp_path / "notes.txt"
+    pan_doc.write_text("Student PAN ABCDE1234F should stay encrypted and redacted.", encoding="utf-8")
+    app = build_app(Settings(data_dir=tmp_path / "d", passphrase="pass", llm_backend="extractive"))
+    res = ingest_file(pan_doc, app.db, app.vault)
+    row = app.db.get_document(res.doc_id)
+    assert row["sensitive"] == 1
+    assert row["course"] is None
+
+    # 4. Timetable guards missing start timestamps, renders Sunday when present, and escapes </script>
+    import datetime as dt
+    from zoneinfo import ZoneInfo
+
+    empty_fallback = build_timetable_report("23001", "Sem 7", [{"id": "old", "desc": "bad"}], current_class_ids={"cur"})
+    assert empty_fallback.events == []
+    sun_ts = int(dt.datetime(2026, 8, 9, 10, 0, tzinfo=ZoneInfo("Asia/Kolkata")).timestamp())
+    sun_report = build_timetable_report(
+        "23001",
+        "Sem 7",
+        [{"id": "s1", "title": "CSE401C-07-A-L", "desc": "CSE401C : </script>AI", "start": sun_ts, "end": sun_ts + 3600}],
+    )
+    assert timetable_to_ui_props(sun_report)["calDayCount"] == 7
+    html_out = format_timetable_html(sun_report)
+    assert "\\u003c/script" in html_out and "\"SUN\"" in html_out
+
+    # 5. Syllabus search strictly excludes mismatched degrees (BCA query drops MCA entry)
+    bca_e = classify_syllabus_item({"text": "BCA Syllabus", "url": "https://www.dcrustm.ac.in/bca.pdf"})
+    mca_e = classify_syllabus_item({"text": "MCA Syllabus", "url": "https://www.dcrustm.ac.in/mca.pdf"})
+    syl_cat = SyllabusCatalog(source_url="https://cse.dcrust.online/syllabus", updated_at="now", entries=[bca_e, mca_e])
+    syl_res = search_syllabus("BCA syllabus", tmp_path, catalog=syl_cat)
+    assert [m.degree for m in syl_res.matches] == ["BCA"]
+
+    # 6. PYQ partial sync preserves unselected sessions and blocks untrusted URLs
+    class _PartialPyq(DcrustPyqClient):
+        def fetch_catalog(self, *, exam_ids=None, max_workers=6, progress_cb=None):
+            assert exam_ids == {"15"}
+            return [{"exam_id": "15", "label": "dec2024"}], [
+                PyqEntry("15", "December 2024", "2024-12_dec2024", 202412, "CSE302C", "CSE302C", "COMPILER", "dec24/CSE302C.pdf", "https://www.dcrustedp.in/dec24/CSE302C.pdf")
+            ]
+
+    pyq_dir = tmp_path / "pyqs"
+    save_pyq_catalog(
+        pyq_dir,
+        PyqCatalog(
+            source_url="https://www.dcrustedp.in/dcrustpqp.php",
+            updated_at="old",
+            exam_sessions=[{"exam_id": "14", "label": "june2024"}, {"exam_id": "15", "label": "dec2024"}],
+            entries=[
+                PyqEntry("14", "June 2024", "2024-06_june2024", 202406, "CSE301C", "CSE301C", "OS", "jun24/CSE301C.pdf", "https://www.dcrustedp.in/jun24/CSE301C.pdf")
+            ],
+        ),
+    )
+    merged = sync_dcrust_pyqs(pyq_dir, download=False, exam_ids={"15"}, client=_PartialPyq())
+    assert {e.exam_id for e in merged.entries} == {"14", "15"}
+    status_bad, sz_bad = DcrustPyqClient().download_pdf("https://evil.example.com/x.pdf", tmp_path / "bad.pdf")
+    assert (status_bad, sz_bad) == ("invalid", 0)
+    assert parse_exam_sessions("<a href='dcrustpqp2.php?examid=15'>dec2024</a>")[0][0] == "15"

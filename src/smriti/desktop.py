@@ -243,9 +243,25 @@ def main(argv: list[str] | None = None) -> int:
     if not args.no_browser:
         threading.Timer(0.9, lambda: open_browser_quietly(url)).start()
 
+    # Windowed PyInstaller binaries on Windows run with console=False, leaving
+    # sys.stdout / sys.stderr as None; uvicorn's formatter crashes on .isatty().
+    import os as _os
+    import sys as _sys
+    from contextlib import ExitStack
+
     import uvicorn
 
-    uvicorn.run(fastapi_app, host="127.0.0.1", port=port, log_level="warning")
+    prev_stdout, prev_stderr = _sys.stdout, _sys.stderr
+    try:
+        with ExitStack() as stack:
+            if _sys.stdout is None:
+                _sys.stdout = stack.enter_context(open(_os.devnull, "w", encoding="utf-8"))
+            if _sys.stderr is None:
+                _sys.stderr = stack.enter_context(open(_os.devnull, "w", encoding="utf-8"))
+            uvicorn.run(fastapi_app, host="127.0.0.1", port=port, log_level="warning")
+    finally:
+        _sys.stdout = prev_stdout
+        _sys.stderr = prev_stderr
     return 0
 
 

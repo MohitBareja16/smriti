@@ -8,6 +8,9 @@ import json
 import re
 from collections import Counter
 from dataclasses import dataclass, field
+from zoneinfo import ZoneInfo
+
+_IST = ZoneInfo("Asia/Kolkata")
 
 WEEKDAY_NAMES = ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
 WEEKDAY_SHORT = ("MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN")
@@ -121,7 +124,7 @@ def _semester_ended_notice(report: TimetableReport) -> str:
     if not report.events:
         return ""
     last_iso = max(e.date for e in report.events)
-    today_iso = dt.datetime.now(tz=dt.timezone.utc).astimezone().date().isoformat()
+    today_iso = dt.datetime.now(tz=_IST).date().isoformat()
     if last_iso < today_iso:
         pretty = dt.date.fromisoformat(last_iso).strftime("%d %b %Y").lstrip("0")
         return f"This semester's classes ended on {pretty}. Showing your last timetable."
@@ -137,7 +140,7 @@ def build_timetable_report(
     fetched_at: str | None = None,
 ) -> TimetableReport:
     """Build a current-semester Weekly Table + Calendar report from Samarth `get-classes-of-student` events."""
-    tz = dt.datetime.now(tz=dt.timezone.utc).astimezone().tzinfo
+    tz = _IST
     now_local = dt.datetime.now(tz=tz)
     date_label = fetched_at or now_local.strftime("%a, %b %d")
 
@@ -147,9 +150,11 @@ def build_timetable_report(
         and isinstance(ev.get("start"), (int, float))
     ]
     if current_class_ids and not filtered_raw and raw_events:
-        latest_ts = max(ev["start"] for ev in raw_events if isinstance(ev.get("start"), (int, float)))
-        cutoff = latest_ts - 140 * 86400
-        filtered_raw = [ev for ev in raw_events if isinstance(ev.get("start"), (int, float)) and ev["start"] >= cutoff]
+        starts = [ev["start"] for ev in raw_events if isinstance(ev.get("start"), (int, float))]
+        if starts:
+            latest_ts = max(starts)
+            cutoff = latest_ts - 140 * 86400
+            filtered_raw = [ev for ev in raw_events if isinstance(ev.get("start"), (int, float)) and ev["start"] >= cutoff]
 
     events: list[TimetableEvent] = []
     slot_counts: Counter[tuple[int, str, str, str, str, str, str]] = Counter()
@@ -309,7 +314,7 @@ def timetable_to_ui_props(report: TimetableReport) -> dict:
     hours = list(range(min_h, max_h))
     notice = _semester_ended_notice(report)
     section_label = _infer_section_label(report.weekly_slots)
-    today_wd = dt.datetime.now(tz=dt.timezone.utc).astimezone().weekday()
+    today_wd = dt.datetime.now(tz=_IST).weekday()
 
     subjects_map: dict[str, dict] = {}
     for s in report.weekly_slots:
@@ -351,6 +356,8 @@ def timetable_to_ui_props(report: TimetableReport) -> dict:
             }
         )
 
+    cal_day_count = 7 if (6 in active_days or any(e.weekday == 6 for e in report.events)) else len(active_days)
+
     return {
         "rollNumber": report.roll_number,
         "semesterLabel": report.semester_label,
@@ -358,7 +365,7 @@ def timetable_to_ui_props(report: TimetableReport) -> dict:
         "notice": notice,
         "gridStartHour": min_h,
         "gridEndHour": max_h,
-        "calDayCount": len(active_days),
+        "calDayCount": cal_day_count,
         "hours": [
             {"hour": h, "start": _fmt_12h(f"{h:02d}:00"), "end": _fmt_12h(f"{h + 1:02d}:00")}
             for h in hours
@@ -461,8 +468,11 @@ def format_timetable_html(report: TimetableReport) -> str:
         if props["notice"]
         else ""
     )
-    events_json = json.dumps(props["events"])
-    palette_json = json.dumps([
+    def _safe_inline_json(val: object) -> str:
+        return json.dumps(val).replace("<", "\\u003c").replace(">", "\\u003e").replace("&", "\\u0026")
+
+    events_json = _safe_inline_json(props["events"])
+    palette_json = _safe_inline_json([
         {"bg": p[0], "brd": p[1], "fg": p[2], "sub": p[3]}
         for p in palette
     ])
@@ -602,7 +612,7 @@ const GRID_END_HOUR = {grid_end_hour};
 const CAL_DAYS = {cal_day_count};
 const ROW_H = 68;
 const MONTHS_SHORT = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-const DOW_LABELS = ["MON","TUE","WED","THU","FRI","SAT"];
+const DOW_LABELS = ["MON","TUE","WED","THU","FRI","SAT","SUN"];
 const STATUS_DOTS = {{ PRESENT:"#10b981", ABSENT:"#ef4444", LEAVE:"#f59e0b" }};
 
 function parseIso(iso) {{

@@ -14,11 +14,29 @@ import threading
 import urllib.error
 import urllib.parse
 import urllib.request
+import uuid
 from collections.abc import Callable
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import asdict, dataclass, field
 from difflib import SequenceMatcher
 from pathlib import Path
+from zoneinfo import ZoneInfo
+
+_IST = ZoneInfo("Asia/Kolkata")
+_APPROVED_PYQ_HOSTS = {"dcrustedp.in", "www.dcrustedp.in"}
+
+
+class _SafeHostRedirectHandler(urllib.request.HTTPRedirectHandler):
+    def __init__(self, allowed_hosts: set[str]):
+        super().__init__()
+        self.allowed_hosts = allowed_hosts
+
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        parsed = urllib.parse.urlsplit(newurl)
+        host = (parsed.hostname or "").lower()
+        if parsed.scheme.lower() not in {"http", "https"} or host not in self.allowed_hosts:
+            raise urllib.error.URLError(f"Blocked redirect to untrusted host: {host or newurl}")
+        return super().redirect_request(req, fp, code, msg, headers, newurl)
 
 DCRUSTEDP_BASE_URL = "https://www.dcrustedp.in"
 DCRUSTEDP_INDEX_PATH = "/dcrustpqp.php"
@@ -303,15 +321,27 @@ class DcrustPyqClient:
         self.base_url = base_url.rstrip("/")
         self.timeout = timeout
         self._ssl_ctx = ssl.create_default_context()
+        self._allowed_hosts = set(_APPROVED_PYQ_HOSTS)
+        base_host = (urllib.parse.urlsplit(self.base_url).hostname or "").lower()
+        if base_host:
+            self._allowed_hosts.add(base_host)
+
+    def _validate_url(self, url: str) -> None:
+        parsed = urllib.parse.urlsplit(url)
+        host = (parsed.hostname or "").lower()
+        if parsed.scheme.lower() not in {"http", "https"} or host not in self._allowed_hosts:
+            raise ValueError(f"Blocked untrusted PYQ URL: {url}")
 
     def _make_opener(self) -> urllib.request.OpenerDirector:
         cj = http.cookiejar.CookieJar()
         return urllib.request.build_opener(
             urllib.request.HTTPCookieProcessor(cj),
             urllib.request.HTTPSHandler(context=self._ssl_ctx),
+            _SafeHostRedirectHandler(self._allowed_hosts),
         )
 
     def _get_text(self, opener: urllib.request.OpenerDirector, url: str, referer: str | None = None) -> str:
+        self._validate_url(url)
         headers = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) SmritiPYQ/1.0"}
         if referer:
             headers["Referer"] = referer
@@ -377,8 +407,12 @@ class DcrustPyqClient:
 
     def download_pdf(self, url: str, dest: Path) -> tuple[str, int]:
         """Download a single PDF verifying %PDF header cleanly."""
+        try:
+            self._validate_url(url)
+        except ValueError:
+            return "invalid", 0
         dest.parent.mkdir(parents=True, exist_ok=True)
-        tmp = dest.with_suffix(".pdf.part")
+        tmp = dest.parent / f".{uuid.uuid4().hex}.pdf.part"
         req = urllib.request.Request(
             url,
             headers={
@@ -386,9 +420,10 @@ class DcrustPyqClient:
                 "Referer": f"{self.base_url}{DCRUSTEDP_LETTER_PATH}",
             },
         )
+        opener = self._make_opener()
         for attempt in range(2):
             try:
-                with urllib.request.urlopen(req, timeout=self.timeout, context=self._ssl_ctx) as resp:
+                with opener.open(req, timeout=self.timeout) as resp:
                     data = resp.read()
                 if not data.lstrip()[:5].startswith(b"%PDF"):
                     tmp.unlink(missing_ok=True)
@@ -517,13 +552,14 @@ def sync_dcrust_pyqs(
     # Carry forward prior 404/downloaded knowledge so incremental runs stay fast
     to_download: list[PyqEntry] = []
     for e in entries:
+        prev = existing_by_key.get((e.exam_id, e.remote_path.lower()))
         target = pyq_dir / e.local_relpath
-        if target.exists() and target.stat().st_size > 100:
+        same_slot = prev is None or not prev.local_relpath or prev.local_relpath == e.local_relpath
+        if same_slot and target.exists() and target.stat().st_size > 100:
             e.status = "downloaded"
             e.size_bytes = target.stat().st_size
             _hardlink_by_session(pyq_dir, e)
             continue
-        prev = existing_by_key.get((e.exam_id, e.remote_path.lower()))
         if prev and prev.status in {"missing_remote", "invalid"}:
             e.status = prev.status
             continue
@@ -546,9 +582,20 @@ def sync_dcrust_pyqs(
                 if progress_cb and (done % 250 == 0 or done == total):
                     progress_cb(f"Downloaded/checked {done}/{total} PYQ PDFs...")
 
+    if exam_ids is not None and old is not None:
+        refreshed_ids = {s.get("exam_id", "") for s in sessions} | set(exam_ids)
+        merged_entries = [x for x in old.entries if x.exam_id not in refreshed_ids] + entries
+        merged_entries.sort(key=lambda e: (e.course_code, -e.session_sort, e.remote_path))
+        by_eid = {s.get("exam_id", ""): s for s in old.exam_sessions if s.get("exam_id")}
+        for s in sessions:
+            if s.get("exam_id"):
+                by_eid[s["exam_id"]] = s
+        entries = merged_entries
+        sessions = list(by_eid.values())
+
     catalog = PyqCatalog(
         source_url=f"{client.base_url}{DCRUSTEDP_INDEX_PATH}",
-        updated_at=dt.datetime.now(tz=dt.timezone.utc).astimezone().strftime("%Y-%m-%d %H:%M"),
+        updated_at=dt.datetime.now(tz=_IST).strftime("%Y-%m-%d %H:%M"),
         entries=entries,
         exam_sessions=sessions,
     )
@@ -775,7 +822,7 @@ def format_pyq_html(result: PyqSearchResult, pyq_dir: Path) -> str:
                 else '<span class="muted">Portal only</span>'
             )
             local_link = (
-                f'<a href="{html_lib.escape(local_p.as_uri())}">Local PDF</a>'
+                f'<a href="{html_lib.escape(local_p.resolve().as_uri())}">Local PDF</a>'
                 if is_local and local_p is not None
                 else "—"
             )

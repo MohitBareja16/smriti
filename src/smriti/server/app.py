@@ -15,7 +15,7 @@ from fastapi import FastAPI, File, HTTPException, Query, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
-from pypdf.errors import FileNotDecryptedError
+from pypdf.errors import FileNotDecryptedError, PdfReadError
 
 from smriti.app import App, build_app
 from smriti.config import DEMO_DIR
@@ -302,8 +302,8 @@ def create_app(
         }
 
     @api.post("/api/models/select")
-    def select_model(req: ModelSelectRequest) -> dict:
-        current = _apply_model(req.model)
+    async def select_model(req: ModelSelectRequest) -> dict:
+        current = await asyncio.to_thread(_apply_model, req.model)
         return {"backend": smriti_app.settings.llm_backend, "current": current}
 
     def _run_chat_sync(req: ChatRequest) -> ChatResponse:
@@ -333,7 +333,6 @@ def create_app(
         q = req.question.strip()
         if not q:
             raise HTTPException(status_code=422, detail="Question cannot be empty")
-        _apply_model(req.model)
 
         async def event_gen():
             tid = req.thread_id or smriti_app.db.create_thread()
@@ -350,6 +349,7 @@ def create_app(
 
             def _worker() -> ChatResponse | None:
                 try:
+                    _apply_model(req.model)
                     answer = smriti_app.orchestrator.handle(
                         q,
                         mode=req.mode,
@@ -478,7 +478,7 @@ def create_app(
             except VaultLockedError as exc:
                 shutil.rmtree(staged_dir, ignore_errors=True)
                 results.append({"name": fname, "ok": False, "status": 423, "error": str(exc)})
-            except (UnsupportedFileError, FileNotDecryptedError, OSError, ValueError) as exc:
+            except (UnsupportedFileError, FileNotDecryptedError, PdfReadError, OSError, ValueError) as exc:
                 shutil.rmtree(staged_dir, ignore_errors=True)
                 results.append({"name": fname, "ok": False, "error": str(exc)})
         return {"results": results}
@@ -526,7 +526,7 @@ def create_app(
 
         try:
             res = await asyncio.to_thread(_do_index)
-        except (UnsupportedFileError, FileNotDecryptedError, OSError, ValueError) as exc:
+        except (UnsupportedFileError, FileNotDecryptedError, PdfReadError, OSError, ValueError) as exc:
             raise HTTPException(status_code=400, detail=str(exc)) from exc
         return {
             "ok": True,

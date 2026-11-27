@@ -15,6 +15,7 @@ import urllib.request
 from concurrent.futures import ThreadPoolExecutor
 from html.parser import HTMLParser
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 from smriti.graph import KnowledgeGraph
 from smriti.guardrails.pii import redact
@@ -41,6 +42,7 @@ TIMETABLE_PATH = "/index.php/student-attendance/attendance/view-time-table"
 SAMARTH_CREDS_VAULT_NAME = "samarth_creds"
 SAMARTH_DOC_TITLE = "DCRUST Samarth Attendance"
 SAMARTH_TIMETABLE_DOC_TITLE = "DCRUST Samarth Timetable"
+_IST = ZoneInfo("Asia/Kolkata")
 
 _COMMENTS = re.compile(r"<!--.*?-->", re.DOTALL)
 _DATE_YMD = re.compile(r"\b(\d{4})[-/](\d{2})[-/](\d{2})\b")
@@ -560,12 +562,23 @@ class SamarthClient:
                     sorted_href = self._with_query_params(href, sort="-attendance_date")
                     _, det_html = self._fetch(opener, sorted_href)
                     entries, att_det, tot_det = parse_samarth_attendance_detail(det_html)
+                    if entries:
+                        subj.entries = entries
+                        subj.last_marked = entries[0].date
+                    if tot_det is not None and (subj.total == 0 or tot_det >= subj.total):
+                        subj.attended = att_det or 0
+                        subj.total = tot_det
                     if tot_det and len(entries) < tot_det and "page=" not in sorted_href:
-                        # Fetch remaining pages (typically 1-2 extra pages) to keep full history in export
+                        # Fetch remaining pages (typically 1-2 extra pages) without losing page 1 on partial failure
                         seen = {(e.date, e.time_slot, e.status) for e in entries}
                         page_num = 2
                         while len(entries) < tot_det and page_num <= 5:
-                            _, pg_html = self._fetch(opener, self._with_query_params(sorted_href, page=str(page_num)))
+                            try:
+                                _, pg_html = self._fetch(
+                                    opener, self._with_query_params(sorted_href, page=str(page_num))
+                                )
+                            except SamarthError:
+                                break
                             more, _, _ = parse_samarth_attendance_detail(pg_html)
                             new_rows = [e for e in more if (e.date, e.time_slot, e.status) not in seen]
                             if not new_rows:
@@ -574,12 +587,9 @@ class SamarthClient:
                             entries.extend(new_rows)
                             page_num += 1
                         entries.sort(key=lambda e: (e.date, e.time_slot), reverse=True)
-                    if entries:
-                        subj.entries = entries
-                        subj.last_marked = entries[0].date
-                    if tot_det is not None and (subj.total == 0 or tot_det >= subj.total):
-                        subj.attended = att_det or 0
-                        subj.total = tot_det
+                        if entries:
+                            subj.entries = entries
+                            subj.last_marked = entries[0].date
                 except SamarthError:
                     pass
             if subj.course_code.upper() in today_map:
@@ -596,7 +606,7 @@ class SamarthClient:
             roll_number=roll,
             student_name=student_name,
             semester_label=semester,
-            fetched_at=dt.datetime.now(tz=dt.timezone.utc).astimezone().strftime("%a, %b %d"),
+            fetched_at=dt.datetime.now(tz=_IST).strftime("%a, %b %d"),
             subjects=subjects,
             source_url=att_url,
         )
@@ -715,9 +725,7 @@ def _store_samarth_snapshot(
     export_prefix: str,
     html_body: str,
 ) -> Path:
-    for existing in db.list_documents():
-        if existing["title"] == title:
-            db.delete_document(existing["id"])
+    old_ids = [existing["id"] for existing in db.list_documents() if existing["title"] == title]
 
     snapshot = json.dumps(snapshot_obj, sort_keys=True).encode("utf-8")
     sha = hashlib.sha256(snapshot + str(dt.datetime.now(tz=dt.timezone.utc).timestamp()).encode()).hexdigest()
@@ -744,13 +752,23 @@ def _store_samarth_snapshot(
     )
     db.add_chunks(doc_id, safe_chunks)
     db.add_facts(doc_id, facts)
+    for old_id in old_ids:
+        db.delete_document(old_id)
     KnowledgeGraph(db).rebuild()
 
     exports_dir = Path(data_dir) / "exports"
     exports_dir.mkdir(parents=True, exist_ok=True)
+    try:
+        os.chmod(exports_dir, 0o700)
+    except OSError:
+        pass
     safe_roll = re.sub(r"[^A-Za-z0-9_-]", "", roll) or "student"
     html_path = exports_dir / f"{export_prefix}_{safe_roll}.html"
     html_path.write_text(html_body, encoding="utf-8")
+    try:
+        os.chmod(html_path, 0o600)
+    except OSError:
+        pass
     return html_path
 
 

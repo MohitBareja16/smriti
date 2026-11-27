@@ -80,14 +80,19 @@ class LocalEmbedder:
     def encode_many(self, texts: list[str]) -> list[tuple[int, bytes]]:
         if not texts or not self.available:
             return []
-        if self._encode_fn is not None:
-            raw_vecs = self._encode_fn(texts)
-            return [_pack_floats(v) for v in raw_vecs]
-        vecs = self._model.encode(texts, normalize_embeddings=True, show_progress_bar=False)
-        out: list[tuple[int, bytes]] = []
-        for row in vecs:
-            out.append(_pack_floats(row.tolist() if hasattr(row, "tolist") else list(row)))
-        return out
+        try:
+            if self._encode_fn is not None:
+                raw_vecs = self._encode_fn(texts)
+                return [_pack_floats(v) for v in raw_vecs]
+            if self._model is None:
+                return []
+            vecs = self._model.encode(texts, normalize_embeddings=True, show_progress_bar=False)
+            out: list[tuple[int, bytes]] = []
+            for row in vecs:
+                out.append(_pack_floats(row.tolist() if hasattr(row, "tolist") else list(row)))
+            return out
+        except Exception:  # noqa: BLE001 — degrade gracefully to BM25 if embedding inference fails
+            return []
 
     def encode_one(self, text: str) -> bytes | None:
         encoded = self.encode_many([text])

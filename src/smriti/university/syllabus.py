@@ -12,10 +12,39 @@ import threading
 import urllib.error
 import urllib.parse
 import urllib.request
+import uuid
 from collections.abc import Callable
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
+from zoneinfo import ZoneInfo
+
+_IST = ZoneInfo("Asia/Kolkata")
+_APPROVED_SYLLABUS_HOSTS = {
+    "api.dcrust.online",
+    "cse.dcrust.online",
+    "dcrust.online",
+    "www.dcrust.online",
+    "drive.google.com",
+    "docs.google.com",
+    "dcrustm.ac.in",
+    "www.dcrustm.ac.in",
+}
+
+
+class _SafeHostRedirectHandler(urllib.request.HTTPRedirectHandler):
+    def __init__(self, allowed_hosts: set[str]):
+        super().__init__()
+        self.allowed_hosts = allowed_hosts
+
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        parsed = urllib.parse.urlsplit(newurl)
+        host = (parsed.hostname or "").lower()
+        if parsed.scheme.lower() not in {"http", "https"} or (
+            host not in self.allowed_hosts and not host.endswith(".googleusercontent.com")
+        ):
+            raise urllib.error.URLError(f"Blocked redirect to untrusted host: {host or newurl}")
+        return super().redirect_request(req, fp, code, msg, headers, newurl)
 
 SYLLABUS_API_URL = "https://api.dcrust.online/api/syllabus"
 SYLLABUS_PAGE_URL = "https://cse.dcrust.online/syllabus"
@@ -364,13 +393,31 @@ class DcrustSyllabusClient:
         self.page_url = page_url
         self.timeout = timeout
         self._ssl_ctx = ssl.create_default_context()
+        self._allowed_hosts = set(_APPROVED_SYLLABUS_HOSTS)
+        for u in (self.api_url, self.page_url):
+            h = (urllib.parse.urlsplit(u).hostname or "").lower()
+            if h:
+                self._allowed_hosts.add(h)
+
+    def _validate_url(self, url: str) -> None:
+        parsed = urllib.parse.urlsplit(url)
+        host = (parsed.hostname or "").lower()
+        if parsed.scheme.lower() not in {"http", "https"} or (
+            host not in self._allowed_hosts and not host.endswith(".googleusercontent.com")
+        ):
+            raise ValueError(f"Blocked untrusted syllabus URL: {url}")
 
     def _get_bytes(self, url: str) -> tuple[bytes, str]:
+        self._validate_url(url)
+        opener = urllib.request.build_opener(
+            urllib.request.HTTPSHandler(context=self._ssl_ctx),
+            _SafeHostRedirectHandler(self._allowed_hosts),
+        )
         req = urllib.request.Request(
             url,
             headers={"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) SmritiSyllabus/1.0"},
         )
-        with urllib.request.urlopen(req, timeout=self.timeout, context=self._ssl_ctx) as resp:
+        with opener.open(req, timeout=self.timeout) as resp:
             ctype = (resp.headers.get("Content-Type") or "").lower()
             return resp.read(), ctype
 
@@ -404,6 +451,10 @@ class DcrustSyllabusClient:
     def download_document(self, entry: SyllabusEntry, dest: Path) -> tuple[str, int, Path]:
         dest.parent.mkdir(parents=True, exist_ok=True)
         url = _download_url_for(entry.remote_url)
+        try:
+            self._validate_url(url)
+        except ValueError:
+            return "invalid", 0, dest
         for attempt in range(2):
             try:
                 data, ctype = self._get_bytes(url)
@@ -411,8 +462,15 @@ class DcrustSyllabusClient:
                 if "text/html" in ctype or head.startswith((b"<!doctype", b"<html", b"<head")):
                     return ("portal_only" if "drive.google.com" in entry.remote_url else "missing_remote"), 0, dest
                 ext = _extension_for(entry, data)
+                valid_magic = (
+                    (ext == ".pdf" and data.lstrip()[:5].startswith(b"%PDF"))
+                    or (ext == ".docx" and data[:4] in {b"PK\x03\x04", b"PK\x05\x06"})
+                    or (ext == ".doc" and data[:4] == b"\xd0\xcf\x11\xe0")
+                )
+                if len(data) < 32 or not valid_magic:
+                    return "invalid", 0, dest
                 final_dest = dest.with_suffix(ext)
-                tmp = final_dest.with_suffix(ext + ".part")
+                tmp = final_dest.parent / f".{uuid.uuid4().hex}{ext}.part"
                 tmp.write_bytes(data)
                 tmp.replace(final_dest)
                 return "downloaded", len(data), final_dest
@@ -515,10 +573,15 @@ def sync_dcrust_syllabus(
     if progress_cb:
         progress_cb(f"Fetched {len(entries)} syllabus entries from {SYLLABUS_PAGE_URL}")
 
+    old = load_syllabus_catalog(syllabus_dir)
+    existing_by_url = {x.remote_url: x for x in old.entries} if old else {}
+
     to_download: list[SyllabusEntry] = []
     for e in entries:
+        prev = existing_by_url.get(e.remote_url)
         target = syllabus_dir / e.local_relpath
-        if target.exists() and target.stat().st_size > 100:
+        same_slot = prev is None or not prev.local_relpath or prev.local_relpath == e.local_relpath
+        if same_slot and target.exists() and target.stat().st_size > 100:
             e.status = "downloaded"
             e.size_bytes = target.stat().st_size
             _hardlink_by_year(syllabus_dir, e)
@@ -549,7 +612,7 @@ def sync_dcrust_syllabus(
     entries.sort(key=lambda e: (e.department_id, e.year_id, -e.session_sort, e.title.lower()))
     catalog = SyllabusCatalog(
         source_url=SYLLABUS_PAGE_URL,
-        updated_at=dt.datetime.now(tz=dt.timezone.utc).astimezone().strftime("%Y-%m-%d %H:%M"),
+        updated_at=dt.datetime.now(tz=_IST).strftime("%Y-%m-%d %H:%M"),
         entries=entries,
     )
     save_syllabus_catalog(syllabus_dir, catalog)
@@ -590,7 +653,7 @@ def _score_syllabus_entry(
         if entry.degree == degree or degree.lower() in entry.degree.lower():
             score += 22.0
         elif entry.degree != "Other":
-            score -= 18.0
+            return 0.0
 
     if year_id:
         if entry.year_id == year_id:

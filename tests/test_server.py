@@ -575,5 +575,16 @@ def test_immediate_recognition_empty_doc_rejection_and_explorer_browse(tmp_path)
     browse_syl = client.get("/api/syllabus/search", params={"branch": "cse_it", "year": "3rd"}).json()
     assert browse_syl["catalog_ready"] is True and browse_syl["total_matched"] >= 1
 
+    # Corrupt PDF returns clean 400 / structured error instead of 500
+    bad_pdf = app.settings.pyq_dir / "corrupt.pdf"
+    bad_pdf.parent.mkdir(parents=True, exist_ok=True)
+    bad_pdf.write_bytes(b"%PDF-1.4\nnot-a-valid-xref")
+    assert client.post("/api/library/index-file", json={"path": str(bad_pdf)}).status_code == 400
+    bad_up = client.post(
+        "/api/vault/upload",
+        files=[("files", ("corrupt.pdf", b"%PDF-1.4\nnot-a-valid-xref", "application/pdf"))],
+    )
+    assert bad_up.status_code == 200 and bad_up.json()["results"][0]["ok"] is False
+
 
 

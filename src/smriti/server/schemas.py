@@ -108,4 +108,4 @@ class ModelSelectRequest(BaseModel):
 class IndexFileRequest(BaseModel):
     path: str = Field(min_length=1, max_length=1000)
     course: str | None = Field(default=None, max_length=64)
-    kind: Literal["library", "personal"] = "library"
+    kind: Literal["library", "personal"] | None = None

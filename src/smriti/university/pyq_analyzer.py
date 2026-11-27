@@ -8,6 +8,8 @@ from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from pypdf.errors import PdfReadError
+
 from smriti.ingest.parsers import parse as parse_document
 from smriti.university.pyq import (
     _MONTH_NUMS,
@@ -265,6 +267,7 @@ def parse_dcrust_paper(
     for idx, (pg, txt, blank_before) in enumerate(stream):
         next_txt = stream[idx + 1][1] if idx + 1 < len(stream) else ""
         next_is_sub = bool(_SUBPART_RE.match(next_txt))
+        next_continues_sentence = bool(next_txt and next_txt[0].islower())
 
         if idx in unit_at_idx:
             _flush_block(cur_lines, cur_unit, entry, cur_page, out)
@@ -281,7 +284,7 @@ def parse_dcrust_paper(
             cur_page = pg
             in_subparts = False
             subpart_ended_with_marks = False
-            if _MARKS_END_RE.search(txt) and not next_is_sub:
+            if _MARKS_END_RE.search(txt) and not next_is_sub and not next_continues_sentence:
                 m_val = _MARKS_END_RE.search(txt).group(1)
                 if m_val in {"15", "20", "12"} and len(txt) > 25:
                     _flush_block(cur_lines, cur_unit, entry, cur_page, out)
@@ -303,7 +306,7 @@ def parse_dcrust_paper(
 
         cur_lines.append(txt)
         m_end = _MARKS_END_RE.search(txt)
-        if m_end and not next_is_sub:
+        if m_end and not next_is_sub and not next_continues_sentence:
             mark_val = m_end.group(1)
             if in_subparts:
                 subpart_ended_with_marks = True
@@ -435,7 +438,7 @@ def _parse_entry_cached(
             return entry, _PARSED_PAPER_CACHE[key]
     try:
         pages = parse_document(pdf_path)
-    except OSError:
+    except (OSError, PdfReadError, ValueError, RuntimeError):
         return entry, []
     qs = parse_dcrust_paper(pages, entry=entry, course_code=course_code, subject_name=subject_name)
     with _PARSE_CACHE_LOCK:
@@ -461,8 +464,9 @@ def analyze_subject_pyqs(question: str, pyq_dir: Path) -> PyqAnalysisResult | No
     target_entries = all_entries
     if session_filter is not None:
         filtered = [e for e in all_entries if e.session_sort == session_filter]
-        if filtered:
-            target_entries = filtered
+        if not filtered:
+            return None
+        target_entries = filtered
 
     # Parse all downloaded papers for the subject concurrently & cache by (path, mtime)
     parsed_by_file: dict[str, tuple[PyqEntry, list[ExtractedQuestion]]] = {}
@@ -541,18 +545,24 @@ def analyze_subject_pyqs(question: str, pyq_dir: Path) -> PyqAnalysisResult | No
         )
 
     # Mode B: Cross-Paper Unit / Full-Subject Frequency Analysis
+    target_questions: list[ExtractedQuestion] = [
+        q
+        for entry in target_entries
+        for q in parsed_by_file.get(entry.local_relpath, (entry, []))[1]
+    ]
     scoped_qs = (
-        [q for q in all_questions if q.unit == unit_filter]
+        [q for q in target_questions if q.unit == unit_filter]
         if unit_filter is not None
-        else list(all_questions)
+        else list(target_questions)
     )
     scoped_clusters = cluster_pyq_questions(scoped_qs, subject_name=grp.subject_name)
     unit_label = _ROMAN.get(unit_filter, "All Units") if unit_filter is not None else "All Units"
     sessions_span = ", ".join(e.session_label for e in target_entries)
+    analyzed_count = sum(1 for e in target_entries if e.local_relpath in parsed_by_file)
 
     out_lines: list[str] = [
         f"### {grp.course_code} — {grp.subject_name} · {unit_label} PYQ Analysis",
-        f"Analyzed **{len(parsed_by_file)} question papers** ({sessions_span}) — **{len(scoped_qs)} questions** grouped in order of frequency:\n",
+        f"Analyzed **{analyzed_count} question papers** ({sessions_span}) — **{len(scoped_qs)} questions** grouped in order of frequency:\n",
     ]
     for rank, clus in enumerate(scoped_clusters, 1):
         cnt = clus.session_count
@@ -570,6 +580,6 @@ def analyze_subject_pyqs(question: str, pyq_dir: Path) -> PyqAnalysisResult | No
         attachments=attachments[:12],
         subject_code=grp.course_code,
         subject_name=grp.subject_name,
-        papers_analyzed=len(parsed_by_file),
+        papers_analyzed=analyzed_count,
         questions_extracted=len(scoped_qs),
     )

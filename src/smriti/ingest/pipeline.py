@@ -63,22 +63,24 @@ def ingest_file(path: Path, db: Database, vault: Vault, *, course: str | None = 
     kind = kind or ("personal" if doc_type in PERSONAL_TYPES else "library")
     sensitive = kind == "personal" or (explicit_kind != "library" and bool(find_pii(full_text)))
 
-    if course is None:
-        m_course = _COURSE_RE.search(f"{title}\n{full_text[:400]}")
-        if m_course and any(ch.isdigit() for ch in m_course.group(1)):
-            course = m_course.group(1).upper()
-
     vault_file = None
+    scan_text = full_text
     if sensitive:
-        # Original file is stored only encrypted; the search index only sees redacted text.
+        # Original file is stored only encrypted; the search index & metadata extractors only see redacted text.
         vault_file = vault.put(sha[:16], raw)
         pages = [(p, redact(t)) for p, t in pages]
         chunks = chunk_with_topics(pages)
+        scan_text = "\n".join(t for _, t in pages)
+
+    if course is None:
+        m_course = _COURSE_RE.search(f"{title}\n{scan_text[:400]}")
+        if m_course and any(ch.isdigit() for ch in m_course.group(1)):
+            course = m_course.group(1).upper()
 
     stored_path = path.name if sensitive else str(path.resolve())  # never keep paths of sensitive files
-    detected_sem = semester if semester is not None else detect_semester(str(path))
-    if detected_sem is None and full_text:
-        detected_sem = detect_semester(full_text[:500])
+    detected_sem = semester if semester is not None else detect_semester(title if sensitive else str(path))
+    if detected_sem is None and scan_text:
+        detected_sem = detect_semester(scan_text[:500])
     doc_id = db.add_document(title=title, path=stored_path, sha256=sha, kind=kind, doc_type=doc_type,
                              course=course, sensitive=sensitive, vault_file=vault_file,
                              semester=detected_sem)

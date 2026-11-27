@@ -86,10 +86,13 @@ class OllamaReasoner:
             with urllib.request.urlopen(req, timeout=self.timeout) as resp:
                 if not streaming:
                     data = json.loads(resp.read())
+                    if data.get("error"):
+                        raise LLMUnavailableError(f"Ollama returned error: {data['error']}")
                     self.tokens += int(data.get("prompt_eval_count", 0)) + int(data.get("eval_count", 0))
                     return data["message"]["content"].strip()
 
                 parts: list[str] = []
+                saw_done = False
                 for raw_line in resp:
                     if cancel_event is not None and cancel_event.is_set():
                         raise RequestCancelledError("Request cancelled")
@@ -97,13 +100,18 @@ class OllamaReasoner:
                     if not line:
                         continue
                     chunk = json.loads(line)
+                    if chunk.get("error"):
+                        raise LLMUnavailableError(f"Ollama stream error: {chunk['error']}")
                     delta = chunk.get("message", {}).get("content") or ""
                     if delta:
                         parts.append(delta)
                         if on_token is not None:
                             on_token(delta)
                     if chunk.get("done"):
+                        saw_done = True
                         self.tokens += int(chunk.get("prompt_eval_count", 0)) + int(chunk.get("eval_count", 0))
+                if not saw_done:
+                    raise LLMUnavailableError("Ollama stream ended before completion ('done' frame missing).")
                 return "".join(parts).strip()
         except (urllib.error.URLError, TimeoutError, KeyError, json.JSONDecodeError) as exc:
             raise LLMUnavailableError(

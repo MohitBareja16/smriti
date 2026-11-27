@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import re
 import threading
+import uuid
 from collections.abc import Callable
 from dataclasses import dataclass, field
 from typing import TypedDict
@@ -188,11 +189,13 @@ class System2Agent:
         self.db, self.reasoner, self.engine = db, reasoner, engine
         self.top_k, self.max_steps, self.guard_chunks = top_k, max_steps, guard_chunks
         self.use_tools = use_tools  # False = only search (+ graph for 'connect'), as before #19
-        self.checkpointer = MemorySaver(
-            serde=JsonPlusSerializer(
+        try:
+            serde = JsonPlusSerializer(
                 allowed_msgpack_modules=[("smriti.types", "Chunk"), ("smriti.types", "GuardVerdict")]
             )
-        )
+        except TypeError:
+            serde = JsonPlusSerializer()
+        self.checkpointer = MemorySaver(serde=serde)
         self.graph = self._build()
 
     def _build(self):
@@ -246,15 +249,20 @@ class System2Agent:
             "verdicts": [],
             "text": "",
         }
+        run_thread = thread_id or f"_eph_{uuid.uuid4().hex}"
         cfg = {
             "configurable": {
-                "thread_id": thread_id or "_ephemeral",
+                "thread_id": run_thread,
                 "tracer": tracer,
                 "on_token": on_token,
                 "cancel_event": cancel_event,
             }
         }
-        out = self.graph.invoke(state_in, config=cfg)
+        try:
+            out = self.graph.invoke(state_in, config=cfg)
+        finally:
+            if thread_id is None and hasattr(self.checkpointer, "delete_thread"):
+                self.checkpointer.delete_thread(run_thread)
         chunks, text = out["chunks"], out["text"]
         return Draft(text=text, chunks=chunks, citations=cited_refs(text, chunks), verdicts=out["verdicts"])
 

@@ -251,7 +251,14 @@ class Orchestrator:
                     "citations": answer.citations,
                 },
                 ui_element=answer.ui_element,
-                attachments=answer.attachments or ([answer.attachment] if answer.attachment else []),
+                attachments=list(
+                    dict.fromkeys(
+                        [
+                            *(answer.attachments or []),
+                            *([answer.attachment] if answer.attachment else []),
+                        ]
+                    )
+                ),
             )
         self.db.audit("ask", f"trace={answer.trace_id[:12]} path={answer.path} intent={answer.intent} "
                              f"q={safe_q[:80]!r}")
