@@ -576,12 +576,24 @@ def analyze_subject_pyqs(question: str, pyq_dir: Path) -> PyqAnalysisResult | No
         if unit_filter is not None
         else list(target_questions)
     )
-    if not scoped_qs:
-        return None
-    scoped_clusters = cluster_pyq_questions(scoped_qs, subject_name=grp.subject_name)
     unit_label = _ROMAN.get(unit_filter, "All Units") if unit_filter is not None else "All Units"
     sessions_span = ", ".join(e.session_label for e in target_entries)
     analyzed_count = sum(1 for e in target_entries if e.local_relpath in parsed_by_file)
+    if not scoped_qs:
+        return PyqAnalysisResult(
+            markdown=(
+                f"### {grp.course_code} — {grp.subject_name} · {unit_label} PYQ Analysis\n"
+                f"Analyzed **{analyzed_count} question papers** ({sessions_span}) — "
+                f"no {unit_label} questions matched in the analyzed papers."
+            ),
+            citations=citations,
+            attachments=attachments[:12],
+            subject_code=grp.course_code,
+            subject_name=grp.subject_name,
+            papers_analyzed=analyzed_count,
+            questions_extracted=0,
+        )
+    scoped_clusters = cluster_pyq_questions(scoped_qs, subject_name=grp.subject_name)
 
     out_lines: list[str] = [
         f"### {grp.course_code} — {grp.subject_name} · {unit_label} PYQ Analysis",

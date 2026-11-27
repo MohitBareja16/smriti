@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import asyncio
 import json
+import logging
 import shutil
 import threading
 import uuid
@@ -64,6 +65,8 @@ from smriti.university import (
     timetable_to_ui_props,
 )
 from smriti.vault import VaultLockedError, WrongPassphraseError
+
+_log = logging.getLogger(__name__)
 
 
 def _is_demo(app: App) -> bool:
@@ -396,6 +399,7 @@ def create_app(
                     yield _sse_frame("error", {"status": 500, "detail": str(exc)})
                     return
                 except Exception as exc:  # noqa: BLE001 — never drop an SSE stream without an error frame
+                    _log.exception("Unhandled error in chat_stream worker")
                     yield _sse_frame("error", {"status": 500, "detail": f"{type(exc).__name__}: {exc}"})
                     return
 

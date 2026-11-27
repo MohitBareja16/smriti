@@ -26,6 +26,16 @@ Set-Location $RepoRoot
 $BundleDir = Join-Path $RepoRoot "dist\Start-Smriti"
 if ($SkipFreeze -and (Test-Path (Join-Path $BundleDir "Start-Smriti.exe"))) {
     Write-Host "==> [1-3/8] Reusing existing .venv and Start-Smriti.exe (-SkipFreeze)..." -ForegroundColor Green
+    if (-not $SkipEmbeddings) {
+        $VenvPy = Join-Path $RepoRoot ".venv\Scripts\python.exe"
+        if (-not (Test-Path $VenvPy)) {
+            throw "Cannot use -SkipFreeze without -SkipEmbeddings: missing $VenvPy. Re-run without -SkipFreeze."
+        }
+        & $VenvPy -c "import sentence_transformers" 2>$null
+        if ($LASTEXITCODE -ne 0) {
+            throw "Cannot use -SkipFreeze without -SkipEmbeddings: sentence_transformers is not installed in .venv. Re-run without -SkipFreeze."
+        }
+    }
 } else {
 $DistIndex = Join-Path $RepoRoot "src\smriti\ui\web\dist\index.html"
 $HasNpm = $null -ne (Get-Command "npm" -ErrorAction SilentlyContinue)
@@ -148,6 +158,9 @@ if (-not $SkipEmbeddings) {
     $env:HF_HOME = $HfCache
     $env:SENTENCE_TRANSFORMERS_HOME = $HfCache
     & ".\.venv\Scripts\python.exe" -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('all-MiniLM-L6-v2')"
+    if ($LASTEXITCODE -ne 0) {
+        throw "Failed to pre-cache all-MiniLM-L6-v2 embeddings (exit $LASTEXITCODE)"
+    }
 }
 
 Write-Host "==> [7/8] Bundling Tesseract OCR (if installed on build PC) for offline scanned PYQ OCR..." -ForegroundColor Cyan

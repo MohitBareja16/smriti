@@ -77,7 +77,10 @@ def _parse_pdf(path: Path) -> list[tuple[int, str]]:
                     _log.debug("OCR fallback skipped for %s page %s", path.name, i, exc_info=True)
                 finally:
                     if tpath:
-                        Path(tpath).unlink(missing_ok=True)
+                        try:
+                            Path(tpath).unlink(missing_ok=True)
+                        except OSError:
+                            _log.debug("Failed to delete temporary OCR file %s", tpath, exc_info=True)
             if ocr_parts:
                 text = "\n".join(ocr_parts)
         if text:
