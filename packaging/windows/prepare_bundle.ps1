@@ -10,6 +10,7 @@
 #>
 param(
     [string[]]$Models = @("qwen2.5:1.5b", "qwen2.5:3b"),
+    [switch]$SkipUiBuild,
     [switch]$SkipEmbeddings,
     [switch]$SkipPdfAssets,
     [switch]$CreateZip,
@@ -20,19 +21,50 @@ $ErrorActionPreference = "Stop"
 $RepoRoot = (Resolve-Path (Join-Path $PSScriptRoot "..\..")).Path
 Set-Location $RepoRoot
 
-Write-Host "==> [1/8] Building React Web UI..." -ForegroundColor Cyan
-Push-Location "src\smriti\ui\web"
-if (Test-Path "package-lock.json") {
-    npm ci
+$DistIndex = Join-Path $RepoRoot "src\smriti\ui\web\dist\index.html"
+$HasNpm = $null -ne (Get-Command "npm" -ErrorAction SilentlyContinue)
+Write-Host "==> [1/8] Checking React Web UI..." -ForegroundColor Cyan
+if ((-not $SkipUiBuild) -and $HasNpm) {
+    Push-Location "src\smriti\ui\web"
+    if (Test-Path "package-lock.json") {
+        npm ci
+    } else {
+        npm install
+    }
+    npm run build
+    Pop-Location
+} elseif (Test-Path $DistIndex) {
+    Write-Host "    Reusing pre-built React Web UI at src\smriti\ui\web\dist (Node.js/npm not needed)." -ForegroundColor Green
 } else {
-    npm install
+    throw "Pre-built UI not found at $DistIndex and npm is not installed. Install Node.js LTS or include web\dist."
 }
-npm run build
-Pop-Location
 
 Write-Host "==> [2/8] Setting up Windows .venv with CPU-only PyTorch + ML extras..." -ForegroundColor Cyan
+$PyCmd = @("python")
+if (Get-Command "py" -ErrorAction SilentlyContinue) {
+    foreach ($ver in @("-3.11", "-3.12", "-3.13")) {
+        & py $ver --version *> $null
+        if ($LASTEXITCODE -eq 0) {
+            $PyCmd = @("py", $ver)
+            break
+        }
+    }
+}
+if ($PyCmd.Length -gt 1) {
+    $PyVerStr = (& $PyCmd[0] $PyCmd[1] -c "import sys; print(f'{sys.version_info.major}.{sys.version_info.minor}')")
+} else {
+    $PyVerStr = (& $PyCmd[0] -c "import sys; print(f'{sys.version_info.major}.{sys.version_info.minor}')")
+}
+Write-Host "    Using Python $PyVerStr ($($PyCmd -join ' '))"
+if ([version]$PyVerStr -ge [version]"3.14") {
+    Write-Warning "Python $PyVerStr detected. PyTorch/PyInstaller wheels may fail on 3.14; Python 3.11 is recommended (winget install -e --id Python.Python.3.11)."
+}
 if (-not (Test-Path ".venv")) {
-    python -m venv .venv
+    if ($PyCmd.Length -gt 1) {
+        & $PyCmd[0] $PyCmd[1] -m venv .venv
+    } else {
+        & $PyCmd[0] -m venv .venv
+    }
 }
 & ".\.venv\Scripts\python.exe" -m pip install --upgrade pip
 if (-not $SkipEmbeddings) {
