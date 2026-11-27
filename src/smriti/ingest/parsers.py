@@ -91,7 +91,28 @@ def _parse_pdf(path: Path) -> list[tuple[int, str]]:
 def _parse_docx(path: Path) -> list[tuple[int, str]]:
     try:
         import docx  # python-docx
+        from docx.oxml.table import CT_Tbl
+        from docx.oxml.text.paragraph import CT_P
+        from docx.table import Table
+        from docx.text.paragraph import Paragraph
     except ImportError as exc:
         raise UnsupportedFileError("Install the 'docx' extra: pip install 'smriti[docx]'") from exc
-    text = "\n".join(p.text for p in docx.Document(str(path)).paragraphs)
-    return [(1, text.strip())] if text.strip() else []
+
+    doc = docx.Document(str(path))
+    parts: list[str] = []
+    for child in doc.element.body.iterchildren():
+        if isinstance(child, CT_P):
+            txt = Paragraph(child, doc).text.strip()
+            if txt:
+                parts.append(txt)
+        elif isinstance(child, CT_Tbl):
+            for row in Table(child, doc).rows:
+                cells: list[str] = []
+                for cell in row.cells:
+                    c_txt = " ".join(cell.text.split())
+                    if c_txt and (not cells or cells[-1] != c_txt):
+                        cells.append(c_txt)
+                if cells:
+                    parts.append(" | ".join(cells))
+    text = "\n".join(parts).strip()
+    return [(1, text)] if text else []

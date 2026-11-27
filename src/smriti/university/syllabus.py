@@ -81,7 +81,7 @@ _BRANCH_QUERY_RULES: list[tuple[str, re.Pattern[str]]] = [
     ("cse_it", re.compile(r"\b(?:cse|cs|computer\s+science|computer\s+engg|information\s+tech(?:nology)?)\b", re.IGNORECASE)),
     ("ece", re.compile(r"\b(?:ece|electronics(?:\s+(?:and|&)\s+comm\w*)?|vlsi)\b", re.IGNORECASE)),
     ("ee_eee", re.compile(r"\b(?:eee|ee|electrical(?:\s+(?:and|&)\s+electronics)?|power\s+system|renewable\s+energy)\b", re.IGNORECASE)),
-    ("mech_aero", re.compile(r"\b(?:mech(?:anical)?|me|auto(?:mobile)?|aero(?:nautical|space)?)\b", re.IGNORECASE)),
+    ("mech_aero", re.compile(r"\b(?:mech(?:anical)?|(?-i:ME)|auto(?:mobile)?|aero(?:nautical|space)?)\b", re.IGNORECASE)),
     ("civil", re.compile(r"\b(?:civil|ce|structural|highway|construction|building\s+tech\w*)\b", re.IGNORECASE)),
     ("bio_chem", re.compile(r"\b(?:biotech\w*|bio\s*tech|bt|chemical|che|biomed\w*|bme|food\s*tech)\b", re.IGNORECASE)),
     ("arch", re.compile(r"\b(?:arch(?:itecture)?|b\.?\s*arch|interior\s+design|bid|urban\s+planning|m\.?\s*plan)\b", re.IGNORECASE)),

@@ -654,3 +654,85 @@ def test_pyq_analyzer_units_frequency_and_routing(tmp_path, monkeypatch):
     assert ans_cat.ui_element and ans_cat.ui_element["name"] == "DcrustPyqs"
 
 
+def test_syllabus_subject_unit_table_and_orchestrator(tmp_path, monkeypatch):
+    from smriti.university import (
+        SyllabusCatalog,
+        extract_syllabus_filters,
+        parse_syllabus_api_payload,
+        parse_syllabus_document,
+        save_syllabus_catalog,
+        syllabus_analyzer,
+    )
+
+    # 1. "Tell me ..." must never be misclassified as Mechanical Engineering ("me")
+    branch, _, _, _ = extract_syllabus_filters("Tell me syllabus of CSE304B")
+    assert branch is None
+    branch_me, _, _, _ = extract_syllabus_filters("Tell me ME 3rd year syllabus")
+    assert branch_me == "mech_aero"
+
+    # 2. Both D-Scheme (Course Code / Title / UNIT-I) and B-Scheme (CSE-304-B / Unit-1:) parse cleanly
+    b_pages = [
+        (
+            2,
+            (
+                "SCHEME OF STUDIES & EXAMINATIONS\nB.Tech. 3rd YEAR (SEMESTER - VI) CSE\n"
+                "Sr. No Course No. Course Title\n3 CSE 304B COMPILER DESIGN 3 1 - 25 75 - 100 4 3\n"
+            ),
+        ),
+        (
+            91,
+            (
+                "CSE-304-B COMPILER DESIGN\nB.TECH. VI SEMESTER\n"
+                "Unit–1: Lexical Analysis: Regular expressions and finite automata.\n"
+                "Unit–2: Syntax Analysis: Shift-reduce and LR parsers.\n"
+                "TEXT BOOKS:\n1. Aho, Sethi, Ullman.\n"
+            ),
+        ),
+    ]
+    parsed_b = parse_syllabus_document(b_pages)
+    assert len(parsed_b.courses) == 1
+    assert parsed_b.courses[0].course_code == "CSE-304-B"
+    assert sorted(parsed_b.courses[0].units) == [1, 2]
+
+    # 3. Orchestrator routes subject, unit, and document-summary queries to formal Markdown tables
+    syl_dir = tmp_path / "data" / "syllabus"
+    entries = parse_syllabus_api_payload(
+        [
+            {"text": "Revised B.Tech. CSE-B", "url": "https://www.dcrustm.ac.in/uploads/cse_b.pdf"},
+        ]
+    )
+    rel = "by_branch/cse_it/complete/Revised B.Tech. CSE-B.pdf"
+    entries[0].local_relpath = rel
+    entries[0].status = "downloaded"
+    pdf_path = syl_dir / rel
+    pdf_path.parent.mkdir(parents=True, exist_ok=True)
+    pdf_path.write_bytes(b"%PDF-1.4\n%stub\n")
+    save_syllabus_catalog(syl_dir, SyllabusCatalog(source_url="https://cse.dcrust.online/syllabus", updated_at="2026-11-27", entries=entries))
+    monkeypatch.setattr(syllabus_analyzer, "_extract_pdf_fast", lambda _p: b_pages)
+
+    app = build_app(Settings(data_dir=tmp_path / "data", passphrase="test-vault-pass", llm_backend="extractive"))
+
+    ans_doc = app.orchestrator.handle("Summarize the subjects and syllabus in Revised B.Tech. CSE-B")
+    assert [s.name for s in ans_doc.trace] == ["s1.guard.input", "s1.syllabus_analyze"]
+    assert "| # | Sem | Code | Subject |" in ans_doc.text and "COMPILER DESIGN" in ans_doc.text
+
+    ans_subj = app.orchestrator.handle("Tell me syllabus of Compiler Design BTech CSE")
+    assert [s.name for s in ans_subj.trace] == ["s1.guard.input", "s1.syllabus_analyze"]
+    assert "| Unit | Syllabus Content |" in ans_subj.text
+    assert "**Unit I**" in ans_subj.text and "**Unit II**" in ans_subj.text
+
+    ans_unit2 = app.orchestrator.handle("Tell me unit 2 syllabus of Compiler Design BTech CSE")
+    assert [s.name for s in ans_unit2.trace] == ["s1.guard.input", "s1.syllabus_analyze"]
+    assert "**Unit II**" in ans_unit2.text and "**Unit I**" not in ans_unit2.text
+
+    ans_code = app.orchestrator.handle("Tell me syllabus of CSE304B")
+    assert [s.name for s in ans_code.trace] == ["s1.guard.input", "s1.syllabus_analyze"]
+    assert "CSE-304-B" in ans_code.text
+
+    # Branch/year-only lookup still yields the DcrustSyllabus UI card
+    ans_list = app.orchestrator.handle("Give me CSE 3rd year syllabus")
+    assert [s.name for s in ans_list.trace] == ["s1.guard.input", "s1.syllabus_lookup"]
+    assert ans_list.ui_element and ans_list.ui_element["name"] == "DcrustSyllabus"
+
+
+

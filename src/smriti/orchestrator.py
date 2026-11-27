@@ -34,6 +34,7 @@ from smriti.university import (
     SamarthClient,
     SamarthError,
     analyze_subject_pyqs,
+    analyze_syllabus,
     attendance_to_ui_props,
     format_attendance_markdown,
     format_pyq_html,
@@ -51,6 +52,7 @@ from smriti.university import (
     sync_samarth_attendance,
     sync_samarth_timetable,
     timetable_to_ui_props,
+    wants_syllabus_analysis,
 )
 from smriti.vault import Vault, VaultLockedError
 
@@ -375,6 +377,10 @@ class Orchestrator:
                 return pyq_ans
         if mode == "ours" and _wants_pyq_lookup(effective_q, self.settings.pyq_dir):
             return self._pyq_lookup_path(effective_q, tracer, verdicts)
+        if mode == "ours" and wants_syllabus_analysis(effective_q, self.settings.syllabus_dir):
+            syl_analysis = self._syllabus_analysis_path(effective_q, tracer, verdicts)
+            if syl_analysis is not None:
+                return syl_analysis
         if mode == "ours" and _wants_syllabus_lookup(effective_q, self.settings.syllabus_dir):
             syl_ans = self._syllabus_lookup_path(effective_q, tracer, verdicts)
             if syl_ans is not None:
@@ -665,6 +671,26 @@ class Orchestrator:
             attachments=local_pdfs[:12],
             guard_verdicts=verdicts,
             ui_element={"name": "DcrustPyqs", "props": pyq_to_ui_props(result, pyq_dir)},
+        )
+
+    def _syllabus_analysis_path(self, question: str, tracer: Tracer, verdicts: list) -> Answer | None:
+        with tracer.span("s1.syllabus_analyze") as s:
+            analysis = analyze_syllabus(question, self.settings.syllabus_dir)
+            s["detail"] = (
+                f"{analysis.subject_title}: {analysis.units_matched} section(s) from {analysis.source_title}"
+                if analysis
+                else "no matching subject/unit found in downloaded syllabi"
+            )
+        if analysis is None:
+            return None
+        return Answer(
+            text=analysis.markdown,
+            citations=analysis.citations,
+            path="S1",
+            intent="fetch_doc",
+            confidence=1.0,
+            attachments=analysis.attachments,
+            guard_verdicts=verdicts,
         )
 
     def _syllabus_lookup_path(self, question: str, tracer: Tracer, verdicts: list) -> Answer | None:
